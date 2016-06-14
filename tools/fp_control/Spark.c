@@ -65,7 +65,7 @@ void Spark_setAotomTime(time_t theGMTTime, char *destString)
 	struct tm *now_tm;
 	now_tm = localtime(&theGMTTime);
 	printf("Set Time (UTC): %02d:%02d:%02d %02d-%02d-%04d\n",
-		   now_tm->tm_hour, now_tm->tm_min, now_tm->tm_sec, now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
+	       now_tm->tm_hour, now_tm->tm_min, now_tm->tm_sec, now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
 	double mjd = modJulianDate(now_tm);
 	int mjd_int = mjd;
 	destString[0] = (mjd_int >> 8);
@@ -419,7 +419,7 @@ static int Spark_setLight(Context_t *context, int on)
 static int Spark_Exit(Context_t *context)
 {
 	tSparkPrivate *private = (tSparkPrivate *)
-							 ((Model_t *)context->m)->private;
+				 ((Model_t *)context->m)->private;
 
 	if (context->fd > 0)
 		close(context->fd);
@@ -467,7 +467,7 @@ static int Spark_setDisplayTime(Context_t *context, int on)
 		else
 		{
 			fprintf(stderr, "Setting Clock to current time: %02d:%02d:%02d %02d-%02d-%04d\n",
-					gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
+				gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
 			theGMTTime += gmt->tm_gmtoff;
 
 			if (ioctl(context->fd, VFDREBOOT, &theGMTTime) < 0)

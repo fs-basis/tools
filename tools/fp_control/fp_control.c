@@ -52,9 +52,11 @@ typedef struct
 
 tArgs vArgs[] =
 {
-	{ "-e",  " --setTimer         ", "Args: No arguments or [time date] Format: HH:MM:SS dd-mm-YYYY \
+	{
+		"-e",  " --setTimer         ", "Args: No arguments or [time date] Format: HH:MM:SS dd-mm-YYYY \
 		\n\tSet the most recent timer from e2 or neutrino to the frontcontroller and standby \
-		\n\tSet the current frontcontroller wake-up time"},
+		\n\tSet the current frontcontroller wake-up time"
+	},
 	{ "-d",  " --shutdown         ", "Args: [time date] Format: HH:MM:SS dd-mm-YYYY\n\tMimics shutdown command. Shutdown receiver via fc at given time." },
 	{ "-g",  " --getTime          ", "Args: No arguments\n\tReturn current set frontcontroller time" },
 	{ "-gs", " --getTimeAndSet    ", "Args: No arguments\n\tSet system time to current frontcontroller time" },
@@ -174,7 +176,7 @@ void processCommand(Context_t *context, int argc, char *argv[])
 					{
 						struct tm *gmt = gmtime(&theGMTTime);
 						fprintf(stderr, "Current Time: %02d:%02d:%02d %02d-%02d-%04d\n",
-								gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
+							gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
 					}
 				}
 			}
@@ -194,7 +196,7 @@ void processCommand(Context_t *context, int argc, char *argv[])
 						tv.tv_sec = allsec;
 //						settimeofday(&tv, 0); // only works on spark, so we make a system-call later
 						fprintf(stderr, "Setting RTC to current frontpanel time: %02d:%02d:%02d %02d-%02d-%04d\n",
-								gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
+							gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
 						char cmd[50];
 						sprintf(cmd, "date -s %04d.%02d.%02d-%02d:%02d:%02d\n", gmt->tm_year + 1900, gmt->tm_mon + 1, gmt->tm_mday, gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
 						system(cmd);
@@ -212,7 +214,7 @@ void processCommand(Context_t *context, int argc, char *argv[])
 					{
 						struct tm *gmt = gmtime(&theGMTTime);
 						fprintf(stderr, "Wakeup Time: %02d:%02d:%02d %02d-%02d-%04d\n",
-								gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
+							gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
 					}
 				}
 			}
@@ -244,7 +246,7 @@ void processCommand(Context_t *context, int argc, char *argv[])
 					{
 						struct tm *gmt = gmtime(&theGMTTime);
 						fprintf(stderr, "Current Timer: %02d:%02d:%02d %02d-%02d-%04d\n",
-								gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
+							gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
 					}
 				}
 			}
@@ -600,19 +602,19 @@ int getModel()
 		else if (!strncasecmp(vName, "spark7162", 9))
 			vBoxType = Spark;
 		else if ((!strncasecmp(vName, "adb_box", 7)) ||
-				 (!strncasecmp(vName, "sagemcom88", 10)) ||
-				 (!strncasecmp(vName, "esi_88", 6)) ||
-				 (!strncasecmp(vName, "esi88", 5)) ||
-				 (!strncasecmp(vName, "dsi87", 5)))
+				(!strncasecmp(vName, "sagemcom88", 10)) ||
+				(!strncasecmp(vName, "esi_88", 6)) ||
+				(!strncasecmp(vName, "esi88", 5)) ||
+				(!strncasecmp(vName, "dsi87", 5)))
 			vBoxType = Adb_Box;
 		else if ((!strncasecmp(vName, "cuberevo", 8)) ||
-				 (!strncasecmp(vName, "cuberevo-mini", 13)) ||
-				 (!strncasecmp(vName, "cuberevo-mini2", 14)) ||
-				 (!strncasecmp(vName, "cuberevo-mini-fta", 17)) ||
-				 (!strncasecmp(vName, "cuberevo-250hd", 14)) ||
-				 (!strncasecmp(vName, "cuberevo-2000hd", 15)) ||
-				 (!strncasecmp(vName, "cuberevo-9500hd", 15)) ||
-				 (!strncasecmp(vName, "cuberevo-3000hd", 14)))
+				(!strncasecmp(vName, "cuberevo-mini", 13)) ||
+				(!strncasecmp(vName, "cuberevo-mini2", 14)) ||
+				(!strncasecmp(vName, "cuberevo-mini-fta", 17)) ||
+				(!strncasecmp(vName, "cuberevo-250hd", 14)) ||
+				(!strncasecmp(vName, "cuberevo-2000hd", 15)) ||
+				(!strncasecmp(vName, "cuberevo-9500hd", 15)) ||
+				(!strncasecmp(vName, "cuberevo-3000hd", 14)))
 			vBoxType = Cuberevo;
 		else
 			vBoxType = Unknown;

@@ -70,7 +70,7 @@ unsigned long getCnboxTime(char *nuvotonTimeString)
 	unsigned int sec = nuvotonTimeString[4] & 0xFF;
 	epoch += (hour * 3600 + min * 60 + sec);
 	printf("MJD = %d epoch = %ld, time = %02d:%02d:%02d\n", mjd,
-		   epoch, hour, min, sec);
+	       epoch, hour, min, sec);
 	return epoch;
 }
 
@@ -84,7 +84,7 @@ void setCnboxTime(time_t theTime, char *destString)
 	struct tm *now_tm;
 	now_tm = gmtime(&theTime);
 	printf("Set Time (UTC): %02d:%02d:%02d %02d-%02d-%04d\n",
-		   now_tm->tm_hour, now_tm->tm_min, now_tm->tm_sec, now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
+	       now_tm->tm_hour, now_tm->tm_min, now_tm->tm_sec, now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
 	double mjd = modJulianDate(now_tm);
 	int mjd_int = mjd;
 	destString[0] = (mjd_int >> 8);
@@ -174,7 +174,7 @@ static int setTimer(Context_t *context, time_t *theGMTTime)
 	time(&curTime);
 	ts = localtime(&curTime);
 	fprintf(stderr, "Current Time: %02d:%02d:%02d %02d-%02d-%04d\n",
-			ts->tm_hour, ts->tm_min, ts->tm_sec, ts->tm_mday, ts->tm_mon + 1, ts->tm_year + 1900);
+		ts->tm_hour, ts->tm_min, ts->tm_sec, ts->tm_mday, ts->tm_mon + 1, ts->tm_year + 1900);
 
 	if (theGMTTime == NULL)
 		wakeupTime = read_timers_utc(curTime);
@@ -183,10 +183,10 @@ static int setTimer(Context_t *context, time_t *theGMTTime)
 
 	tsw = localtime(&wakeupTime);
 	printf("wakeup Time: %02d:%02d:%02d %02d-%02d-%04d\n",
-		   tsw->tm_hour, tsw->tm_min, tsw->tm_sec, tsw->tm_mday, tsw->tm_mon + 1, tsw->tm_year + 1900);
+	       tsw->tm_hour, tsw->tm_min, tsw->tm_sec, tsw->tm_mday, tsw->tm_mon + 1, tsw->tm_year + 1900);
 	tsw = localtime(&curTime);
 	printf("current Time: %02d:%02d:%02d %02d-%02d-%04d\n",
-		   tsw->tm_hour, tsw->tm_min, tsw->tm_sec, tsw->tm_mday, tsw->tm_mon + 1, tsw->tm_year + 1900);
+	       tsw->tm_hour, tsw->tm_min, tsw->tm_sec, tsw->tm_mday, tsw->tm_mon + 1, tsw->tm_year + 1900);
 
 	//check --> WakupTime is set and larger curTime and no larger than a year in the future (gost)
 	if ((wakeupTime <= 0) || (curTime > wakeupTime) || (curTime < (wakeupTime - 25920000)))
@@ -234,7 +234,7 @@ static int setTimer(Context_t *context, time_t *theGMTTime)
 
 			tsw = gmtime(&curTimeFP);
 			printf("fp_time (UTC): %02d:%02d:%02d %02d-%02d-%04d\n",
-				   tsw->tm_hour, tsw->tm_min, tsw->tm_sec, tsw->tm_mday, tsw->tm_mon + 1, tsw->tm_year + 1900);
+			       tsw->tm_hour, tsw->tm_min, tsw->tm_sec, tsw->tm_mday, tsw->tm_mon + 1, tsw->tm_year + 1900);
 		}
 		else
 		{

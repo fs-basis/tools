@@ -14,8 +14,8 @@
 #define INPUT_RELEASE 0
 
 typedef enum {Unknown, Ufs910_1W, Ufs910_14W, Ufs922, Ufc960, Tf7700, Hl101, Vip2, Fortis,
-			  Hs5101, Ufs912, Spark, Cuberevo, Adb_Box, Ipbox, CNBox, VitaminHD5000, LircdName
-			 } eBoxType;
+	      Hs5101, Ufs912, Spark, Cuberevo, Adb_Box, Ipbox, CNBox, VitaminHD5000, LircdName
+	     } eBoxType;
 typedef enum {RemoteControl, FrontPanel} eKeyType;
 
 typedef struct Context_s

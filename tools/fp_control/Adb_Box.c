@@ -65,7 +65,7 @@ void setAdb_BoxTime(time_t theGMTTime, char *destString)
 	struct tm *now_tm;
 	now_tm = gmtime(&theGMTTime);
 	printf("Set Time (UTC): %02d:%02d:%02d %02d-%02d-%04d\n",
-		   now_tm->tm_hour, now_tm->tm_min, now_tm->tm_sec, now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
+	       now_tm->tm_hour, now_tm->tm_min, now_tm->tm_sec, now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
 	double mjd = modJulianDate(now_tm);
 	int mjd_int = mjd;
 	destString[0] = (mjd_int >> 8);
@@ -84,7 +84,7 @@ unsigned long getAdb_BoxTime(char *adb_boxTimeString)
 	unsigned int sec = adb_boxTimeString[5] & 0xFF;
 	epoch += (hour * 3600 + min * 60 + sec);
 	printf("MJD = %d epoch = %ld, time = %02d:%02d:%02d\n", mjd,
-		   epoch, hour, min, sec);
+	       epoch, hour, min, sec);
 	return epoch;
 }
 
@@ -168,13 +168,16 @@ static int setTimer(Context_t *context, time_t *theGMTTime)
 	time(&curTime);
 	ts = localtime(&curTime);
 	fprintf(stderr, "Current Time: %02d:%02d:%02d %02d-%02d-%04d\n",
-			ts->tm_hour, ts->tm_min, ts->tm_sec, ts->tm_mday, ts->tm_mon + 1, ts->tm_year + 1900);
+		ts->tm_hour, ts->tm_min, ts->tm_sec, ts->tm_mday, ts->tm_mon + 1, ts->tm_year + 1900);
 
 	if (theGMTTime == NULL)
+	{
 		wakeupTime = read_timers_utc(curTime);
+	}
 	else
+	{
 		wakeupTime = *theGMTTime;
-
+	}
 	if ((wakeupTime <= 0) || (wakeupTime == LONG_MAX))
 	{
 		/* nothing to do for e2 */
@@ -241,8 +244,9 @@ static int shutdown(Context_t *context, time_t *shutdownTimeGMT)
 
 	/* shutdown immediately */
 	if (*shutdownTimeGMT == -1)
+	{
 		return (setTimer(context, NULL));
-
+	}
 	while (1)
 	{
 		time(&curTime);
@@ -372,7 +376,8 @@ static int setIcon(Context_t *context, int which, int on)
 {
 	char icon = which;
 
-	struct {
+	struct
+	{
 		unsigned char start;
 		unsigned char data[64];
 		unsigned char length;
@@ -385,7 +390,7 @@ static int setIcon(Context_t *context, int which, int on)
 
 	if (ioctl(context->fd, VFDICONDISPLAYONOFF, &data) < 0)
 #if 0
-	struct adb_box_ioctl_data vData;
+		struct adb_box_ioctl_data vData;
 	vData.u.icon.icon_nr = which;
 	vData.u.icon.on = on;
 
@@ -403,8 +408,9 @@ static int setBrightness(Context_t *context, int brightness)
 	struct adb_box_ioctl_data vData;
 
 	if (brightness < 0 || brightness > 7)
+	{
 		return -1;
-
+	}
 	vData.u.brightness.level = brightness;
 	printf("%d\n", context->fd);
 
@@ -426,10 +432,13 @@ static int setPwrLed(Context_t *context, int brightness)
 static int setLight(Context_t *context, int on)
 {
 	if (on)
+	{
 		setBrightness(context, 7);
+	}
 	else
+	{
 		setBrightness(context, 0);
-
+	}
 	return 0;
 }
 
@@ -438,8 +447,9 @@ static int Exit(Context_t *context)
 	tADB_BOXPrivate *private = (tADB_BOXPrivate *)((Model_t *)context->m)->private;
 
 	if (context->fd > 0)
+	{
 		close(context->fd);
-
+	}
 	free(private);
 	exit(1);
 }

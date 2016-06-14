@@ -65,7 +65,7 @@ void setProtonTime(time_t theGMTTime, char *destString)
 	struct tm *now_tm;
 	now_tm = gmtime(&theGMTTime);
 	printf("Set Time (UTC): %02d:%02d:%02d %02d-%02d-%04d\n",
-		   now_tm->tm_hour, now_tm->tm_min, now_tm->tm_sec, now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
+	       now_tm->tm_hour, now_tm->tm_min, now_tm->tm_sec, now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
 	double mjd = modJulianDate(now_tm);
 	int mjd_int = mjd;
 	destString[0] = (mjd_int >> 8);
@@ -84,7 +84,7 @@ unsigned long getProtonTime(char *protonTimeString)
 	unsigned int sec = protonTimeString[5] & 0xFF;
 	epoch += (hour * 3600 + min * 60 + sec);
 	printf("MJD = %d epoch = %ld, time = %02d:%02d:%02d\n", mjd,
-		   epoch, hour, min, sec);
+	       epoch, hour, min, sec);
 	return epoch;
 }
 
@@ -168,7 +168,7 @@ static int setTimer(Context_t *context, time_t *theGMTTime)
 	time(&curTime);
 	ts = localtime(&curTime);
 	fprintf(stderr, "Current Time: %02d:%02d:%02d %02d-%02d-%04d\n",
-			ts->tm_hour, ts->tm_min, ts->tm_sec, ts->tm_mday, ts->tm_mon + 1, ts->tm_year + 1900);
+		ts->tm_hour, ts->tm_min, ts->tm_sec, ts->tm_mday, ts->tm_mon + 1, ts->tm_year + 1900);
 
 	if (theGMTTime == NULL)
 		wakeupTime = read_timers_utc(curTime);

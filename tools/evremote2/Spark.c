@@ -739,7 +739,7 @@ static tButton cButtonsSparkEdv[] =
 
 void Get_StbId()
 {
-	char * pch;
+	char *pch;
 	int fn = open("/proc/cmdline", O_RDONLY);
 
 	if (fn > -1)

@@ -118,8 +118,9 @@ static time_t read_e2_timers(time_t curTime)
 		fclose(fd);
 	}
 	else
+	{
 		printf(" - Error reading %s\n", E2TIMERSXML);
-
+	}
 	return recordTime;
 }
 #endif
@@ -212,10 +213,13 @@ int getWakeupReasonPseudo(eWakeupReason *reason)
 	wakeupTime = read_wakeup_file();
 
 	if ((curTime - FIVE_MIN) < wakeupTime && (curTime + FIVE_MIN) > wakeupTime)
+	{
 		*reason = TIMER;
+	}
 	else
+	{
 		*reason = NONE;
-
+	}
 	return 0;
 }
 
@@ -230,10 +234,13 @@ int syncWasTimerWakeup(eWakeupReason reason)
 	}
 
 	if (reason == TIMER)
+	{
 		fwrite("1\n", 2, 1, wasTimerWakeupProc);
+	}
 	else
+	{
 		fwrite("0\n", 2, 1, wasTimerWakeupProc);
-
+	}
 	fclose(wasTimerWakeupProc);
 	return 0;
 }
@@ -247,8 +254,9 @@ time_t read_timers_utc(time_t curTime)
 	wakeupTime = read_e2_timers(curTime);
 
 	if (wakeupTime == LONG_MAX)
+	{
 		wakeupTime = read_neutrino_timers(curTime);
-
+	}
 	write_wakeup_file(wakeupTime);
 	return wakeupTime;
 }
@@ -281,9 +289,9 @@ double modJulianDate(struct tm *theTime)
 	month = theTime->tm_mon + 1;
 	day = theTime->tm_mday;
 	date = day - 32076 +
-		   1461 * (year + 4800 + (month - 14) / 12) / 4 +
-		   367 * (month - 2 - (month - 14) / 12 * 12) / 12 -
-		   3 * ((year + 4900 + (month - 14) / 12) / 100) / 4;
+	       1461 * (year + 4800 + (month - 14) / 12) / 4 +
+	       367 * (month - 2 - (month - 14) / 12 * 12) / 12 -
+	       3 * ((year + 4900 + (month - 14) / 12) / 100) / 4;
 	date += (theTime->tm_hour + 12.0) / 24.0;
 	date += (theTime->tm_min) / 1440.0;
 	date += (theTime->tm_sec) / 86400.0;

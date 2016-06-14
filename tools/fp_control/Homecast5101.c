@@ -237,7 +237,7 @@ static int setTimer(Context_t *context, time_t *theGMTTime)
 	time(&curTime);
 	ts = localtime(&curTime);
 	fprintf(stderr, "Current Time: %02d:%02d:%02d %02d-%02d-%04d\n",
-			ts->tm_hour, ts->tm_min, ts->tm_sec, ts->tm_mday, ts->tm_mon + 1, ts->tm_year + 1900);
+		ts->tm_hour, ts->tm_min, ts->tm_sec, ts->tm_mday, ts->tm_mon + 1, ts->tm_year + 1900);
 	hs5101_startPseudoStandby(context, private);
 
 	if (theGMTTime == NULL)

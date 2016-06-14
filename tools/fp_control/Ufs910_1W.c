@@ -159,7 +159,7 @@ static int setTimer(Context_t *context, time_t *theGMTTime)
 	time(&curTime);
 	ts = localtime(&curTime);
 	fprintf(stderr, "Current Time: %02d:%02d:%02d %02d-%02d-%04d\n",
-			ts->tm_hour, ts->tm_min, ts->tm_sec, ts->tm_mday, ts->tm_mon + 1, ts->tm_year + 1900);
+		ts->tm_hour, ts->tm_min, ts->tm_sec, ts->tm_mday, ts->tm_mon + 1, ts->tm_year + 1900);
 
 	if (theGMTTime == NULL)
 		wakeupTime = read_timers_utc(curTime);
@@ -267,7 +267,7 @@ static int Sleep(Context_t *context, time_t *wakeUpGMT)
 	struct tm *ts;
 	char output[cMAXCharsUFS910 + 1];
 	tUFS910Private *private = (tUFS910Private *)
-							  ((Model_t *)context->m)->private;
+				  ((Model_t *)context->m)->private;
 
 	while (sleep)
 	{
@@ -306,7 +306,7 @@ static int setText(Context_t *context, char *theText)
 {
 	struct vfd_ioctl_data data;
 	tUFS910Private *private = (tUFS910Private *)
-							  ((Model_t *)context->m)->private;
+				  ((Model_t *)context->m)->private;
 	memset(data.data, ' ', 63);
 	memcpy(data.data, theText, strlen(theText));
 	data.start = 0;
@@ -338,7 +338,7 @@ static int setIcon(Context_t *context, int which, int on)
 {
 	struct vfd_ioctl_data data;
 	tUFS910Private *private = (tUFS910Private *)
-							  ((Model_t *)context->m)->private;
+				  ((Model_t *)context->m)->private;
 	memset(data.data, ' ', 63);
 	data.start = 0;
 	data.length = 5;
@@ -358,7 +358,7 @@ static int setBrightness(Context_t *context, int brightness)
 {
 	struct vfd_ioctl_data data;
 	tUFS910Private *private = (tUFS910Private *)
-							  ((Model_t *)context->m)->private;
+				  ((Model_t *)context->m)->private;
 
 	if (brightness < 0 || brightness > 7)
 		return -1;
@@ -407,7 +407,7 @@ static int setLight(Context_t *context, int on)
 static int Exit(Context_t *context)
 {
 	tUFS910Private *private = (tUFS910Private *)
-							  ((Model_t *)context->m)->private;
+				  ((Model_t *)context->m)->private;
 
 	if (private->vfd > 0)
 		close(private->vfd);
