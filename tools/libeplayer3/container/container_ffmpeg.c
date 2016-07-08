@@ -908,6 +908,7 @@ static int container_ffmpeg_init(Context_t *context, char *filename)
 {
 	int ret = 0;
 	unsigned int n = 1;
+	int no_probe = 0;
 	ffmpeg_printf(10, ">\n");
 	if (filename == NULL)
 	{
@@ -925,6 +926,10 @@ static int container_ffmpeg_init(Context_t *context, char *filename)
 		ffmpeg_err("ups already running?\n");
 		return cERR_CONTAINER_FFMPEG_RUNNING;
 	}
+
+	if (strstr(filename, ":31339/id=") || strstr(filename, ":8001/"))
+		no_probe = 1;
+
 	isContainerRunning = 0;
 	/* initialize ffmpeg */
 	av_register_all();
@@ -943,15 +948,21 @@ again:
 	avContext->interrupt_callback.callback = interrupt_cb;
 	avContext->interrupt_callback.opaque = context->playback;
 	avContext->flags |= AVFMT_FLAG_GENPTS;
-	if (context->playback->isHttp)
+	if (context->playback->isHttp && !no_probe)
 		avContext->flags |= AVFMT_FLAG_NONBLOCK | AVIO_FLAG_NONBLOCK | AVFMT_NO_BYTE_SEEK;
-	if (context->playback->isHttp && n)
+	if (no_probe || (context->playback->isHttp && n))
 #if (LIBAVFORMAT_VERSION_MAJOR == 57 && LIBAVFORMAT_VERSION_MINOR == 25)
-		avContext->max_analyze_duration = 1 * AV_TIME_BASE;
+		if (no_probe)
+			avContext->max_analyze_duration = 1;
+		else
+			avContext->max_analyze_duration = 1 * AV_TIME_BASE;
 	else
 		avContext->max_analyze_duration = 0;
 #else
-		avContext->max_analyze_duration2 = 1 * AV_TIME_BASE;
+		if (no_probe)
+			avContext->max_analyze_duration2 = 1;
+		else
+			avContext->max_analyze_duration2 = 1 * AV_TIME_BASE;
 	else
 		avContext->max_analyze_duration2 = 0;
 #endif
@@ -968,24 +979,27 @@ again:
 	avContext->iformat->flags |= AVFMT_SEEK_TO_PTS;
 	ffmpeg_printf(20, "Find_streaminfo\n");
 	ret = avformat_find_stream_info(avContext, NULL);
-	if (ret < 0)
+	if (!no_probe)
 	{
-		ffmpeg_err("Error avformat_find_stream_info\n");
-		if (n)
+		if (ret < 0)
 		{
-			n = 0;
-			avformat_close_input(&avContext);
-			ffmpeg_err("Try again with default probe size\n");
-			goto again;
-		}
+			ffmpeg_err("Error avformat_find_stream_info\n");
+			if (n)
+			{
+				n = 0;
+				avformat_close_input(&avContext);
+				ffmpeg_err("Try again with default probe size\n");
+				goto again;
+			}
 #ifdef this_is_ok
-		/* crow reports that sometimes this returns an error
-		* but the file is played back well. so remove this
-		* until other works are done and we can prove this.
-		*/
-		ret = cERR_CONTAINER_FFMPEG_STREAM;
-		goto fail;
+			/* crow reports that sometimes this returns an error
+			* but the file is played back well. so remove this
+			* until other works are done and we can prove this.
+			*/
+			ret = cERR_CONTAINER_FFMPEG_STREAM;
+			goto fail;
 #endif
+		}
 	}
 	ret = cERR_CONTAINER_FFMPEG_STREAM;
 	for (n = 0; n < avContext->nb_streams; n++)
