@@ -29,6 +29,7 @@ typedef struct
 {
 	unsigned int delay;
 	unsigned int period;
+	unsigned int rc_code;
 
 } tLongKeyPressSupport;
 
