@@ -43,7 +43,7 @@
 */
 
 void setMessageToDisplay(char *);
-void setMessageToDisplayEx(unsigned char *, int len);
+void setMessageToDisplayEx(char *, int len);
 void show_help();
 void close_device_vfd();
 void scrollText(char *text);
@@ -135,7 +135,7 @@ char verbose = false;
 char outbuffer[16];
 char input[MAX_INPUT];
 int position = 0;
-char offset = 0;
+int offset = 0;
 
 int main(int argc, char **argv)
 {
@@ -484,7 +484,7 @@ void demoMode(void)
 	int i;
 	for (i = 0; i < 7; i++)
 	{
-		writeCG(i, *(writechars + i));
+		writeCG(i, (unsigned char *)(writechars + i));
 	}
 
 	char test[9] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x00};
@@ -494,11 +494,11 @@ void demoMode(void)
 	while (1)
 	{
 		usleep(750000);
-		writeCG(0, *(writechars_ani + 0));
+		writeCG(0, (unsigned char *)writechars_ani + 0);
 		setMessageToDisplay(test);
 
 		usleep(750000);
-		writeCG(0, *(writechars + 0));
+		writeCG(0, (unsigned char *)writechars + 0);
 		setMessageToDisplay(test);
 	}
 }
@@ -657,7 +657,7 @@ void printState(int index)
 	}
 }
 
-void setMessageToDisplayEx(unsigned char *str, int len)
+void setMessageToDisplayEx(char *str, int len)
 {
 	struct ioctl_data
 	{
@@ -700,7 +700,7 @@ void printBitmap(char *filename, int animationTime)
 
 		while (fread(tx, 17, 1, fd) > 0)	// read string to display
 		{
-			setMessageToDisplayEx(tx, 16);
+			setMessageToDisplayEx((char *)tx, 16);
 			usleep(animationTime);
 		}
 
@@ -727,7 +727,7 @@ void playVfdx(char *filename)
 	struct
 	{
 		char charSet;
-		unsigned char text[16];
+		char text[16];
 		unsigned short sleepTime;
 	} line;
 #pragma pack()
