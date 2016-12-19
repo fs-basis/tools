@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS = -I m4
+
 bin_PROGRAMS = evremote2 evtest
 
 evremote2_SOURCES = \
@@ -22,7 +24,7 @@ evremote2_SOURCES = \
 	LircdName.c \
 	Cnbox.c
 
-AM_CFLAGS = -Wall
+AM_CFLAGS  = -Wall
 AM_LDFLAGS = -lrt -lpthread
 
 evtest_SOURCES = \

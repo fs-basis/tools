@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS = -I m4
+
 bin_PROGRAMS = fp_control
 
 fp_control_SOURCES = \
@@ -17,5 +19,5 @@ fp_control_SOURCES = \
 	Adb_Box.c \
 	Cnbox.c
 
-AM_CFLAGS = -Wall
+AM_CFLAGS  = -Wall
 AM_LDFLAGS = -lrt
