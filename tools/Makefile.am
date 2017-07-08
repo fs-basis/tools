@@ -34,3 +34,6 @@ if ENABLE_SPF
 SUBDIRS += \
 	spf_tool
 endif
+
+SUBDIRS += \
+	minimon

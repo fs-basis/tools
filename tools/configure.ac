@@ -72,4 +72,5 @@ libmme_host/Makefile
 libmme_image/Makefile
 ipbox_eeprom/Makefile
 spf_tool/Makefile
+minimon/Makefile
 ])
