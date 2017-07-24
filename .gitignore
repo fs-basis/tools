@@ -11,6 +11,7 @@
 *.o.d
 *.swp
 *~
+*m4/
 COPYING
 INSTALL
 Makefile
@@ -25,6 +26,7 @@ config.status
 config.guess
 config.sub
 ltmain.sh
+config.h
 config.h.in
 compile
 configure
@@ -32,6 +34,7 @@ install-sh
 libtool
 missing
 depcomp
+stamp-h1
 .dirstamp
 .deps/
 .libs/
@@ -43,6 +46,9 @@ tools/evremote2/evremote2
 tools/evremote2/evtest
 tools/fbshot/fbshot
 tools/fp_control/fp_control
+tools/flashtool-fup/fup
+tools/flashtool-mup/mup
+tools/flashtool-pad/pad
 tools/gitVCInfo/gitVCInfo
 tools/hd-idle/hd-idle
 tools/hotplug/hotplug
