@@ -1,0 +1,11 @@
+AC_INIT([mup],[1.0],[],[mup])
+m4_ifdef([LT_INIT], [LT_INIT], [AC_PROG_LIBTOOL])
+AC_CONFIG_MACRO_DIR([m4])
+AM_INIT_AUTOMAKE
+
+AC_PROG_CC
+AC_PROG_CXX
+
+AC_OUTPUT([
+Makefile
+])
