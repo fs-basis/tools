@@ -25,6 +25,8 @@
 #define NAND_YAFFS2 2
 #define NAND_YAFFS2_ERASE 3
 
+bool verbose = true;
+
 void clear(FILE *fp)
 {
 	char buf[255];
@@ -69,6 +71,7 @@ int32_t main(int32_t argc, char *argv[])
 	else if (argc == 3 && strlen(argv[1]) == 1 && !strncmp(argv[1], "c", 1))
 	{
 		doCreate = true;
+		verbose = false;
 	}
 	else
 	{
@@ -160,11 +163,11 @@ int32_t main(int32_t argc, char *argv[])
 		int32_t nand = 0;
 		int32_t blockSize = 0;
 		SwPack *swpack = new SwPack();
-		printf("Select ProductCode\n");
-		printf("1: 0x11321000 - Kathrein UFS-922\n");
-		printf("2: 0x11301003 - Kathrein UFS-912\n");
-		printf("3: 0x11301006 - Kathrein UFS-913\n");
-		printf(":> ");
+		verboseprintf("Select ProductCode\n");
+		verboseprintf("1: 0x11321000 - Kathrein UFS-922\n");
+		verboseprintf("2: 0x11301003 - Kathrein UFS-912\n");
+		verboseprintf("3: 0x11301006 - Kathrein UFS-913\n");
+		verboseprintf(":> ");
 		scanf("%d", &productCode);
 		switch (productCode)
 		{
@@ -186,40 +189,43 @@ int32_t main(int32_t argc, char *argv[])
 			}
 		}
 		swpack->setProductCode(productCode);
-		printf("Enter partitions. \"FLASHOFFSET, BLOCKSIZE, NAND, FILENAME;\"\n");
-		printf("Finish list with \";\"\n");
-		printf("Example: \n");
-		printf("\t0x004E0000, 0x0, 0, 922.cramfs\n");
-		printf("\t0x00040000, 0x0, 0, uImage.922.105\n");
-		printf("\t0x002A0000, 0x0, 0, root.922.105.cramfs\n");
-		printf(";\n");
+		verboseprintf("Enter partitions. \"FLASHOFFSET, BLOCKSIZE, NAND, FILENAME;\"\n");
+		verboseprintf("Finish list with \";\"\n");
+		verboseprintf("Example: \n");
+		verboseprintf("\t0x004E0000, 0x0, 0, 922.cramfs\n");
+		verboseprintf("\t0x00040000, 0x0, 0, uImage.922.105\n");
+		verboseprintf("\t0x002A0000, 0x0, 0, root.922.105.cramfs\n");
+		verboseprintf(";\n");
 		fflush(stdin);
 		clear(stdin);
 		while (1)
 		{
-			printf(":> ");
+			verboseprintf(":> ");
 			flashOffset = -1;
 			scanf("0x%X, ", &flashOffset);
 			if (flashOffset == -1)
 			{
-				printf("\n flashOffset missing\n");
+				verboseprintf("\n flashOffset missing\n");
 				break;
 			}
 			blockSize = -1;
 			scanf("0x%X, ", &blockSize);
 			if (blockSize == -1)
 			{
-				printf("\n blockSize missing\n");
+				verboseprintf("\n blockSize missing\n");
 				break;
 			}
 			scanf("%d, ", &nand);
 			if (nand != NOR_RAW && nand != NAND_RAW && nand != NAND_YAFFS2 && nand != NAND_YAFFS2_ERASE)
 			{
-				printf("\n nand missing\n");
+				verboseprintf("\n nand missing\n");
 				break;
 			}
 			scanf("%s", inputBuffer);
-			printf("\tflashOffset: %d, blockSize: %d, inputBuffer: %s\n", flashOffset, blockSize, inputBuffer);
+			if (verbose)
+			{
+				printf("\tflashOffset: %d, blockSize: %d, inputBuffer: %s\n", flashOffset, blockSize, inputBuffer);
+			}
 			fflush(stdin);
 			clear(stdin);
 			if (!strcmp(inputBuffer, "foo"))
@@ -285,7 +291,10 @@ int32_t main(int32_t argc, char *argv[])
 				{
 					blockSize = blockSize >> 16;
 				}
-				printf("BS: %d\n", blockSize);
+				if (verbose)
+				{
+					printf("BS: %d\n", blockSize);
+				}
 				if (productCode == 0x11321006)
 				{
 					sprintf(partitionName, "/%X/5/", blockSize); // NAND YAFFS2
@@ -314,7 +323,10 @@ int32_t main(int32_t argc, char *argv[])
 				{
 					blockSize = blockSize >> 16;
 				}
-				printf("BS: %d\n", blockSize);
+				if (verbose)
+				{
+					printf("BS: %d\n", blockSize);
+				}
 				sprintf(partitionName, "/%X/E5/", blockSize); // NAND YAFFS2
 				strcat(partitionName, inputBuffer);
 			}
@@ -428,4 +440,3 @@ int32_t main(int32_t argc, char *argv[])
 	}
 	return 0;
 }
-

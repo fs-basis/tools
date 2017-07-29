@@ -193,11 +193,12 @@ int32_t writeBlock(FILE *irdFile, FILE *file, uint8_t firstBlock, uint16_t type)
 	uint16_t nextBlockHeaderPos = 0;
 	uint16_t compressedDataLen = 0;
 	uint16_t uncompressedDataLen = DATA_BLOCKSIZE;
-	uint8_t *blockHeader = (uint8_t *)malloc(4);
-	uint8_t *dataBuf = (uint8_t *)malloc(DATA_BLOCKSIZE + 4 /*TYPE + LEN*/);
 	uint16_t dataCrc = 0;
+	uint8_t *blockHeader = (uint8_t *)malloc(4);
+	uint8_t *dataBuf = (uint8_t *)malloc(DATA_BLOCKSIZE + 4);
 	if (firstBlock && type == 0x10)
 	{
+		// header
 		uint16_t resellerId = 0x2303;
 		insertint16_t(&dataBuf, 0, type);
 		insertint16_t(&dataBuf, 2, resellerId);
@@ -296,7 +297,7 @@ int32_t readBlock(FILE *file, const char *name, uint8_t firstBlock)
 
 int32_t main(int32_t argc, char *argv[])
 {
-	FILE          *file;
+	FILE *file;
 	int32_t pos = 0;
 	uint8_t firstBlock = 1;
 	if (argc == 3 && strlen(argv[1]) == 2 && strncmp(argv[1], "-s", 2) == 0)
@@ -387,57 +388,85 @@ int32_t main(int32_t argc, char *argv[])
 		{
 			uint8_t type = 0x01;
 			if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-feelinglucky", 13) == 0)
+			{
 				type = 0x00;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-a", 2) == 0)
+			{
 				type = 0x01;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-1", 2) == 0)
+			{
 				type = 0x01;
+			}
 			else if (strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-c0", 3) == 0)
+			{
 				type = 0x02;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-2", 2) == 0)
+			{
 				type = 0x02;
+			}
 			else if (strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-c4", 3) == 0)
+			{
 				type = 0x03;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-3", 2) == 0)
+			{
 				type = 0x03;
+			}
 			else if (strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-c8", 3) == 0)
+			{
 				type = 0x04;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-4", 2) == 0)
+			{
 				type = 0x04;
+			}
 			else if (strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-ca", 3) == 0)
+			{
 				type = 0x05;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-5", 2) == 0)
+			{
 				type = 0x05;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-k", 2) == 0)
+			{
 				type = 0x06;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-6", 2) == 0)
+			{
 				type = 0x06;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-d", 2) == 0)
+			{
 				type = 0x07;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-7", 2) == 0)
+			{
 				type = 0x07;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-r", 2) == 0)
+			{
 				type = 0x08;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-8", 2) == 0)
+			{
 				type = 0x08;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-u", 2) == 0)
+			{
 				type = 0x09;
+			}
 			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-9", 2) == 0)
+			{
 				type = 0x09;
+			}
 			else if (strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-10", 3) == 0)
+			{
 				type = 0x10;
-			/*else if(strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-11", 3) == 0)
-			   type = 0x11;
-			else if(strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-12", 3) == 0)
-			   type = 0x12;
-			else if(strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-13", 3) == 0)
-			   type = 0x13;
-			else if(strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-14", 3) == 0)
-			   type = 0x14;
-			else if(strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-15", 3) == 0)
-			   type = 0x15;
-			else if(strlen(argv[3 + i]) == 3 && strncmp(argv[3 + i], "-16", 3) == 0)
-			   type = 0x16;*/
+			}
 			FILE *file = fopen(argv[3 + i + 1], "rb");
 			printf("Adding %s\n", argv[3 + i + 1]);
 			uint16_t partBlocksize = totalBlockCount;
@@ -483,16 +512,31 @@ int32_t main(int32_t argc, char *argv[])
 		for (int32_t i = 0; i < appendPartCount; i += 2)
 		{
 			uint8_t type = 0x01;
-			if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-f", 2) == 0) // ORIGNINAL APP_BAK NOW FW
+			if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-f", 2) == 0)
+			{
+				// Original APP, now FW
 				type = 0x01;
-			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-k", 2) == 0) // KERNEL
+			}
+			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-k", 2) == 0)
+			{
+				// KERNEL
 				type = 0x06;
-			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-e", 2) == 0) //ORIGNINAL ROOT NOW EXT
+			}
+			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-e", 2) == 0)
+			{
+				//Original ROOT, now EXT
 				type = 0x08;
-			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-g", 2) == 0) //ORIGNINAL DEV NOW G
+			}
+			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-g", 2) == 0)
+			{
+				//Original DEV, now G
 				type = 0x07;
-			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-r", 2) == 0) //ORIGNINAL USER NOW ROOT
+			}
+			else if (strlen(argv[3 + i]) == 2 && strncmp(argv[3 + i], "-r", 2) == 0)
+			{
+				//Original USER, now ROOT
 				type = 0x09; // 7 if dev, than we need to split the file in 3 files
+			}
 			if (type == 0x01 || type == 0x08 || type == 0x07)
 			{
 				printf("Adding signed dummy squashfs header");
@@ -550,8 +594,10 @@ int32_t main(int32_t argc, char *argv[])
 					fclose(file);
 				}
 				else
+				{
 					printf("\nCould not append %s\n", argv[3 + i + 1]);
-				printf("\n");
+					printf("\n");
+				}
 			}
 			else
 			{
@@ -609,7 +655,7 @@ int32_t main(int32_t argc, char *argv[])
 		free(dataBuf);
 		fclose(irdFile);
 	}
-	else
+	else //show usage
 	{
 #ifdef USE_ZLIB
 		uint8_t zlib = 1;

@@ -69,20 +69,26 @@ void SwPack::parse()
 void SwPack::print()
 {
 	char vHelpStr[256];
-	printf("*******************************************************\n");
-	printf("SWPack:\n\n");
 	strncpy(vHelpStr, (char *)this->mHeader->mMagicNumber, SW_UPDATE_MAGIC_SIZE);
 	vHelpStr[SW_UPDATE_MAGIC_SIZE] = '\0';
-	printf("mMagicNumber    = %s\n", vHelpStr);
-	printf("mHeaderVersion  = %d\n", this->mHeader->mHeaderVersion);
-	printf("mProductCode    = 0x%08X\n", this->mHeader->mProductCode);
-	printf("mSWVersion      = %d\n", this->mHeader->mSWVersion);
-	printf("mDate           = %d\n", (int)this->mHeader->mDate);
-	printf("mInventoryCount = %d\n", this->mHeader->mInventoryCount);
-	printf("mInvalidateFlag = %d\n", this->mHeader->mInvalidateFlag);
+	if (verbose)
+	{
+		printf("*******************************************************\n");
+		printf("SWPack:\n\n");
+		printf("mMagicNumber    = %s\n", vHelpStr);
+		printf("mHeaderVersion  = %d\n", this->mHeader->mHeaderVersion);
+		printf("mProductCode    = 0x%08X\n", this->mHeader->mProductCode);
+		printf("mSWVersion      = %d\n", this->mHeader->mSWVersion);
+		printf("mDate           = %d\n", (int)this->mHeader->mDate);
+		printf("mInventoryCount = %d\n", this->mHeader->mInventoryCount);
+		printf("mInvalidateFlag = %d\n", this->mHeader->mInvalidateFlag);
+	}
 	strncpy(vHelpStr, this->mHeader->mUpdateInfo, SW_UPDATE_INFO_LENGTH);
 	vHelpStr[SW_UPDATE_INFO_LENGTH] = '\0';
-	printf("mUpdateInfo     = %s\n", vHelpStr);
+	if (verbose)
+	{
+		printf("mUpdateInfo     = %s\n", vHelpStr);
+	}
 	for (uint32_t i = 0; i < this->mInventoryCount; i++)
 	{
 		this->mInventory[i]->print();
@@ -92,30 +98,33 @@ void SwPack::print()
 void SwPack::printXML(bool d)
 {
 	char vHelpStr[256];
-	printf("\t<SWPack>\n");
-	strncpy(vHelpStr, (char *)this->mHeader->mMagicNumber, SW_UPDATE_MAGIC_SIZE);
-	vHelpStr[SW_UPDATE_MAGIC_SIZE] = '\0';
-	if (d)
+	if (verbose)
 	{
-		printf("\t\t<MagicNumber value=\"%s\" />\n", vHelpStr);
+		printf("\t<SWPack>\n");
+		strncpy(vHelpStr, (char *)this->mHeader->mMagicNumber, SW_UPDATE_MAGIC_SIZE);
+		vHelpStr[SW_UPDATE_MAGIC_SIZE] = '\0';
+		if (d)
+		{
+			printf("\t\t<MagicNumber value=\"%s\" />\n", vHelpStr);
+		}
+		printf("\t\t<HeaderVersion value=\"%d\" />\n", this->mHeader->mHeaderVersion);
+		printf("\t\t<ProductCode value=\"%08Xh\" />\n", this->mHeader->mProductCode);
+		printf("\t\t<SWVersion value=\"%d\" />\n", this->mHeader->mSWVersion);
+		printf("\t\t<Date value=\"%d\" str=\"%s\" />\n", (int)this->mHeader->mDate, strTime(this->mHeader->mDate));
+		if (d)
+		{
+			printf("\t\t<InventoryCount value=\"%d\" />\n", this->mHeader->mInventoryCount);
+			printf("\t\t<InvalidateFlag value=\"%d\" />\n", this->mHeader->mInvalidateFlag);
+		}
+		strncpy(vHelpStr, this->mHeader->mUpdateInfo, SW_UPDATE_INFO_LENGTH);
+		vHelpStr[SW_UPDATE_INFO_LENGTH] = '\0';
+		printf("\t\t<UpdateInfo value=\"%s\" />\n", vHelpStr);
+		for (uint32_t i = 0; i < this->mInventoryCount; i++)
+		{
+			this->mInventory[i]->printXML(d);
+		}
+		printf("\t</SWPack>\n");
 	}
-	printf("\t\t<HeaderVersion value=\"%d\" />\n", this->mHeader->mHeaderVersion);
-	printf("\t\t<ProductCode value=\"%08Xh\" />\n", this->mHeader->mProductCode);
-	printf("\t\t<SWVersion value=\"%d\" />\n", this->mHeader->mSWVersion);
-	printf("\t\t<Date value=\"%d\" str=\"%s\" />\n", (int)this->mHeader->mDate, strTime(this->mHeader->mDate));
-	if (d)
-	{
-		printf("\t\t<InventoryCount value=\"%d\" />\n", this->mHeader->mInventoryCount);
-		printf("\t\t<InvalidateFlag value=\"%d\" />\n", this->mHeader->mInvalidateFlag);
-	}
-	strncpy(vHelpStr, this->mHeader->mUpdateInfo, SW_UPDATE_INFO_LENGTH);
-	vHelpStr[SW_UPDATE_INFO_LENGTH] = '\0';
-	printf("\t\t<UpdateInfo value=\"%s\" />\n", vHelpStr);
-	for (uint32_t i = 0; i < this->mInventoryCount; i++)
-	{
-		this->mInventory[i]->printXML(d);
-	}
-	printf("\t</SWPack>\n");
 }
 
 bool SwPack::verify()
@@ -156,7 +165,10 @@ int32_t SwPack::createImage(uint8_t **data)
 	{
 		mDataLength += this->mInventory[i]->getChildData(NULL);
 	}
-	printf("TOTAL SIZE: %u\n", mDataLength);
+	if (verbose)
+	{
+		printf("TOTAL SIZE: %u\n", mDataLength);
+	}
 	mData = (uint8_t *)malloc(mDataLength);
 	memcpy(mData, mHeader, sizeof(tSWPack));
 	for (uint32_t i = 0; i < this->mInventoryCount; i++)

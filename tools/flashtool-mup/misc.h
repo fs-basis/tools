@@ -22,5 +22,7 @@ enum
 };
 
 char *strTime(uint32_t /*time_t*/ now);
+void verboseprintf(const char *printstring);
+extern bool verbose;
 
 #endif

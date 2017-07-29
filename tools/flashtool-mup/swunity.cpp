@@ -193,19 +193,22 @@ uint32_t SwUnity::calcCRC32(uint8_t **crc32_hash, uint32_t *crc32_hash_len)
 	/* calculate the hash */
 	gcry_md_hash_buffer(GCRY_MD_CRC32, *crc32_hash, this->mChildData, this->mChildDataLength);
 #endif
-	printf("%d\n", this->mChildDataLength);
-	for (int32_t i = 0; i < 40 && i < this->mChildDataLength; i++)
+	if (verbose)
 	{
-		printf("%02X ", this->mChildData[i]);
-	}
-	printf("\n");
-	if (this->mChildDataLength >= 80)
-	{
-		for (int32_t i = 0; i < 40; i++)
+		printf("%d\n", this->mChildDataLength);
+		for (int32_t i = 0; i < 40 && i < this->mChildDataLength; i++)
 		{
-			printf("%02X ", this->mChildData[this->mChildDataLength - 41 + i]);
+			printf("%02X ", this->mChildData[i]);
 		}
 		printf("\n");
+		if (this->mChildDataLength >= 80)
+		{
+			for (int32_t i = 0; i < 40; i++)
+			{
+				printf("%02X ", this->mChildData[this->mChildDataLength - 41 + i]);
+			}
+			printf("\n");
+		}
 	}
 	return crc32(this->mChildData, this->mChildDataLength);
 }

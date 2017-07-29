@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <time.h>
 #include <string.h>
 #include <stdint.h>
@@ -12,4 +13,12 @@ char *strTime(uint32_t /*time_t*/ now)
 	ts = localtime(&tmp_now);
 	strftime(buf, sizeof(buf), "%a %Y-%m-%d %H:%M:%S %Z", ts);
 	return strdup(buf);
+}
+
+void verboseprintf(const char *printstring)
+{
+	if (verbose)
+	{
+		printf("%s", printstring);
+	}
 }
