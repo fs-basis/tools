@@ -1,4 +1,4 @@
-AC_INIT([mup],[1.0],[],[mup])
+AC_INIT([mup],[1.4],[],[mup])
 AM_INIT_AUTOMAKE
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 m4_ifdef([LT_INIT], [LT_INIT], [AC_PROG_LIBTOOL])

@@ -48,6 +48,7 @@ tools/fbshot/fbshot
 tools/fp_control/fp_control
 tools/flashtool-fup/fup
 tools/flashtool-mup/mup
+tools/flashtool_mup/mup
 tools/flashtool-pad/pad
 tools/gitVCInfo/gitVCInfo
 tools/hd-idle/hd-idle
