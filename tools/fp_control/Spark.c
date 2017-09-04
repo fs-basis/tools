@@ -425,7 +425,8 @@ static int Spark_Exit(Context_t *context)
 		close(context->fd);
 
 	free(private);
-	exit(1);
+
+	return 1;
 }
 
 static int Spark_Clear(Context_t *context)
@@ -441,13 +442,14 @@ static int Spark_Clear(Context_t *context)
 	return 0;
 }
 
-static int Spark_getWakeupReason(Context_t *context, int *reason)
+static int Spark_getWakeupReason(Context_t *context, eWakeupReason *reason)
 {
 	if (ioctl(context->fd, VFDGETSTARTUPSTATE, reason) < 0)
 	{
 		perror("Get wakeup reason");
 		return -1;
 	}
+	printf("reason = 0x%x\n", *reason);
 
 	return 0;
 }

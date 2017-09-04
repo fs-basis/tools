@@ -163,7 +163,8 @@ static time_t read_neutrino_timers(time_t curTime)
 	{
 		int wakeupDecrement = 5 * 60;
 		int platzhalter;
-		checkConfig(&platzhalter, &platzhalter, &platzhalter, &wakeupDecrement);
+		char * dummy;
+		checkConfig(&platzhalter, &platzhalter, &dummy, &wakeupDecrement);
 		recordTime -= wakeupDecrement;
 	}
 

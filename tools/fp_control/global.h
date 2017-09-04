@@ -35,7 +35,7 @@ struct vfd_ioctl_data
 	unsigned char length;
 };
 
-typedef enum {NONE, TIMER} eWakeupReason;
+typedef enum {NONE, POWERON, STANDBY, TIMER, POWERSWITCH, UNK1, UNK2, UNK3} eWakeupReason;
 
 typedef enum {Unknown, Ufs910_1W, Ufs910_14W, Ufs922, Ufc960, Tf7700, Hl101, Vip2, Fortis, Hs5101, Ufs912, Spark, Cuberevo, Adb_Box, CNBox} eBoxType;
 

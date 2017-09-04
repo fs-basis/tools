@@ -123,13 +123,13 @@ static int init(Context_t *context)
 	checkConfig(&private->display, &private->display_custom, &private->timeFormat, &private->wakeupDecrement);
 	return vFd;
 }
-
+#if 0
 static int usage(Context_t *context, char *prg_name)
 {
 	fprintf(stderr, "%s: not implemented\n", __func__);
 	return -1;
 }
-
+#endif
 static int setTime(Context_t *context, time_t *theGMTTime)
 {
 	struct micom_ioctl_data vData;
@@ -445,7 +445,7 @@ static int setLight(Context_t *context, int on)
  * 0xc3 = time
  * 0xc4 = ac ???
  */
-static int getWakeupReason(Context_t *context, int *reason)
+static int getWakeupReason(Context_t *context, eWakeupReason *reason)
 {
 	char mode[8];
 	fprintf(stderr, "waiting on wakeupmode from fp ...\n");
@@ -509,7 +509,7 @@ static int Exit(Context_t *context)
 		close(context->fd);
 
 	free(private);
-	exit(1);
+	return 1;
 }
 
 static int Clear(Context_t *context)
@@ -565,7 +565,7 @@ Model_t UFS912_model =
 	.SetIcon                   = setIcon,
 	.SetBrightness             = setBrightness,
 	.SetPwrLed                 = NULL,
-//	.GetWakeupReason           = getWakeupReason, //TODO: CHECK IF WORKING
+	.GetWakeupReason           = getWakeupReason, //TODO: CHECK IF WORKING
 	.SetLight                  = setLight,
 	.Exit                      = Exit,
 	.SetLedBrightness          = setLedBrightness,

@@ -43,6 +43,9 @@
 /* software version of fp_control. please increase on every change */
 static const char *sw_version = "1.04";
 
+static eWakeupReason reason = 0;
+
+
 typedef struct
 {
 	char *arg;
@@ -81,7 +84,7 @@ tArgs vArgs[] =
 	{ NULL, NULL, NULL }
 };
 
-const char *wakeupreason[4] = { "unknown", "poweron", "standby", "timer" };
+const char *wakeupreason[8] = { "unknown", "poweron", "standby", "timer", "powerswitch", "unknown", "unknown", "unknown" };
 
 void usage(Context_t *context, char *prg, char *cmd)
 {
@@ -190,11 +193,13 @@ void processCommand(Context_t *context, int argc, char *argv[])
 					if (((Model_t *)context->m)->GetTime(context, &theGMTTime) == 0)
 					{
 						struct tm *gmt = gmtime(&theGMTTime);
+#if 0
 						struct timeval tv;
 						time_t allsec;
 						allsec = mktime(gmt);
 						tv.tv_sec = allsec;
-//						settimeofday(&tv, 0); // only works on spark, so we make a system-call later
+						settimeofday(&tv, 0); // only works on spark, so we make a system-call later
+#endif
 						fprintf(stderr, "Setting RTC to current frontpanel time: %02d:%02d:%02d %02d-%02d-%04d\n",
 							gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
 						char cmd[50];
@@ -384,7 +389,6 @@ void processCommand(Context_t *context, int argc, char *argv[])
 			else if ((strcmp(argv[i], "-w") == 0) || (strcmp(argv[i], "--getWakeupReason") == 0))
 			{
 				int ret = -1;
-				eWakeupReason reason;
 
 				if (((Model_t *)context->m)->GetWakeupReason)
 					ret = ((Model_t *)context->m)->GetWakeupReason(context, &reason);
@@ -393,7 +397,7 @@ void processCommand(Context_t *context, int argc, char *argv[])
 
 				if (ret == 0)
 				{
-					printf("Wakeup reason = %d (%s)\n\n", reason & 0x03, wakeupreason[reason & 0x03]);
+					printf("Wakeup reason = %d (%s)\n\n", reason & 0x07, wakeupreason[reason & 0x07]);
 					syncWasTimerWakeup(reason);
 				}
 			}
@@ -511,7 +515,6 @@ void processCommand(Context_t *context, int argc, char *argv[])
 	if (((Model_t *)context->m)->Exit)
 		((Model_t *)context->m)->Exit(context);
 
-	exit(1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -643,5 +646,6 @@ int main(int argc, char *argv[])
 	printf("Selected Model: %s\n", ((Model_t *)context.m)->Name);
 
 	processCommand(&context, argc, argv);
-	return 0;
+
+	exit(reason & 0x07);
 }

@@ -155,7 +155,7 @@ static int setTimer(Context_t *context, time_t *theGMTTime)
 	unsigned long int diffTm;
 	unsigned char uTime0, uTime1, uTime2, uTime3;
 	char cTime[6];
-	tUFS910Private *private = (tUFS910Private *)((Model_t *)context->m)->private;
+//	tUFS910Private *private = (tUFS910Private *)((Model_t *)context->m)->private;
 	time(&curTime);
 	ts = localtime(&curTime);
 	fprintf(stderr, "Current Time: %02d:%02d:%02d %02d-%02d-%04d\n",
@@ -416,7 +416,7 @@ static int Exit(Context_t *context)
 		close(context->fd);
 
 	free(private);
-	exit(1);
+	return 1;
 }
 
 static int Clear(Context_t *context)
