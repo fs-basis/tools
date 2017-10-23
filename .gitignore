@@ -57,6 +57,7 @@ tools/ipbox_eeprom/eeprom
 tools/libeplayer3/eplayer3
 tools/libeplayer3/meta
 tools/showiframe/showiframe
+tools/satfind/satfind
 tools/stfbcontrol/stfbcontrol
 tools/streamproxy/streamproxy
 tools/tfd2mtd/tfd2mtd
