@@ -45,64 +45,59 @@ static tLongKeyPressSupport cLongKeyPressSupport =
 };
 
 /* Spider Box HL-101 RCU */
-static tButton cButtonsSpideroxHL101[] =
+static tButton cButtonsSpiderboxHL101[] =
 {
-	{"STANDBY"        , "f7", KEY_POWER},
-	{"MUTE"           , "77", KEY_MUTE},
-	{"V.FORMAT"       , "e7", KEY_V},
-	{"AUX"            , "37", KEY_AUX},
-
-	{"0BUTTON"        , "ff", KEY_0},
-	{"1BUTTON"        , "7f", KEY_1},
-	{"2BUTTON"        , "bf", KEY_2},
-	{"3BUTTON"        , "3f", KEY_3},
-	{"4BUTTON"        , "df", KEY_4},
-	{"5BUTTON"        , "5f", KEY_5},
-	{"6BUTTON"        , "9f", KEY_6},
-	{"7BUTTON"        , "1f", KEY_7},
-	{"8BUTTON"        , "ef", KEY_8},
-	{"9BUTTON"        , "6f", KEY_9},
-
-	{"BACK"           , "0f", KEY_BACK},
-	{"INFO"           , "25", KEY_INFO}, //THIS IS WRONG SHOULD BE KEY_INFO
-	{"AUDIO"          , "35", KEY_AUDIO},
-
-	{"DOWN/P-"        , "a7", KEY_DOWN},
-	{"UP/P+"          , "67", KEY_UP},
-	{"RIGHT/V+"       , "c7", KEY_RIGHT},
-	{"LEFT/V-"        , "27", KEY_LEFT},
-	{"OK/LIST"        , "47", KEY_OK},
-	{"MENU"           , "af", KEY_MENU},
-	{"GUIDE"          , "4f", KEY_EPG},
-	{"EXIT"           , "cf", KEY_HOME},
-	{"FAV"            , "85", KEY_FAVORITES},
-
-	{"RED"            , "3d", KEY_RED},
-	{"GREEN"          , "fd", KEY_GREEN},
-	{"YELLOW"         , "6d", KEY_YELLOW},
-	{"BLUE"           , "8d", KEY_BLUE},
-
-	{"SLOW"           , "cd", KEY_SLOW},
-	{"F1"             , "07", KEY_F1},
-	{"F2"             , "2d", KEY_F2},
-	{"FIND"           , "17", KEY_FIND},
-	{"U"              , "d7", KEY_U},
-	{"REWIND"         , "65", KEY_REWIND},
-	{"PAUSE"          , "87", KEY_PAUSE},
-	{"PLAY"           , "57", KEY_PLAY},
-	{"FASTFORWARD"    , "9d", KEY_FASTFORWARD},
-	{"RECORD"         , "8f", KEY_RECORD},
-	{"STOP"           , "d5", KEY_STOP},
-	{"SLOWMOTION"     , "97", KEY_SLOW},
-	{"ARCHIVE"        , "15", KEY_ARCHIVE},
-	{"SAT"            , "b5", KEY_SAT},
-	{"STEPBACK"       , "95", KEY_PREVIOUS},
-	{"STEPFORWARD"    , "55", KEY_NEXT},
-	{"MARK"           , "4f", KEY_EPG},
-	{"TV/RADIO"       , "2f", KEY_TV2}, //WE USE TV2 AS TV/RADIO SWITCH BUTTON
-	{"USB"            , "a5", KEY_CLOSE},
-	{"TIMER"          , "b7", KEY_TIME},
-	{""               , ""  , KEY_NULL},
+	{"0BUTTON"	, "ff", KEY_0},
+	{"1BUTTON"	, "7f", KEY_1},
+	{"2BUTTON"	, "bf", KEY_2},
+	{"3BUTTON"	, "3f", KEY_3},
+	{"4BUTTON"	, "df", KEY_4},
+	{"5BUTTON"	, "5f", KEY_5},
+	{"6BUTTON"	, "9f", KEY_6},
+	{"7BUTTON"	, "1f", KEY_7},
+	{"8BUTTON"	, "ef", KEY_8},
+	{"9BUTTON"	, "6f", KEY_9},
+	{"STANDBY"	, "f7", KEY_POWER},
+	{"TIMER"	, "b7", KEY_TIME},
+	{"UHF"		, "d7", KEY_U},
+	{"V.FORMAT"	, "e7", KEY_V},
+	{"MUTE"		, "77", KEY_MUTE},
+	{"TV/SAT"	, "37", KEY_AUX},
+	{"TV/RADIO"	, "2f", KEY_TV2}, //WE USE TV2 AS TV/RADIO SWITCH BUTTON
+	{"FIND"		, "17", KEY_FIND},
+	{"FAV"		, "85", KEY_FAVORITES},
+	{"MENU"		, "af", KEY_MENU},
+	{"INFO"		, "25", KEY_INFO}, //THIS IS WRONG SHOULD BE KEY_INFO
+	{"GUIDE"	, "4f", KEY_EPG},
+	{"EXIT"		, "cf", KEY_HOME},
+	{"UP/P+"	, "67", KEY_UP},
+	{"DOWN/P-"	, "a7", KEY_DOWN},
+	{"LEFT/V-"	, "27", KEY_LEFT},
+	{"RIGHT/V+"	, "c7", KEY_RIGHT},
+	{"OK/LIST"	, "47", KEY_OK},
+	{"BACK"		, "0f", KEY_BACK},
+	{"RECORD"	, "8f", KEY_RECORD},
+	{"PLAY"		, "57", KEY_PLAY},
+	{"REWIND"	, "97", KEY_REWIND},
+	{"PAUSE"	, "87", KEY_PAUSE},
+	{"FASTFORWARD"	, "9d", KEY_FASTFORWARD},
+	{"STOP"		, "d5", KEY_STOP},
+	{"SLOWMOTION"	, "cd", KEY_SLOW},
+	{"STEPBACK"	, "95", KEY_PREVIOUS},
+	{"STEPFORWARD"	, "55", KEY_NEXT},
+	{"ARCHIVE"	, "15", KEY_ARCHIVE},
+	{"ZOOM"		, "e5", KEY_ZOOM},
+	{"PLAYMODE"	, "65", KEY_PLAYER},
+	{"USB"		, "a5", KEY_CLOSE},
+	{"AUDIO"	, "35", KEY_AUDIO},
+	{"SAT"		, "b5", KEY_SAT},
+	{"F1"		, "07", KEY_F1},
+	{"F2"		, "2d", KEY_F2},
+	{"RED"		, "3d", KEY_RED},
+	{"GREEN"	, "fd", KEY_GREEN},
+	{"YELLOW"	, "6d", KEY_YELLOW},
+	{"BLUE"		, "8d", KEY_BLUE},
+	{""		, ""  , KEY_NULL},
 };
 /* fixme: move this to a structure and
  * use the private structure of RemoteControl_t
@@ -191,22 +186,18 @@ static int pNotification(Context_t *context, const int cOn)
 
 	if (cOn)
 	{
-		ioctl_fd = open("/dev/vfd", O_RDONLY);
-		vfd_data.u.icon.icon_nr = 35;
 		vfd_data.u.icon.on = 1;
-		ioctl(ioctl_fd, VFDICONDISPLAYONOFF, &vfd_data);
-		close(ioctl_fd);
 	}
 	else
 	{
 		usleep(100000);
-		ioctl_fd = open("/dev/vfd", O_RDONLY);
-		vfd_data.u.icon.icon_nr = 35;
 		vfd_data.u.icon.on = 0;
-		ioctl(ioctl_fd, VFDICONDISPLAYONOFF, &vfd_data);
-		close(ioctl_fd);
 	}
 
+	ioctl_fd = open("/dev/vfd", O_RDONLY);
+	vfd_data.u.icon.icon_nr = 35;
+	ioctl(ioctl_fd, VFDICONDISPLAYONOFF, &vfd_data);
+	close(ioctl_fd);
 	return 0;
 }
 
@@ -218,7 +209,7 @@ RemoteControl_t Hl101_RC =
 	&pShutdown,
 	&pRead,
 	&pNotification,
-	cButtonsSpideroxHL101,
+	cButtonsSpiderboxHL101,
 	NULL,
 	NULL,
 	1,
