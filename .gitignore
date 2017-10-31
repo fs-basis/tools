@@ -44,7 +44,6 @@ tools/aio-grab/grab
 tools/devinit/devinit
 tools/evremote2/evremote2
 tools/evremote2/evtest
-tools/fbshot/fbshot
 tools/fp_control/fp_control
 tools/flashtool-fup/fup
 tools/flashtool-mup/mup
@@ -56,7 +55,8 @@ tools/hotplug/hotplug
 tools/ipbox_eeprom/eeprom
 tools/libeplayer3/eplayer3
 tools/libeplayer3/meta
-tools/showiframe/showiframe
+tools/showiframe-sh4/showiframe
+tools/showiframe-arm/showiframe
 tools/satfind/satfind
 tools/stfbcontrol/stfbcontrol
 tools/streamproxy/streamproxy
