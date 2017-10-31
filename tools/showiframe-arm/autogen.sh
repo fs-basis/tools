@@ -1,6 +1,6 @@
 #!/bin/sh
 
-package="tools-showiframe"
+package="tools-showiframe-arm"
 
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
