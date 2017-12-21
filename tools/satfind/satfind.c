@@ -259,10 +259,15 @@ int main(int argc, char **argv)
 		if (usevfd)
 		{
 			usleep(250);
-			FILE *out = fopen("/dev/vfd", "w");
+#ifdef __sh__
+			const char* VFD = "/dev/vfd";
+#else
+			const char* VFD = "/dev/dbox/oled0";
+#endif
+			FILE *out = fopen(VFD, "w");
 			if (!out)
 			{
-				printf("unable to write to /dev/vfd\n");
+				printf("unable to write to %s\n", VFD);
 			}
 			else
 			{
