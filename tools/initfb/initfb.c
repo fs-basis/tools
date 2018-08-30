@@ -20,10 +20,13 @@
 
 #include <linux/fb.h>
 #include <fcntl.h>
+#include <stdio.h>
 #include <sys/ioctl.h>
 
-#define FB_WIDTH 1280
-#define FB_HEIGHT 720
+#define FB_WIDTH_STD 1280
+#define FB_HEIGHT_STD 720
+#define FB_WIDTH_HIGH 1920
+#define FB_HEIGHT_HIGH 1080
 #define FB_BPP 32
 
 #ifndef FBIO_BLIT
@@ -49,8 +52,18 @@ int main(int argc, char **argv)
 	if (ioctl(g_fbFd, FBIO_SET_MANUAL_BLIT, &tmp)<0)
 		perror("FBIO_SET_MANUAL_BLIT (off)");
 
-	g_screeninfo_var.xres_virtual = g_screeninfo_var.xres = FB_WIDTH;
-	g_screeninfo_var.yres_virtual = g_screeninfo_var.yres = FB_HEIGHT;
+	g_screeninfo_var.xres_virtual = g_screeninfo_var.xres = FB_WIDTH_STD;
+	g_screeninfo_var.yres_virtual = g_screeninfo_var.yres = FB_HEIGHT_STD;
+
+	for(int x=1; x<argc; x++) {
+		if ((!strcmp(argv[x], "1"))) {
+			g_screeninfo_var.xres_virtual = g_screeninfo_var.xres = FB_WIDTH_HIGH;
+			g_screeninfo_var.yres_virtual = g_screeninfo_var.yres = FB_HEIGHT_HIGH;
+		}
+	}
+
+	printf("OSD-RES: %i x %i\n", g_screeninfo_var.xres_virtual, g_screeninfo_var.yres_virtual);
+
 	g_screeninfo_var.bits_per_pixel = FB_BPP;
 	g_screeninfo_var.xoffset = g_screeninfo_var.yoffset = 0;
 	g_screeninfo_var.height = 0;
