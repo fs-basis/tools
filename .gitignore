@@ -53,6 +53,7 @@ tools/flashtool-pad/pad
 tools/gitVCInfo/gitVCInfo
 tools/hd-idle/hd-idle
 tools/hotplug/hotplug
+tools/initfb/initfb
 tools/ipbox_eeprom/eeprom
 tools/libeplayer3/eplayer3
 tools/libeplayer3/meta

@@ -1,4 +1,4 @@
-AC_INIT([satfind],[1.0],[],[initfb])
+AC_INIT([initfb],[1.0],[],[initfb])
 AM_INIT_AUTOMAKE
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 m4_ifdef([LT_INIT], [LT_INIT], [AC_PROG_LIBTOOL])
