@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
+#include <unistd.h>
 
 #define DEEPSTANDBY 0x123456 // 0x34 0x56 0x12 to send
 

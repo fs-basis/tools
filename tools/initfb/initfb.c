@@ -22,6 +22,8 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
+#include <string.h>
+#include <unistd.h>
 
 #define FB_WIDTH_STD 1280
 #define FB_HEIGHT_STD 720
