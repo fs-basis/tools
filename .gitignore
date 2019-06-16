@@ -38,7 +38,7 @@ stamp-h1
 .dirstamp
 .deps/
 .libs/
-libstgles/libltdl/
+libs/libstgles/libltdl/
 acinclude.m4
 aio-grab-sh4/grab
 aio-grab-arm/grab
