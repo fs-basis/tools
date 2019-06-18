@@ -39,7 +39,6 @@ stamp-h1
 .deps/
 .libs/
 libs/libstgles/libltdl/
-acinclude.m4
 aio-grab-sh4/grab
 aio-grab-arm/grab
 devinit/devinit
