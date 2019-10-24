@@ -1003,7 +1003,6 @@ int main()
 		rc = open("/dev/input/event1", O_RDONLY);
 #endif
 #endif
-#endif
 #else
 #error your hardware is not yet implemented.
 #endif
