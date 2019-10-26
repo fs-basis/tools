@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
-# include <linux/dvb/video.h>
+#include <linux/dvb/video.h>
 
 void c(int a)
 {
@@ -41,10 +41,6 @@ ssize_t write_all(int fd, const void *buf, size_t count)
 
 int main(int argc, char **argv)
 {
-#ifdef HAVE_AMLOGIC
-	int fd = 0;
-	int ret;
-#endif
 	struct stat s;
 	if (argc != 2)
 	{
@@ -60,8 +56,15 @@ int main(int argc, char **argv)
 	}
 	fstat(f, &s);
 
-	int fd = open("/dev/dvb/adapter0/video0", O_WRONLY|O_NONBLOCK);
+	FILE *fa;
+	fa = fopen("/proc/stb/avs/0/input", "w");
+	if (fa != NULL)
+	{
+		fputs("encoder", fa);
+		fclose(fa);
+	}
 
+	int fd = open("/dev/dvb/adapter0/video0", O_WRONLY|O_NONBLOCK);
 	if (fd <= 0)
 	{
 		perror("/dev/dvb/adapter0/video0");
@@ -120,4 +123,3 @@ int main(int argc, char **argv)
 	}
 	return 0;
 }
-
