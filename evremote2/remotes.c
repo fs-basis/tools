@@ -29,16 +29,12 @@ static RemoteControl_t *AvailableRemoteControls[] =
 	&Hl101_RC,
 	&Vip2_RC,
 	&UFS922_RC,
-	&UFC960_RC,
 	&Fortis_RC,
 	&Hs5101_RC,
 	&UFS912_RC,
 	&Spark_RC,
-	&Adb_Box_RC,
 	&Cuberevo_RC,
 	&Ipbox_RC,
-	&CNBOX_RC,
-	&VitaminHD5000_RC,
 	&LircdName_RC,
 	NULL
 };

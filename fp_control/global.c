@@ -53,11 +53,8 @@ static Model_t *AvailableModels[] =
 	&VIP2_model,
 	&Hs5101_model,
 	&UFS912_model,
-	&UFC960_model,
 	&Spark_model,
-	&Adb_Box_model,
 	&Cuberevo_model,
-	&CNBOX_model,
 	NULL
 };
 
