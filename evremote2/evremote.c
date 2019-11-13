@@ -460,7 +460,7 @@ int getModel()
 			vBoxType = Vip2;
 		else if ((!strncasecmp(vName, "hdbox", 5)) ||
 			 (!strncasecmp(vName, "atevio7500", 10)) ||
-			 (!strncasecmp(vName, "octagon1008", 11)) ||
+			 (!strncasecmp(vName, "octagon1008", 11)))
 		{
 			vBoxType = Fortis;
 		}
