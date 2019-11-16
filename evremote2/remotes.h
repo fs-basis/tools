@@ -31,7 +31,6 @@ extern RemoteControl_t Ufs910_14W_RC;
 extern RemoteControl_t Tf7700_RC;
 extern RemoteControl_t UFS922_RC;
 extern RemoteControl_t Fortis_RC;
-extern RemoteControl_t Hs5101_RC;
 extern RemoteControl_t UFS912_RC;
 extern RemoteControl_t Spark_RC;
 extern RemoteControl_t Cuberevo_RC;

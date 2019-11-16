@@ -458,8 +458,6 @@ int getModel()
 		{
 			vBoxType = Fortis;
 		}
-		else if (!strncasecmp(vName, "hs5101", 6))
-			vBoxType = Hs5101;
 		else if ((!strncasecmp(vName, "ipbox9900", 9)) || (!strncasecmp(vName, "ipbox99", 7)) || (!strncasecmp(vName, "ipbox55", 7)))
 			vBoxType = Ipbox;
 		else if (!strncasecmp(vName, "ufs912", 5))

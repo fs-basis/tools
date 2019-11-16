@@ -13,7 +13,6 @@ evremote2_SOURCES = \
 	Spark.c \
 	Ufs922.c \
 	Fortis.c \
-	Homecast5101.c \
 	Cuberevo.c \
 	Ipbox.c \
 	LircdName.c

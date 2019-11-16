@@ -49,7 +49,6 @@ static Model_t *AvailableModels[] =
 	&Ufs910_14W_model,
 	&UFS922_model,
 	&Fortis_model,
-	&Hs5101_model,
 	&UFS912_model,
 	&Spark_model,
 	&Cuberevo_model,
