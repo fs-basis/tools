@@ -26,8 +26,6 @@ static RemoteControl_t *AvailableRemoteControls[] =
 	&Ufs910_1W_RC,
 	&Ufs910_14W_RC,
 	&Tf7700_RC,
-	&Hl101_RC,
-	&Vip2_RC,
 	&UFS922_RC,
 	&Fortis_RC,
 	&Hs5101_RC,

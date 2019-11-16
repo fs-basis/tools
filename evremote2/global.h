@@ -13,7 +13,7 @@
 #define INPUT_PRESS 1
 #define INPUT_RELEASE 0
 
-typedef enum {Unknown, Ufs910_1W, Ufs910_14W, Ufs922, Tf7700, Hl101, Vip2, Fortis,
+typedef enum {Unknown, Ufs910_1W, Ufs910_14W, Ufs922, Tf7700, Fortis,
 	      Hs5101, Ufs912, Spark, Cuberevo, Ipbox, LircdName
 	     } eBoxType;
 typedef enum {RemoteControl, FrontPanel} eKeyType;

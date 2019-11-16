@@ -10,8 +10,6 @@ fp_control_SOURCES = \
 	Ufs912.c \
 	Ufs922.c \
 	Fortis.c \
-	Hl101.c \
-	Vip2.c \
 	Homecast5101.c \
 	Spark.c \
 	Cuberevo.c
