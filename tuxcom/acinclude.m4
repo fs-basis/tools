@@ -394,6 +394,10 @@ elif test "$BOXMODEL" = "vuduo"; then
 	AC_DEFINE(BOXMODEL_VUDUO, 1, [vuduo])
 elif test "$BOXMODEL" = "h7"; then
 	AC_DEFINE(BOXMODEL_H7, 1, [h7])
+elif test "$BOXMODEL" = "osmio4k"; then
+	AC_DEFINE(BOXMODEL_OSMIO4K, 1, [osmio4k])
+elif test "$BOXMODEL" = "osmio4kplus"; then
+	AC_DEFINE(BOXMODEL_OSMIO4KPLUS, 1, [osmio4kplus])
 elif test "$BOXMODEL" = "raspi"; then
 	AC_DEFINE(BOXMODEL_RASPI, 1, [raspberry pi])
 fi
