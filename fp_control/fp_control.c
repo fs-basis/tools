@@ -564,36 +564,14 @@ int getModel()
 		}
 		else if (!strncasecmp(vName, "ufs922", 6))
 			vBoxType = Ufs922;
-		else if (!strncasecmp(vName, "ufc960", 6))
-			vBoxType = Ufc960;
 		else if (!strncasecmp(vName, "tf7700hdpvr", 11))
 			vBoxType = Tf7700;
-		else if (!strncasecmp(vName, "hl101", 5))
-			vBoxType = Hl101;
-		else if (!strncasecmp(vName, "vip1-v2", 7))
-			vBoxType = Vip2;
-		else if (!strncasecmp(vName, "vip2-v1", 7))
-			vBoxType = Vip2;
 		else if (!strncasecmp(vName, "hdbox", 5))
 			vBoxType = Fortis;
 		else if (!strncasecmp(vName, "octagon1008", 11))
 			vBoxType = Fortis;
 		else if (!strncasecmp(vName, "atevio7500", 10))
 			vBoxType = Fortis;
-		else if (!strncasecmp(vName, "hs7110", 6))
-			vBoxType = Fortis;
-		else if (!strncasecmp(vName, "hs7810a", 7))
-			vBoxType = Fortis;
-		else if (!strncasecmp(vName, "hs7119", 6))
-			vBoxType = Fortis;
-		else if (!strncasecmp(vName, "hs7819", 6))
-			vBoxType = Fortis;
-		else if (!strncasecmp(vName, "atemio520", 9))
-			vBoxType = CNBox;
-		else if (!strncasecmp(vName, "atemio530", 9))
-			vBoxType = CNBox;
-		else if (!strncasecmp(vName, "hs5101", 6))
-			vBoxType = Hs5101;
 		else if (!strncasecmp(vName, "octagon1008", 11))
 			vBoxType = Fortis;
 		else if (!strncasecmp(vName, "ufs912", 6))
@@ -604,19 +582,11 @@ int getModel()
 			vBoxType = Spark;
 		else if (!strncasecmp(vName, "spark7162", 9))
 			vBoxType = Spark;
-		else if ((!strncasecmp(vName, "adb_box", 7)) ||
-				(!strncasecmp(vName, "sagemcom88", 10)) ||
-				(!strncasecmp(vName, "esi_88", 6)) ||
-				(!strncasecmp(vName, "esi88", 5)) ||
-				(!strncasecmp(vName, "dsi87", 5)))
-			vBoxType = Adb_Box;
 		else if ((!strncasecmp(vName, "cuberevo", 8)) ||
 				(!strncasecmp(vName, "cuberevo-mini", 13)) ||
 				(!strncasecmp(vName, "cuberevo-mini2", 14)) ||
-				(!strncasecmp(vName, "cuberevo-mini-fta", 17)) ||
 				(!strncasecmp(vName, "cuberevo-250hd", 14)) ||
 				(!strncasecmp(vName, "cuberevo-2000hd", 15)) ||
-				(!strncasecmp(vName, "cuberevo-9500hd", 15)) ||
 				(!strncasecmp(vName, "cuberevo-3000hd", 14)))
 			vBoxType = Cuberevo;
 		else

@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 	bool delay = false;
 	int dhcp = 0;
 	int nic_on = 0;
-	char *imagetyp = "squashfs";
+	char imagetyp[64] = "squashfs";
 	char linuxversion[24] = "";
 	char gccversion[50] = "";
 	char userpc[24];
@@ -285,7 +285,7 @@ int main(int argc, char **argv)
 	if (fv8)
 	{
 		fclose(fv8);
-		imagetyp = "jffs2/ext2";
+		strcpy(imagetyp, "jffs2/ext2");
 	}
 
 	char message2[BUFFERSIZE];

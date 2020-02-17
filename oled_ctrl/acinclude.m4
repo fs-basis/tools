@@ -163,10 +163,6 @@ AC_ARG_WITH(boxtype,
 			BOXTYPE="spark"
 			BOXMODEL="$withval"
 		;;
-		dm*)
-			BOXTYPE="dreambox"
-			BOXMODEL="$withval"
-		;;
 		ufs*)
 			BOXTYPE="duckbox"
 			BOXMODEL="$withval"
@@ -187,10 +183,6 @@ AC_ARG_WITH(boxtype,
 			BOXTYPE="duckbox"
 			BOXMODEL="$withval"
 		;;
-		dp*)
-			BOXTYPE="duckbox"
-			BOXMODEL="$withval"
-		;;
 		cuberevo*)
 			BOXTYPE="duckbox"
 			BOXMODEL="$withval"
@@ -199,19 +191,11 @@ AC_ARG_WITH(boxtype,
 			BOXTYPE="duckbox"
 			BOXMODEL="$withval"
 		;;
-		arivalink200)
-			BOXTYPE="duckbox"
-			BOXMODEL="$withval"
-		;;
 		tf*)
 			BOXTYPE="duckbox"
 			BOXMODEL="$withval"
 		;;
-		hl101)
-			BOXTYPE="duckbox"
-			BOXMODEL="$withval"
-		;;
-		hd51|hd60|bre2ze4k|vusolo4k|vuduo4k|vuultimo4k|vuzero4k|vuuno4kse|vuuno4k|h7)
+		bre2ze4k|hd51|vusolo4k|vuduo4k|vuultimo4k|vuzero4k|vuuno4kse|vuuno4k|h7)
 			BOXTYPE="armbox"
 			BOXMODEL="$withval"
 		;;
@@ -227,12 +211,12 @@ AC_ARG_WITH(boxtype,
 
 AC_ARG_WITH(boxmodel,
 	AS_HELP_STRING([--with-boxmodel], [valid for generic: raspi])
-AS_HELP_STRING([], [valid for duckbox: ufs910, ufs912, ufs913, ufs922, atevio7500, fortis_hdbox, octagon1008, hs7110, hs7810a, hs7119, hs7819, dp7000, cuberevo, cuberevo_mini, cuberevo_mini2, cuberevo_250hd, cuberevo_2000hd, cuberevo_3000hd, ipbox9900, ipbox99, ipbox55, arivalink200, tf7700, hl101])
+AS_HELP_STRING([], [valid for duckbox: ufs910, ufs912, ufs913, ufs922, atevio7500, fortis_hdbox, octagon1008, cuberevo, cuberevo_mini, cuberevo_mini2, cuberevo_250hd, cuberevo_2000hd, cuberevo_3000hd, ipbox9900, ipbox99, ipbox55, tf7700])
 AS_HELP_STRING([], [valid for spark: spark, spark7162])
-AS_HELP_STRING([], [valid for armbox: hd51, hd60, vusolo4k, vuduo4k, vuultimo4k, vuzero4k, vuuno4kse, vuuno4k, h7])
+AS_HELP_STRING([], [valid for armbox: bre2ze4k, hd51, vusolo4k, vuduo4k, vuultimo4k, vuzero4k, vuuno4kse, vuuno4k, h7])
 AS_HELP_STRING([], [valid for mipsbox: vuduo]),
 	[case "${withval}" in
-		ufs910|ufs912|ufs913|ufs922|atevio7500|fortis_hdbox|octagon1008|hs7110|hs7810a|hs7119|hs7819|dp7000|cuberevo|cuberevo_mini|cuberevo_mini2|cuberevo_250hd|cuberevo_2000hd|cuberevo_3000hd|ipbox9900|ipbox99|ipbox55|arivalink200|tf7700|hl101)
+		ufs910|ufs912|ufs913|ufs922|atevio7500|fortis_hdbox|octagon1008|cuberevo|cuberevo_mini|cuberevo_mini2|cuberevo_250hd|cuberevo_2000hd|cuberevo_3000hd|ipbox9900|ipbox99|ipbox55|tf7700)
 			if test "$BOXTYPE" = "duckbox"; then
 				BOXMODEL="$withval"
 			else
@@ -246,7 +230,7 @@ AS_HELP_STRING([], [valid for mipsbox: vuduo]),
 				AC_MSG_ERROR([unknown model $withval for boxtype $BOXTYPE])
 			fi
 		;;
-		hd51|hd60|bre2ze4k|vusolo4k|vuduo4k|vuultimo4k|vuzero4k|vuuno4kse|vuuno4k|h7)
+		bre2ze4k|hd51|vusolo4k|vuduo4k|vuultimo4k|vuzero4k|vuuno4kse|vuuno4k|h7)
 			if test "$BOXTYPE" = "armbox"; then
 				BOXMODEL="$withval"
 			else
@@ -292,11 +276,6 @@ AM_CONDITIONAL(BOXMODEL_SPARK7162, test "$BOXMODEL" = "spark7162")
 AM_CONDITIONAL(BOXMODEL_ATEVIO7500, test "$BOXMODEL" = "atevio7500")
 AM_CONDITIONAL(BOXMODEL_FORTIS_HDBOX, test "$BOXMODEL" = "fortis_hdbox")
 AM_CONDITIONAL(BOXMODEL_OCTAGON1008, test "$BOXMODEL" = "octagon1008")
-AM_CONDITIONAL(BOXMODEL_HS7110, test "$BOXMODEL" = "hs7110")
-AM_CONDITIONAL(BOXMODEL_HS7810A, test "$BOXMODEL" = "hs7810a")
-AM_CONDITIONAL(BOXMODEL_HS7119, test "$BOXMODEL" = "hs7119")
-AM_CONDITIONAL(BOXMODEL_HS7819, test "$BOXMODEL" = "hs7819")
-AM_CONDITIONAL(BOXMODEL_DP7000, test "$BOXMODEL" = "dp7000")
 
 AM_CONDITIONAL(BOXMODEL_CUBEREVO, test "$BOXMODEL" = "cuberevo")
 AM_CONDITIONAL(BOXMODEL_CUBEREVO_MINI, test "$BOXMODEL" = "cuberevo_mini")
@@ -307,13 +286,10 @@ AM_CONDITIONAL(BOXMODEL_CUBEREVO_3000HD, test "$BOXMODEL" = "cuberevo_3000hd")
 AM_CONDITIONAL(BOXMODEL_IPBOX9900, test "$BOXMODEL" = "ipbox9900")
 AM_CONDITIONAL(BOXMODEL_IPBOX99, test "$BOXMODEL" = "ipbox99")
 AM_CONDITIONAL(BOXMODEL_IPBOX55, test "$BOXMODEL" = "ipbox55")
-AM_CONDITIONAL(BOXMODEL_ARIVALINK200, test "$BOXMODEL" = "arivalink200")
 AM_CONDITIONAL(BOXMODEL_TF7700, test "$BOXMODEL" = "tf7700")
-AM_CONDITIONAL(BOXMODEL_HL101, test "$BOXMODEL" = "hl101")
 
-AM_CONDITIONAL(BOXMODEL_HD51, test "$BOXMODEL" = "hd51")
-AM_CONDITIONAL(BOXMODEL_HD60, test "$BOXMODEL" = "hd60")
 AM_CONDITIONAL(BOXMODEL_BRE2ZE4K, test "$BOXMODEL" = "bre2ze4k")
+AM_CONDITIONAL(BOXMODEL_HD51, test "$BOXMODEL" = "hd51")
 AM_CONDITIONAL(BOXMODEL_VUSOLO4K, test "$BOXMODEL" = "vusolo4k")
 AM_CONDITIONAL(BOXMODEL_VUDUO4K, test "$BOXMODEL" = "vuduo4k")
 AM_CONDITIONAL(BOXMODEL_VUULTIMO4K, test "$BOXMODEL" = "vuultimo4k")
@@ -324,6 +300,10 @@ AM_CONDITIONAL(BOXMODEL_VUDUO, test "$BOXMODEL" = "vuduo")
 AM_CONDITIONAL(BOXMODEL_H7, test "$BOXMODEL" = "h7")
 
 AM_CONDITIONAL(BOXMODEL_RASPI, test "$BOXMODEL" = "raspi")
+
+AM_CONDITIONAL(BOXMODEL_VUPLUS_ALL, test "$BOXMODEL" = "vusolo4k" -o "$BOXMODEL" = "vuduo4k"  -o "$BOXMODEL" = "vuultimo4k" -o "$BOXMODEL" = "vuzero4k" -o "$BOXMODEL" = "vuuno4kse" -o "$BOXMODEL" = "vuuno4k" -o "$BOXMODEL" = "vuduo")
+AM_CONDITIONAL(BOXMODEL_VUPLUS_ARM, test "$BOXMODEL" = "vusolo4k" -o "$BOXMODEL" = "vuduo4k"  -o "$BOXMODEL" = "vuultimo4k" -o "$BOXMODEL" = "vuzero4k" -o "$BOXMODEL" = "vuuno4kse" -o "$BOXMODEL" = "vuuno4k")
+AM_CONDITIONAL(BOXMODEL_VUPLUS_MIPS, test "$BOXMODEL" = "vuduo")
 
 if test "$BOXTYPE" = "azbox"; then
 	AC_DEFINE(HAVE_AZBOX_HARDWARE, 1, [building for an azbox])
@@ -362,16 +342,6 @@ elif test "$BOXMODEL" = "fortis_hdbox"; then
 	AC_DEFINE(BOXMODEL_FORTIS_HDBOX, 1, [fortis_hdbox])
 elif test "$BOXMODEL" = "octagon1008"; then
 	AC_DEFINE(BOXMODEL_OCTAGON1008, 1, [octagon1008])
-elif test "$BOXMODEL" = "hs7110"; then
-	AC_DEFINE(BOXMODEL_HS7110, 1, [hs7110])
-elif test "$BOXMODEL" = "hs7810a"; then
-	AC_DEFINE(BOXMODEL_HS7810A, 1, [hs7810a])
-elif test "$BOXMODEL" = "hs7119"; then
-	AC_DEFINE(BOXMODEL_HS7119, 1, [hs7119])
-elif test "$BOXMODEL" = "hs7819"; then
-	AC_DEFINE(BOXMODEL_HS7819, 1, [hs7819])
-elif test "$BOXMODEL" = "dp7000"; then
-	AC_DEFINE(BOXMODEL_DP7000, 1, [dp7000])
 elif test "$BOXMODEL" = "cuberevo"; then
 	AC_DEFINE(BOXMODEL_CUBEREVO, 1, [cuberevo])
 elif test "$BOXMODEL" = "cuberevo_mini"; then
@@ -390,18 +360,12 @@ elif test "$BOXMODEL" = "ipbox99"; then
 	AC_DEFINE(BOXMODEL_IPBOX99, 1, [ipbox99])
 elif test "$BOXMODEL" = "ipbox55"; then
 	AC_DEFINE(BOXMODEL_IPBOX55, 1, [ipbox55])
-elif test "$BOXMODEL" = "arivalink200"; then
-	AC_DEFINE(BOXMODEL_ARIVALINK200, 1, [arivalink200])
 elif test "$BOXMODEL" = "tf7700"; then
 	AC_DEFINE(BOXMODEL_TF7700, 1, [tf7700])
-elif test "$BOXMODEL" = "hl101"; then
-	AC_DEFINE(BOXMODEL_HL101, 1, [hl101])
-elif test "$BOXMODEL" = "hd51"; then
-	AC_DEFINE(BOXMODEL_HD51, 1, [hd51])
-elif test "$BOXMODEL" = "hd60"; then
-	AC_DEFINE(BOXMODEL_HD60, 1, [hd60])
 elif test "$BOXMODEL" = "bre2ze4k"; then
 	AC_DEFINE(BOXMODEL_BRE2ZE4K, 1, [bre2ze4k])
+elif test "$BOXMODEL" = "hd51"; then
+	AC_DEFINE(BOXMODEL_HD51, 1, [hd51])
 elif test "$BOXMODEL" = "vusolo4k"; then
 	AC_DEFINE(BOXMODEL_VUSOLO4K, 1, [vusolo4k])
 elif test "$BOXMODEL" = "vuduo4k"; then
@@ -421,6 +385,27 @@ elif test "$BOXMODEL" = "h7"; then
 elif test "$BOXMODEL" = "raspi"; then
 	AC_DEFINE(BOXMODEL_RASPI, 1, [raspberry pi])
 fi
+
+# all vuplus BOXMODELs
+case "$BOXMODEL" in
+	vusolo4k|vuduo4k|vuultimo4k|vuuno4k|vuuno4kse|vuzero4k|vuduo)
+		AC_DEFINE(BOXMODEL_VUPLUS_ALL, 1, [vuplus_all])
+	;;
+esac
+
+# all vuplus arm BOXMODELs
+case "$BOXMODEL" in
+	vusolo4k|vuduo4k|vuultimo4k|vuuno4k|vuuno4kse|vuzero4k)
+		AC_DEFINE(BOXMODEL_VUPLUS_ARM, 1, [vuplus_arm])
+	;;
+esac
+
+# all vuplus mips BOXMODELs
+case "$BOXMODEL" in
+	vuduo)
+		AC_DEFINE(BOXMODEL_VUPLUS_MIPS, 1, [vuplus_mips])
+	;;
+esac
 ])
 
 dnl backward compatiblity

@@ -9,20 +9,13 @@ evremote2_SOURCES = \
 	Ufs910_1W.c \
 	Ufs910_14W.c \
 	Tf7700.c \
-	Hl101.c \
-	Vip2.c \
 	Ufs912.c \
 	Spark.c \
 	Ufs922.c \
-	Ufc960.c \
 	Fortis.c \
-	Homecast5101.c \
 	Cuberevo.c \
-	Adb_Box.c \
 	Ipbox.c \
-	VitaminHD5000.c \
-	LircdName.c \
-	Cnbox.c
+	LircdName.c
 
 AM_CFLAGS  = -Wall
 AM_LDFLAGS = -lrt -lpthread

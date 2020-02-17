@@ -9,15 +9,9 @@ fp_control_SOURCES = \
 	Ufs910_14W.c \
 	Ufs912.c \
 	Ufs922.c \
-	Ufc960.c \
 	Fortis.c \
-	Hl101.c \
-	Vip2.c \
-	Homecast5101.c \
 	Spark.c \
-	Cuberevo.c \
-	Adb_Box.c \
-	Cnbox.c
+	Cuberevo.c
 
 AM_CFLAGS  = -Wall
 AM_LDFLAGS = -lrt

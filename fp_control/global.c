@@ -49,15 +49,9 @@ static Model_t *AvailableModels[] =
 	&Ufs910_14W_model,
 	&UFS922_model,
 	&Fortis_model,
-	&HL101_model,
-	&VIP2_model,
-	&Hs5101_model,
 	&UFS912_model,
-	&UFC960_model,
 	&Spark_model,
-	&Adb_Box_model,
 	&Cuberevo_model,
-	&CNBOX_model,
 	NULL
 };
 

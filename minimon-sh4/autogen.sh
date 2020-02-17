@@ -1,6 +1,6 @@
 #!/bin/sh
 
-package="tools-minimon"
+package="tools-minimon-sh4"
 
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.

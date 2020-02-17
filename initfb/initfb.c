@@ -1,6 +1,6 @@
 /*
  * InitFB
- * Framebuffer initalisation helper for VUSOLO4K by BPanther (https://forum.mbremer.de)
+ * Framebuffer initalisation helper for VUPLUS by BPanther (https://forum.mbremer.de)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
