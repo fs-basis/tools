@@ -195,10 +195,6 @@ AC_ARG_WITH(boxtype,
 			BOXTYPE="duckbox"
 			BOXMODEL="$withval"
 		;;
-		hl101)
-			BOXTYPE="duckbox"
-			BOXMODEL="$withval"
-		;;
 		hd51|hd60|hd61|bre2ze4k|vusolo4k|vuduo4k|vuultimo4k|vuzero4k|vuuno4kse|vuuno4k|h7|osmio4k|osmio4kplus)
 			BOXTYPE="armbox"
 			BOXMODEL="$withval"
