@@ -40,7 +40,6 @@ int g_fbFd = -1;
 char g_fbDevice[] = "/dev/fb0";
 unsigned char tmp;
 struct fb_var_screeninfo g_screeninfo_var;
-struct fb_fix_screeninfo g_screeninfo_fix;
 
 int main(int argc, char **argv)
 {
