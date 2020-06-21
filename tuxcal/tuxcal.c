@@ -3062,18 +3062,41 @@ int main ( void )
 			}
 			break;
 
-			// switch autostart of daemon on or off
+			// switch autostart of daemon on or off and start/stop daemon
 			case RC_STANDBY:
 			{
-				if((fd_run = fopen(RUNFILE, "r")))			//! autostart is on
+				if (fd_run = fopen(RUNFILE, "r"))			//! autostart is on
 				{
 					fclose(fd_run);
+					//! stop tuxcald
+					if (fd_run = fopen("/etc/init.d/tuxcald", "r")) {
+						fclose(fd_run);
+						system("/etc/init.d/tuxcald stop");
+					} else
+					if ((fd_run = fopen("/var/tuxbox/plugins/tuxcald", "r")) || (fd_run = fopen("/bin/tuxcald", "r"))) {
+						fclose(fd_run);
+						system("killall tuxcald");
+					}
+					sprintf(versioninfo_d, "%s", "?.??");
 					unlink(RUNFILE);				//! delete autostart-file
 					ShowMessage(BOOTOFF);				//! show that autostart is disabled
 				}
 				else
 				{
 					fclose(fopen(RUNFILE, "w"));			//! generate the autostart-file
+					//! start tuxcald
+					if (fd_run = fopen("/etc/init.d/tuxcald", "r")) {
+						fclose(fd_run);
+						system("/etc/init.d/tuxcald start");
+					} else
+					if (fd_run = fopen("/var/tuxbox/plugins/tuxcald", "r")) {
+						fclose(fd_run);
+						system("/var/tuxbox/plugins/tuxcald");
+					} else
+					if (fd_run = fopen("/bin/tuxcald", "r")) {
+						fclose(fd_run);
+						system("/bin/tuxcald");
+					}
 					ShowMessage(BOOTON);				//! show message that autostart is enabled
 				}
 			}
