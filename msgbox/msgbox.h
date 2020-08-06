@@ -40,7 +40,7 @@ extern int sync_blitter;
 #define FB_DEVICE_FALLBACK	"/dev/fb0"
 #endif
 
-#define MAX_BUTTONS 24
+#define MAX_BUTTONS 32
 #define BUFSIZE 	4095
 
 enum {LEFT, CENTER, RIGHT};

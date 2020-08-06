@@ -340,7 +340,7 @@ int show_txt(int buttonly)
 		fname = ICON_ERROR;
 	else if (strcmp(icon, "info")==0 || strcmp(icon, "2")==0)
 		fname = ICON_INFO;
-	else	
+	else
 		fname = icon;
 	png_getsize(fname, &icon_w, &icon_h);
 
@@ -369,8 +369,8 @@ int show_txt(int buttonly)
 			{
 				btns=0;
 				myo=0;
-			}	
-		
+			}
+
 			pxw=GetStringLen(sx,title,FSIZE_BIG)+OFFSET_MED;
 			if(type==1)
 			{
@@ -385,7 +385,7 @@ int show_txt(int buttonly)
 				}
 			}
 			buttsize=buttx;
-			
+
 			if(fh_txt_getsize(TMP_FILE, &x1, &y1, size, &cut))
 			{
 				printf(__plugin__ " <invalid Text-Format>\n");
@@ -465,7 +465,7 @@ int show_txt(int buttonly)
 			run=0;
 		}
 	}
-	return (rv)?-1:0;	
+	return (rv)?-1:0;
 }
 
 int Transform_Icon(char *msg)
@@ -553,8 +553,8 @@ void ShowUsage(void)
 	printf("    echo=n                : n=0/1 print the button-label to console on return (default: 0)\n");
 	printf("    hide=n                : n=0..2, function of mute-button, see readme.txt (default: 1)\n");
 	printf("    cyclic=n              : n=0/1, cyclic screen refresh (default: 1)\n");
-
 }
+
 /******************************************************************************
  * MsgBox Main
  ******************************************************************************/
@@ -786,7 +786,7 @@ FILE *fh;
 		FSIZE_SMALL=(FSIZE_MED*4)/5;
 		TABULATOR=2*FSIZE_MED;
 		size=FSIZE_MED;
-		
+
 		/*
 		if(!echo)
 		{
@@ -806,8 +806,8 @@ FILE *fh;
 			}
 		}
 		if(selection)
-		{	
-			for(tv=0; tv<buttons && !found; tv++)		
+		{
+			for(tv=0; tv<buttons && !found; tv++)
 			{
 				if(rbutt[tv]==selection)
 				{
@@ -844,7 +844,7 @@ FILE *fh;
 			printf(NOMEM);
 			return -1;
 		}
-	
+
 		spr=Read_Neutrino_Cfg("screen_preset")+1;
 		resolution=Read_Neutrino_Cfg("osd_resolution");
 
@@ -895,7 +895,7 @@ FILE *fh;
 				rd[ix]=(float)tv*2.55;
 		}
 
-		int	cix=CMC;
+		int cix=CMC;
 		for(ix=COL_MENUCONTENT_PLUS_0; ix<=COL_MENUCONTENT_PLUS_3; ix++)
 		{
 			rd[ix]=rd[cix]+25;
@@ -939,9 +939,8 @@ FILE *fh;
 			printf(NOMEM);
 			return -1;
 		}
-		
-	//init fontlibrary
 
+	//init fontlibrary
 		if((error = FT_Init_FreeType(&library)))
 		{
 			printf("%s <FT_Init_FreeType failed with Errorcode 0x%.2X>", __plugin__, error);
@@ -982,89 +981,89 @@ FILE *fh;
 		}
 		else
 			desc.face_id = FONT;
-		
-		use_kerning = FT_HAS_KERNING(face);
 
-		desc.flags = FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT;
+	use_kerning = FT_HAS_KERNING(face);
 
-		//init backbuffer
+	desc.flags = FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT;
+
+	//init backbuffer
 #if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE
-		lbb = lfb + 1920 * 1080;
-		fix_screeninfo.line_length = DEFAULT_XRES * sizeof(uint32_t);
-		stride = DEFAULT_XRES;
+	lbb = lfb + 1920 * 1080;
+	fix_screeninfo.line_length = DEFAULT_XRES * sizeof(uint32_t);
+	stride = DEFAULT_XRES;
 #else
-		stride = fix_screeninfo.line_length/sizeof(uint32_t);
+	stride = fix_screeninfo.line_length/sizeof(uint32_t);
 #if !BOXMODEL_VUPLUS_ALL
-		if(stride == 7680 && var_screeninfo.xres == 1280)
+	if(stride == 7680 && var_screeninfo.xres == 1280)
 #endif
-			var_screeninfo.yres = 1080;
-		if(!(lbb = malloc(var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t))))
-		{
-			perror(__plugin__ " <allocating of Backbuffer>\n");
-			FTC_Manager_Done(manager);
-			FT_Done_FreeType(library);
-			munmap(lfb, fix_screeninfo.smem_len);
-			return -1;
-		}
+		var_screeninfo.yres = 1080;
+	if(!(lbb = malloc(var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t))))
+	{
+		perror(__plugin__ " <allocating of Backbuffer>\n");
+		FTC_Manager_Done(manager);
+		FT_Done_FreeType(library);
+		munmap(lfb, fix_screeninfo.smem_len);
+		return -1;
+	}
 #endif
-		if(!(obb = malloc(var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t))))
-		{
-			perror(__plugin__ " <allocating of Backbuffer>\n");
-			FTC_Manager_Done(manager);
-			FT_Done_FreeType(library);
-			free(lbb);
-			munmap(lfb, fix_screeninfo.smem_len);
-			return -1;
-		}
-		if(!(hbb = malloc(var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t))))
-		{
-			perror(__plugin__ " <allocating of Backbuffer>\n");
-			FTC_Manager_Done(manager);
-			FT_Done_FreeType(library);
-			free(lbb);
-			free(obb);
-			munmap(lfb, fix_screeninfo.smem_len);
-			return -1;
-		}
-		if(!(ibb = malloc(var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t))))
-		{
-			perror(__plugin__ " <allocating of Backbuffer>\n");
-			FTC_Manager_Done(manager);
-			FT_Done_FreeType(library);
-			free(lbb);
-			free(obb);
-			free(hbb);
-			munmap(lfb, fix_screeninfo.smem_len);
-			return -1;
-		}
+	if(!(obb = malloc(var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t))))
+	{
+		perror(__plugin__ " <allocating of Backbuffer>\n");
+		FTC_Manager_Done(manager);
+		FT_Done_FreeType(library);
+		free(lbb);
+		munmap(lfb, fix_screeninfo.smem_len);
+		return -1;
+	}
+	if(!(hbb = malloc(var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t))))
+	{
+		perror(__plugin__ " <allocating of Backbuffer>\n");
+		FTC_Manager_Done(manager);
+		FT_Done_FreeType(library);
+		free(lbb);
+		free(obb);
+		munmap(lfb, fix_screeninfo.smem_len);
+		return -1;
+	}
+	if(!(ibb = malloc(var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t))))
+	{
+		perror(__plugin__ " <allocating of Backbuffer>\n");
+		FTC_Manager_Done(manager);
+		FT_Done_FreeType(library);
+		free(lbb);
+		free(obb);
+		free(hbb);
+		munmap(lfb, fix_screeninfo.smem_len);
+		return -1;
+	}
 
-		if(refresh & 1)
-		{
-			memcpy(ibb, lbb, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
-		}
-		else
-		{
-			memset(ibb, TRANSP, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
-		}
-		if(mute==2)
-		{
-			memcpy(hbb, lbb, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
-		}
-		else
-		{
-			memset(hbb, TRANSP, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
-		}
-		if(refresh & 2)
-		{
-			memcpy(obb, lbb, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
-		}
-		else
-		{
-			memset(obb, TRANSP, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
-		}
+	if(refresh & 1)
+	{
+		memcpy(ibb, lbb, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
+	}
+	else
+	{
+		memset(ibb, TRANSP, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
+	}
+	if(mute==2)
+	{
+		memcpy(hbb, lbb, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
+	}
+	else
+	{
+		memset(hbb, TRANSP, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
+	}
+	if(refresh & 2)
+	{
+		memcpy(obb, lbb, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
+	}
+	else
+	{
+		memset(obb, TRANSP, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
+	}
 
-		startx = sx;
-		starty = sy;
+	startx = sx;
+	starty = sy;
 
 
 	/* scale to resolution */
@@ -1088,7 +1087,7 @@ FILE *fh;
 
 	put_instance(instance=get_instance()+1);
 
-  	show_txt(0);	
+	show_txt(0);
 	
 	time(&tm1);
 	tm2=tm1;
@@ -1151,7 +1150,7 @@ FILE *fh;
 					}
 					show_txt(1);
 				break;
-				
+
 				case KEY_RIGHT:
 					if(!hide && (++selection>buttons))
 					{
@@ -1159,7 +1158,7 @@ FILE *fh;
 					}
 					show_txt(1);
 				break;
-				
+
 				case KEY_UP:
 					if(!hide && ((selection-=bpline)<1))
 					{
@@ -1167,7 +1166,7 @@ FILE *fh;
 					}
 					show_txt(1);
 				break;
-				
+
 				case KEY_DOWN:
 					if(!hide && ((selection+=bpline)>buttons))
 					{
@@ -1191,8 +1190,8 @@ FILE *fh;
 	{
 		selection=0;
 	}
-	
-	
+
+
 	//cleanup
 #if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE
 	memcpy(lbb, obb, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
