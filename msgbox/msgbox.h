@@ -45,19 +45,19 @@ extern int sync_blitter;
 
 enum {LEFT, CENTER, RIGHT};
 
-FT_Error 		error;
-FT_Library		library;
-FTC_Manager		manager;
-FTC_SBitCache		cache;
-FTC_SBit		sbit;
+static FT_Error 		error;
+static FT_Library		library;
+static FTC_Manager		manager;
+static FTC_SBitCache		cache;
+static FTC_SBit		sbit;
 #if FREETYPE_MAJOR == 2 && FREETYPE_MINOR == 0
-FTC_Image_Desc		desc;
+static FTC_Image_Desc		desc;
 #else
-FTC_ImageTypeRec	desc;
+static FTC_ImageTypeRec		desc;
 #endif
-FT_Face			face;
-FT_UInt			prev_glyphindex;
-FT_Bool			use_kerning;
+static FT_Face			face;
+static FT_UInt			prev_glyphindex;
+static FT_Bool			use_kerning;
 
 // rc codes
 
@@ -116,7 +116,7 @@ FT_Bool			use_kerning;
 #define KEY_PLAY				0x0CF
 
 //devs
-int fb;
+static int fb;
 
 //framebuffer stuff
 enum {
@@ -162,12 +162,12 @@ extern int OFFSET_MIN;
 
 extern uint32_t *lfb, *lbb, *obb, *hbb;
 
-struct fb_fix_screeninfo fix_screeninfo;
-struct fb_var_screeninfo var_screeninfo;
+static struct fb_fix_screeninfo fix_screeninfo;
+static struct fb_var_screeninfo var_screeninfo;
 extern uint32_t bgra[];
 extern int stride;
 
-int startx, starty, sx, ex, sy, ey;
+static int startx, starty, sx, ex, sy, ey;
 //int debounce, rblock;
 
 extern char *butmsg[MAX_BUTTONS];
