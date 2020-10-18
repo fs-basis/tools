@@ -154,9 +154,9 @@ void (*resize)(const unsigned char *source, unsigned char *dest, int xsource, in
 void combine(unsigned char *output, const unsigned char *video, const unsigned char *osd, int vleft, int vtop, int vwidth, int vheight, int xres, int yres);
 
 #if !defined(__sh__)
-static enum {UNKNOWN, WETEK, AZBOX863x, AZBOX865x, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7346, BRCM7358, BRCM7362, BRCM7241, BRCM7251, BRCM7252, BRCM7252S, BRCM7356, BRCM7424, BRCM7425, BRCM7435, BRCM7444, BRCM7552, BRCM7581, BRCM7583, BRCM7584, BRCM75845, BRCM7366, BRCM73625, BRCM73565, BRCM7439} stb_type = UNKNOWN;
+static enum {UNKNOWN, WETEK, AZBOX863x, AZBOX865x, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7346, BRCM7358, BRCM7362, BRCM7241, BRCM7251, BRCM7252, BRCM7252S, BRCM7356, BRCM7424, BRCM7425, BRCM7435, BRCM7444, BRCM7552, BRCM7581, BRCM7583, BRCM7584, BRCM72604VU, BRCM72604, BRCM7278, BRCM75845, BRCM7366, BRCM73625, BRCM73565, BRCM7439DAGS, BRCM7439, HISIL_ARM} stb_type = UNKNOWN;
 #else
-static enum {UNKNOWN, WETEK, AZBOX863x, AZBOX865x, ST, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7346, BRCM7358, BRCM7362, BRCM7241, BRCM7251, BRCM7252, BRCM7252S, BRCM7356, BRCM7424, BRCM7425, BRCM7435, BRCM7444, BRCM7552, BRCM7581, BRCM7583, BRCM7584, BRCM75845, BRCM7366, BRCM73625, BRCM73565, BRCM7439} stb_type = UNKNOWN;
+static enum {UNKNOWN, WETEK, AZBOX863x, AZBOX865x, ST, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7346, BRCM7358, BRCM7362, BRCM7241, BRCM7251, BRCM7252, BRCM7252S, BRCM7356, BRCM7424, BRCM7425, BRCM7435, BRCM7444, BRCM7552, BRCM7581, BRCM7583, BRCM7584, BRCM72604VU, BRCM72604, BRCM7278, BRCM75845, BRCM7366, BRCM73625, BRCM73565, BRCM7439DAGS, BRCM7439, HISIL_ARM} stb_type = UNKNOWN;
 #endif
 
 static int chr_luma_stride = 0x40;
@@ -207,6 +207,105 @@ int main(int argc, char **argv)
 #endif
 	}
 	fclose(fp);
+	
+	if (stb_type == UNKNOWN)
+	{
+		FILE *file = fopen("/proc/stb/info/vumodel", "r");
+		if (file)
+		{
+			char buf[32];
+			while (fgets(buf, sizeof(buf), file))
+			{
+				if (strcasestr(buf,"zero4k"))
+				{
+					stb_type = BRCM72604VU;
+					break;
+				}
+			}
+			fclose(file);
+		}
+	}
+
+	if (stb_type == UNKNOWN)
+	{
+		FILE *file = fopen("/proc/stb/info/boxtype", "r");
+		if (file)
+		{
+			char buf[32];
+			while (fgets(buf, sizeof(buf), file))
+			{
+				if (strcasestr(buf,"osmio4k"))
+				{
+					stb_type = BRCM72604VU;
+					break;
+				}
+			}
+			fclose(file);
+		}
+	}
+
+	if (stb_type == UNKNOWN)
+	{
+		FILE *file = fopen("/proc/stb/info/hwmodel", "r");
+		if (file)
+		{
+			char buf[32];
+			while (fgets(buf, sizeof(buf), file))
+			{
+				if (strcasestr(buf,"force3"))
+				{
+					stb_type = BRCM7439DAGS;
+					break;
+				}
+				if (strcasestr(buf,"force3se"))
+				{
+					stb_type = BRCM7439DAGS;
+					break;
+				}
+				if (strcasestr(buf,"force3uhd"))
+				{
+					stb_type = BRCM7439DAGS;
+					break;
+				}
+				if (strcasestr(buf,"force3uhdplus"))
+				{
+					stb_type = BRCM7439DAGS;
+					break;
+				}
+				if (strcasestr(buf,"tmtwin4k"))
+				{
+					stb_type = BRCM7439DAGS;
+					break;
+				}
+				if (strcasestr(buf,"revo4k"))
+				{
+					stb_type = BRCM7439DAGS;
+					break;
+				}
+				if (strcasestr(buf,"galaxy4k"))
+				{
+					stb_type = BRCM7439DAGS;
+					break;
+				}
+				if (strcasestr(buf,"tm4ksuper"))
+				{
+					stb_type = BRCM7439DAGS;
+					break;
+				}
+				if (strcasestr(buf,"lunix3-4k"))
+				{
+					stb_type = BRCM7439DAGS;
+					break;
+				}
+				if (strcasestr(buf,"valalinux4k"))
+				{
+					stb_type = BRCM7439DAGS;
+					break;
+				}
+			}
+			fclose(file);
+		}
+	}
 
 	if (stb_type == UNKNOWN)
 	{
@@ -291,6 +390,11 @@ int main(int argc, char **argv)
 					stb_type = BRCM7252S;
 					break;
 				}
+				else if (strstr(buf,"7278"))
+				{
+					stb_type = BRCM7278;
+					break;
+				}
 				else if (strstr(buf,"73565"))
 				{
 					stb_type = BRCM73565;
@@ -336,6 +440,11 @@ int main(int argc, char **argv)
 					stb_type = BRCM7583;
 					break;
 				}
+				else if (strstr(buf,"72604"))
+				{
+					stb_type = BRCM72604;
+					break;
+				}
 				else if (strstr(buf,"75845"))
 				{
 					stb_type = BRCM75845;
@@ -356,9 +465,14 @@ int main(int argc, char **argv)
 					stb_type = BRCM7366;
 					break;
 				}
-				else if (strstr(buf,"7278"))
+				else if (strstr(buf,"hi3798"))
 				{
-					stb_type = BRCM7366;
+					stb_type = HISIL_ARM;
+					break;
+				}
+				else if (strstr(buf,"hi3716"))
+				{
+					stb_type = HISIL_ARM;
 					break;
 				}
 				else if (strstr(buf,"Meson-6") || strstr(buf,"Meson-64"))
@@ -404,12 +518,7 @@ int main(int argc, char **argv)
 					stb_type = BRCM7401;
 					break;
 				}
-				else if (strcasestr(buf,"DM900"))
-				{
-					stb_type = BRCM7439;
-					break;
-				}
-				else if (strcasestr(buf,"DM920"))
+				else if (strcasestr(buf,"DM900") || strcasestr(buf,"DM920"))
 				{
 					stb_type = BRCM7439;
 					break;
@@ -461,11 +570,20 @@ int main(int argc, char **argv)
 		case BRCM7251:
 		case BRCM7252:
 		case BRCM7252S:
+		case BRCM7278:
 		case BRCM7581:
 		case BRCM7584:
+		case BRCM72604VU:
 		case BRCM75845:
 			registeroffset = 0x10600000;
 			chr_luma_stride = 0x40;
+			chr_luma_register_offset = 0x34;
+			mem2memdma_register = 0;
+			break;
+		case BRCM72604:
+		case BRCM7439DAGS:
+			registeroffset = 0xf0600000;
+			chr_luma_stride = 0x100;
 			chr_luma_register_offset = 0x34;
 			mem2memdma_register = 0;
 			break;
@@ -593,7 +711,7 @@ int main(int argc, char **argv)
 	{
 		if (!quiet)
 			fprintf(stderr, "Grabbing Video ...\n");
-		if (stb_type == BRCM7366 || stb_type == BRCM7251 || stb_type == BRCM7252 || stb_type == BRCM7252S || stb_type == BRCM7444)
+		if (stb_type == BRCM7366 || stb_type == BRCM7251 || stb_type == BRCM7252 || stb_type == BRCM7252S || stb_type == BRCM7444 || stb_type == BRCM72604VU || stb_type == BRCM7278 || stb_type == HISIL_ARM)
 		{
 			getvideo2(video, &xres_v,&yres_v);
 		}
@@ -969,7 +1087,7 @@ void getvideo(unsigned char *video, int *xres, int *yres)
 		int adr, adr2, ofs, ofs2, offset, pageoffset;
 		int xtmp,xsub,ytmp,t2,dat1;
 
-		if (stb_type == BRCM73565 || stb_type == BRCM73625 || stb_type == BRCM7439 || stb_type == BRCM75845) {
+		if (stb_type == BRCM73565 || stb_type == BRCM73625 || stb_type == BRCM7439DAGS || stb_type == BRCM7439 || stb_type == BRCM75845 || stb_type == BRCM72604) {
 			chr_luma_register_offset = 0x3c;
 
 			ofs = data[chr_luma_register_offset + 24] << 4; /* luma lines */
@@ -1122,6 +1240,97 @@ void getvideo(unsigned char *video, int *xres, int *yres)
 						memcpy(luma+dat1,memory_tmp+pageoffset+t,xsub); // luma
 					}
 				}
+				else if (stb_type == BRCM7439DAGS)
+				{
+					if (t & 0x200)
+					{
+						int cp = xsub % 0x20 ?: 0x20; // cp = xsub % 0x20 ? xsub % 0x20 : 0x20;
+						switch (xsub)
+						{
+							case 0xe1 ... 0x100:
+								memcpy(luma + dat1 + 0xe0, memory_tmp+pageoffset + t + 0xc0, cp);
+								cp = 0x20;
+							case 0xc1 ... 0xe0:
+								memcpy(luma + dat1 + 0xc0, memory_tmp+pageoffset + t + 0xe0, cp);
+								cp = 0x20;
+							case 0xa1 ... 0xc0:
+								memcpy(luma + dat1 + 0xa0, memory_tmp+pageoffset + t + 0x80, cp);
+								cp = 0x20;
+							case 0x81 ... 0xa0:
+								memcpy(luma + dat1 + 0x80, memory_tmp+pageoffset + t + 0xa0, cp);
+								cp = 0x20;
+							case 0x61 ... 0x80:
+								memcpy(luma + dat1 + 0x60, memory_tmp+pageoffset + t + 0x40, cp);
+								cp = 0x20;
+							case 0x41 ... 0x60:
+								memcpy(luma + dat1 + 0x40, memory_tmp+pageoffset + t + 0x60, cp);
+								cp = 0x20;
+							case 0x21 ... 0x40:
+								memcpy(luma + dat1 + 0x20, memory_tmp+pageoffset + t + 0x00, cp);
+								cp = 0x20;
+							default:
+								memcpy(luma + dat1 + 0x00, memory_tmp+pageoffset + t + 0x20, cp);
+						}
+					}
+					else
+					{
+						memcpy(luma+dat1,memory_tmp+pageoffset+t,xsub); // luma
+					}
+				}
+				else if (stb_type == BRCM72604)
+				{
+					if (t & 0x200)
+					{
+						int cp = xsub % 0x20 ?: 0x20; // cp = xsub % 0x20 ? xsub % 0x20 : 0x20;
+						switch (xsub)
+						{
+							case 0xe1 ... 0x100:
+								memcpy(luma + dat1 + 0xe0, memory_tmp+pageoffset + t + 0xc0, cp);
+								cp = 0x20;
+							case 0xc1 ... 0xe0:
+								memcpy(luma + dat1 + 0xc0, memory_tmp+pageoffset + t + 0xe0, cp);
+								cp = 0x20;
+							case 0xa1 ... 0xc0:
+								memcpy(luma + dat1 + 0xa0, memory_tmp+pageoffset + t + 0x80, cp);
+								cp = 0x20;
+							case 0x81 ... 0xa0:
+								memcpy(luma + dat1 + 0x80, memory_tmp+pageoffset + t + 0xa0, cp);
+								cp = 0x20;
+
+							case 0x61 ... 0x80:
+								memcpy(luma + dat1 + 0x60, memory_tmp+pageoffset + t + 0x40, cp);
+								cp = 0x20;
+							case 0x41 ... 0x60:
+								memcpy(luma + dat1 + 0x40, memory_tmp+pageoffset + t + 0x60, cp);
+								cp = 0x20;
+							case 0x21 ... 0x40:
+								memcpy(luma + dat1 + 0x20, memory_tmp+pageoffset + t + 0x00, cp);
+								cp = 0x20;
+							default:
+								memcpy(luma + dat1 + 0x00, memory_tmp+pageoffset + t + 0x20, cp);
+						}
+					}
+					else
+					{
+						memcpy(luma+dat1,memory_tmp+pageoffset+t,xsub); // luma
+					}
+
+					int ii;
+					unsigned char luma_tmp[0x100];
+
+					for (ii = 0; ii < 0x100; ii+= 0x20) {
+						memcpy(&luma_tmp[ii + 0x00], luma + dat1 + (ii + 0x1c), 0x4);
+						memcpy(&luma_tmp[ii + 0x04], luma + dat1 + (ii + 0x18), 0x4);
+						memcpy(&luma_tmp[ii + 0x08], luma + dat1 + (ii + 0x14), 0x4);
+						memcpy(&luma_tmp[ii + 0x0c], luma + dat1 + (ii + 0x10), 0x4);
+						memcpy(&luma_tmp[ii + 0x10], luma + dat1 + (ii + 0x0c), 0x4);
+						memcpy(&luma_tmp[ii + 0x14], luma + dat1 + (ii + 0x08), 0x4);
+						memcpy(&luma_tmp[ii + 0x18], luma + dat1 + (ii + 0x04), 0x4);
+						memcpy(&luma_tmp[ii + 0x1c], luma + dat1 + (ii + 0x00), 0x4);
+					}
+
+					memcpy(luma + dat1, luma_tmp, xsub);
+				}
 				else
 				{
 					memcpy(luma+dat1,memory_tmp+pageoffset+t,xsub); // luma
@@ -1164,6 +1373,97 @@ void getvideo(unsigned char *video, int *xres, int *yres)
 					{
 						memcpy(chroma+dat1,memory_tmp+pageoffset+offset+t2,xsub); // chroma
 					}
+				}
+				if (stb_type == BRCM7439DAGS)
+				{
+					if (t2 & 0x200)
+					{
+						int cp = xsub % 0x20 ?: 0x20;
+						switch (xsub)
+						{
+							case 0xe1 ... 0x100:
+								memcpy(chroma + dat1 + 0xe0,memory_tmp+pageoffset+offset + t2 + 0xc0, cp);
+								cp = 0x20;
+							case 0xc1 ... 0xe0:
+								memcpy(chroma + dat1 + 0xc0,memory_tmp+pageoffset+offset + t2 + 0xe0, cp);
+								cp = 0x20;
+							case 0xa1 ... 0xc0:
+								memcpy(chroma + dat1 + 0xa0,memory_tmp+pageoffset+offset + t2 + 0x80, cp);
+								cp = 0x20;
+							case 0x81 ... 0xa0:
+								memcpy(chroma + dat1 + 0x80,memory_tmp+pageoffset+offset + t2 + 0xa0, cp);
+								cp = 0x20;
+							case 0x61 ... 0x80:
+								memcpy(chroma + dat1 + 0x60,memory_tmp+pageoffset+offset + t2 + 0x40, cp);
+								cp = 0x20;
+							case 0x41 ... 0x60:
+								memcpy(chroma + dat1 + 0x40, memory_tmp+pageoffset+offset + t2 + 0x60, cp);
+								cp = 0x20;
+							case 0x21 ... 0x40:
+								memcpy(chroma + dat1 + 0x20, memory_tmp+pageoffset+offset + t2 + 0x00, cp);
+								cp = 0x20;
+							default:
+								memcpy(chroma + dat1 + 0x00, memory_tmp+pageoffset+offset + t2 + 0x20, cp);
+						}
+					}
+					else
+					{
+						memcpy(chroma+dat1,memory_tmp+pageoffset+offset+t2,xsub); // chroma
+					}
+				}
+				else if (stb_type == BRCM72604)
+				{
+					if (t2 & 0x200)
+					{
+						int cp = xsub % 0x20 ?: 0x20;
+						switch (xsub)
+						{
+							case 0xe1 ... 0x100:
+								memcpy(chroma + dat1 + 0xe0,memory_tmp+pageoffset+offset + t2 + 0xc0, cp);
+								cp = 0x20;
+							case 0xc1 ... 0xe0:
+								memcpy(chroma + dat1 + 0xc0,memory_tmp+pageoffset+offset + t2 + 0xe0, cp);
+								cp = 0x20;
+							case 0xa1 ... 0xc0:
+								memcpy(chroma + dat1 + 0xa0,memory_tmp+pageoffset+offset + t2 + 0x80, cp);
+								cp = 0x20;
+							case 0x81 ... 0xa0:
+								memcpy(chroma + dat1 + 0x80,memory_tmp+pageoffset+offset + t2 + 0xa0, cp);
+								cp = 0x20;
+
+							case 0x61 ... 0x80:
+								memcpy(chroma + dat1 + 0x60,memory_tmp+pageoffset+offset + t2 + 0x40, cp);
+								cp = 0x20;
+							case 0x41 ... 0x60:
+								memcpy(chroma + dat1 + 0x40,memory_tmp+pageoffset+offset + t2 + 0x60, cp);
+								cp = 0x20;
+							case 0x21 ... 0x40:
+								memcpy(chroma + dat1 + 0x20,memory_tmp+pageoffset+offset + t2 + 0x00, cp);
+								cp = 0x20;
+							default:
+								memcpy(chroma + dat1 + 0x00,memory_tmp+pageoffset+offset + t2 + 0x20, cp);
+						}
+					}
+					else
+					{
+						memcpy(chroma+dat1,memory_tmp+pageoffset+offset+t2,xsub); // chroma
+					}
+
+					int ii;
+					unsigned char chroma_tmp[0x100];
+
+					for (ii = 0; ii < 0x100; ii+= 0x20) {
+						memcpy(&chroma_tmp[ii + 0x00], chroma + dat1 + (ii + 0x1c), 0x4);
+						memcpy(&chroma_tmp[ii + 0x04], chroma + dat1 + (ii + 0x18), 0x4);
+						memcpy(&chroma_tmp[ii + 0x08], chroma + dat1 + (ii + 0x14), 0x4);
+						memcpy(&chroma_tmp[ii + 0x0c], chroma + dat1 + (ii + 0x10), 0x4);
+						memcpy(&chroma_tmp[ii + 0x10], chroma + dat1 + (ii + 0x0c), 0x4);
+						memcpy(&chroma_tmp[ii + 0x14], chroma + dat1 + (ii + 0x08), 0x4);
+						memcpy(&chroma_tmp[ii + 0x18], chroma + dat1 + (ii + 0x04), 0x4);
+						memcpy(&chroma_tmp[ii + 0x1c], chroma + dat1 + (ii + 0x00), 0x4);
+					}
+
+					memcpy(chroma + dat1, chroma_tmp, xsub);
 				}
 				else
 				{
