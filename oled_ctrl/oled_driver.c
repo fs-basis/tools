@@ -93,6 +93,7 @@ int lcd_open(const char *dev, int mode, int x_res, int y_res)
 
 int lcd_setmode(int mode)
 {
+#ifndef BOXMODEL_DM8000
 	int tmp;
 	if (mode == 0)
 	{
@@ -112,6 +113,7 @@ int lcd_setmode(int mode)
 		printf("%s: failed to set lcd mode\n", __FUNCTION__);
 		return -1;
 	}
+#endif
 	return 0;
 }
 
@@ -191,11 +193,13 @@ void lcd_draw()
 
 int lcd_clear()
 {
+#ifndef BOXMODEL_DM8000
 	if (ioctl(fd,LCD_IOCTL_CLEAR) < 0)
 	{
 		printf("%s: cannot clear lcd device\n", __FUNCTION__);
 		return -1;
 	}
+#endif
 	lcd_draw();
 	return 0;
 }
