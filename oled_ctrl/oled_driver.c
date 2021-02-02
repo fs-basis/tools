@@ -199,8 +199,8 @@ int lcd_clear()
 		printf("%s: cannot clear lcd device\n", __FUNCTION__);
 		return -1;
 	}
-#endif
 	lcd_draw();
+#endif
 	return 0;
 }
 
@@ -317,7 +317,7 @@ void lcd_write_text(const char* text)
 	write(fd, text, strlen(text));
 }
 
-int lcd_ioctl(const char *io_ctl)
+int lcd_ioctl(long unsigned int io_ctl)
 {
         if (ioctl(fd, io_ctl) < 0)
         {
