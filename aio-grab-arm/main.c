@@ -663,6 +663,7 @@ int main(int argc, char **argv)
 					"-p produce png files instead of bmp\n"
 					"-q Quiet mode, don't output debug messages\n"
 					"-s write to stdout instead of a file\n"
+					"-x (count) additional PIP count (count 1-3)\n"
 					"-h this help screen\n\n"
 					"If no command is given the complete picture will be grabbed.\n"
 					"If no filename is given /tmp/screenshot.[bmp/jpg/png] will be used.\n");
