@@ -20,10 +20,6 @@
 #ifndef _OLED_DRIVER_H_
 #define _OLED_DRIVER_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <stdint.h>
 
 #include <ft2build.h>
