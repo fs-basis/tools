@@ -284,9 +284,7 @@ void lcd_draw_character(FT_Bitmap* bitmap, FT_Int x, FT_Int y, int color)
 				continue;
 			}
 			if (bitmap->buffer[z] != 0x00) {
-				location = (j * (bpp / 8)) +
-					(i * stride);
-
+				location = (j * (bpp / 8)) + (i * stride);
 				if (bpp == 32) {
 					lcd_buffer[location] = RED(color);
 					lcd_buffer[location + 1] = GREEN(color);
@@ -313,7 +311,7 @@ void lcd_write_text(const char* text)
 	write(fd, text, strlen(text));
 }
 
-int lcd_ioctl(const char *io_ctl)
+int lcd_ioctl(long unsigned int io_ctl)
 {
         if (ioctl(fd, io_ctl) < 0)
         {
