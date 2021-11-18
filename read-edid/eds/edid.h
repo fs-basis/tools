@@ -57,28 +57,28 @@ enum edid_extension_type {
     EDID_EXTENSION_DTCDB_2          = 0xaf,
     EDID_EXTENSION_DTCDB_3          = 0xbf,
     EDID_EXTENSION_BLOCK_MAP        = 0xf0, // Block Map
-    EDID_EXTENSION_DDDB             = 0xff, // Display Device Data Block (DDDB)
+    EDID_EXTENSION_DDDB             = 0xff  // Display Device Data Block (DDDB)
 };
 
 enum edid_display_type {
     EDID_DISPLAY_TYPE_MONOCHROME,
     EDID_DISPLAY_TYPE_RGB,
     EDID_DISPLAY_TYPE_NON_RGB,
-    EDID_DISPLAY_TYPE_UNDEFINED,
+    EDID_DISPLAY_TYPE_UNDEFINED
 };
 
 enum edid_aspect_ratio {
     EDID_ASPECT_RATIO_16_10,
     EDID_ASPECT_RATIO_4_3,
     EDID_ASPECT_RATIO_5_4,
-    EDID_ASPECT_RATIO_16_9,
+    EDID_ASPECT_RATIO_16_9
 };
 
 enum edid_signal_sync {
     EDID_SIGNAL_SYNC_ANALOG_COMPOSITE,
     EDID_SIGNAL_SYNC_BIPOLAR_ANALOG_COMPOSITE,
     EDID_SIGNAL_SYNC_DIGITAL_COMPOSITE,
-    EDID_SIGNAL_SYNC_DIGITAL_SEPARATE,
+    EDID_SIGNAL_SYNC_DIGITAL_SEPARATE
 };
 
 enum edid_stereo_mode {
@@ -89,7 +89,7 @@ enum edid_stereo_mode {
     EDID_STEREO_MODE_FIELD_SEQUENTIAL_LEFT,
     EDID_STEREO_MODE_2_WAY_INTERLEAVED_LEFT,
     EDID_STEREO_MODE_4_WAY_INTERLEAVED,
-    EDID_STEREO_MODE_SIDE_BY_SIDE_INTERLEAVED,
+    EDID_STEREO_MODE_SIDE_BY_SIDE_INTERLEAVED
 };
 
 enum edid_monitor_descriptor_type {
@@ -99,12 +99,12 @@ enum edid_monitor_descriptor_type {
     EDID_MONITOR_DESCRIPTOR_MONITOR_NAME                = 0xfc,
     EDID_MONITOR_DESCRIPTOR_MONITOR_RANGE_LIMITS        = 0xfd,
     EDID_MONITOR_DESCRIPTOR_ASCII_STRING                = 0xfe,
-    EDID_MONITOR_DESCRIPTOR_MONITOR_SERIAL_NUMBER       = 0xff,
+    EDID_MONITOR_DESCRIPTOR_MONITOR_SERIAL_NUMBER       = 0xff
 };
 
 enum edid_secondary_timing_support {
     EDID_SECONDARY_TIMING_NOT_SUPPORTED,
-    EDID_SECONDARY_TIMING_GFT           = 0x02,
+    EDID_SECONDARY_TIMING_GFT           = 0x02
 };
 
 
@@ -442,20 +442,20 @@ edid_color_characteristics(const struct edid * const edid)
     const struct edid_color_characteristics_data characteristics = {
         .red = {
             .x = (edid->red_x << 2) | edid->red_x_low,
-            .y = (edid->red_y << 2) | edid->red_y_low,
+            .y = (edid->red_y << 2) | edid->red_y_low
         },
         .green = {
             .x = (edid->green_x << 2) | edid->green_x_low,
-            .y = (edid->green_y << 2) | edid->green_y_low,
+            .y = (edid->green_y << 2) | edid->green_y_low
         },
         .blue = {
             .x = (edid->blue_x << 2) | edid->blue_x_low,
-            .y = (edid->blue_y << 2) | edid->blue_y_low,
+            .y = (edid->blue_y << 2) | edid->blue_y_low
         },
         .white = {
             .x = (edid->white_x << 2) | edid->white_x_low,
-            .y = (edid->white_y << 2) | edid->white_y_low,
-        },
+            .y = (edid->white_y << 2) | edid->white_y_low
+        }
     };
 
     return characteristics;
@@ -503,4 +503,3 @@ edid_decode_fixed_point(uint16_t value)
 }
 
 #endif
-

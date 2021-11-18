@@ -74,4 +74,3 @@ struct __attribute__ (( packed )) hdmi_vendor_specific_data_block {
 };
 
 #endif
-

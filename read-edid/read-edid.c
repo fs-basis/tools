@@ -135,71 +135,96 @@ disp_cea861_video_data(const struct cea861_video_data_block * const vdb)
 	{
 		switch(vdb->svd[i].video_identification_code)
 		{
-		case 6:
-		case 7:
-			printf ("VIDEO_STD_NTSC\n");
-			break;
-		case 21:
-		case 22:
-			printf ("VIDEO_STD_PAL\n");
-			break;
-		case 2:
-		case 3:
-			printf ("VIDEO_STD_480P\n");
-			break;
-		case 17:
-		case 18:
-			printf ("VIDEO_STD_576P\n");
-			break;
-		case 4:
-			printf ("VIDEO_STD_720P60\n");
-			break;
-		case 5:
-		case 46:
-			printf ("VIDEO_STD_1080I60\n");
-		case 19:
-			printf ("VIDEO_STD_720P50\n");
-			break;
-		case 40:
-			printf ("VIDEO_STD_1080I50\n");
-			break;
-		case 34:
-			printf ("VIDEO_STD_1080P30\n");
-			break;
-		case 32:
-			printf ("VIDEO_STD_1080P24\n");
-			break;
-		case 33:
-			printf ("VIDEO_STD_1080P25\n");
-			break;
-		case 31:
-			printf ("VIDEO_STD_1080P50\n");
-			break;
-		case 16:
-			printf ("VIDEO_STD_1080P60\n");
-			break;
-		case 93:
-		case 98:
-			printf ("VIDEO_STD_2160P24\n");
-			break;
-		case 94:
-		case 99:
-			printf ("VIDEO_STD_2160P25\n");
-			break;
-		case 95:
-		case 100:
-			printf ("VIDEO_STD_2160P30\n");
-			break;
-		case 96:
-		case 101:
-			printf ("VIDEO_STD_2160P50\n");
-			break;
-		default:
-			printf ("unknown / not supported mode: %d\n", vdb->svd[i].video_identification_code);
+			case 1:
+				printf ("DMT0659 (640x480, 60 Hz)\n");
+				break;
+			case 6:
+			case 7:
+				printf ("VIDEO_STD_NTSC\n");
+				break;
+			case 21:
+			case 22:
+				printf ("VIDEO_STD_PAL\n");
+				break;
+			case 2:
+			case 3:
+				printf ("VIDEO_STD_480P\n");
+				break;
+			case 17:
+			case 18:
+				printf ("VIDEO_STD_576P\n");
+				break;
+			case 4:
+				printf ("VIDEO_STD_720P60\n");
+				break;
+			case 5:
+			case 46:
+				printf ("VIDEO_STD_1080I60\n");
+			case 19:
+				printf ("VIDEO_STD_720P50\n");
+				break;
+			case 20:
+				printf ("VIDEO_STD_1080I25\n");
+				break;
+			case 40:
+				printf ("VIDEO_STD_1080I50\n");
+				break;
+			case 34:
+				printf ("VIDEO_STD_1080P30\n");
+				break;
+			case 32:
+				printf ("VIDEO_STD_1080P24\n");
+				break;
+			case 33:
+				printf ("VIDEO_STD_1080P25\n");
+				break;
+			case 31:
+				printf ("VIDEO_STD_1080P50\n");
+				break;
+			case 16:
+				printf ("VIDEO_STD_1080P60\n");
+				break;
+			case 60:
+				printf ("VIDEO_STD_720P24\n");
+				break;
+			case 61:
+				printf ("VIDEO_STD_720P25\n");
+				break;
+			case 62:
+				printf ("VIDEO_STD_720P30\n");
+				break;
+			case 93:
+			case 98:
+				printf ("VIDEO_STD_2160P24\n");
+				break;
+			case 94:
+			case 99:
+				printf ("VIDEO_STD_2160P25\n");
+				break;
+			case 95:
+			case 100:
+				printf ("VIDEO_STD_2160P30\n");
+				break;
+			case 96:
+			case 101:
+				printf ("VIDEO_STD_2160P50\n");
+				break;
+			case 97:
+			case 102:
+				printf ("VIDEO_STD_2160P60\n");
+				break;
+			case 117:
+			case 218:
+				printf ("VIDEO_STD_2160P100\n");
+				break;
+			case 118:
+			case 219:
+				printf ("VIDEO_STD_2160P120\n");
+				break;
+			default:
+				printf ("unknown / not supported mode: %d\n", vdb->svd[i].video_identification_code);
 		}
-
 	}
-
 	printf("\n");
 }
 
@@ -327,4 +352,3 @@ out:
 
 	return rv;
 }
-
