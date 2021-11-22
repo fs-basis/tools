@@ -43,17 +43,17 @@
 
 static void disp_edid1(const struct edid * const edid)
 {
-	const struct edid_monitor_range_limits *monitor_range_limits = NULL;
+//	const struct edid_monitor_range_limits *monitor_range_limits = NULL;	// unused
 	edid_monitor_descriptor_string monitor_serial_number = {0};
 	edid_monitor_descriptor_string monitor_model_name = {0};
 	bool has_ascii_string = false;
 	char manufacturer[4] = {0};
 
-//	struct edid_color_characteristics_data characteristics;		// unused
+//	struct edid_color_characteristics_data characteristics;			// unused
 	uint8_t i;
 
 	edid_manufacturer(edid, manufacturer);
-//	characteristics = edid_color_characteristics(edid);		// unused
+//	characteristics = edid_color_characteristics(edid);			// unused
 
 
 	for (i = 0; i < ARRAY_SIZE(edid->detailed_timings); i++)
@@ -76,7 +76,7 @@ static void disp_edid1(const struct edid * const edid)
 			*strchrnul(monitor_model_name, '\n') = '\0';
 			break;
 		case EDID_MONITOR_DESCRIPTOR_MONITOR_RANGE_LIMITS:
-			monitor_range_limits = (struct edid_monitor_range_limits *) &mon->data;
+//			monitor_range_limits = (struct edid_monitor_range_limits *) &mon->data;		// unused
 			break;
 		case EDID_MONITOR_DESCRIPTOR_MONITOR_SERIAL_NUMBER:
 			strncpy(monitor_serial_number, (char *) mon->data, sizeof(monitor_serial_number) - 1);
@@ -88,7 +88,8 @@ static void disp_edid1(const struct edid * const edid)
 		}
 	}
 
-	printf("Monitor\n");
+	printf("\nMonitor\n");
+	printf("=======\n\n");
 
 	printf("  Model name............... %s\n", *monitor_model_name ? monitor_model_name : "n/a");
 
@@ -98,7 +99,8 @@ static void disp_edid1(const struct edid * const edid)
 	{
 		edid_monitor_descriptor_string string = {0};
 
-		printf("General purpose ASCII string\n");
+		printf("\nGeneral purpose ASCII string\n");
+		printf("============================\n\n");
 
 		for (i = 0; i < ARRAY_SIZE(edid->detailed_timings); i++)
 		{
@@ -115,13 +117,14 @@ static void disp_edid1(const struct edid * const edid)
 				printf("  ASCII string............. %s\n", string);
 			}
 		}
-		printf("\n");
+//		printf("\n");
 	}
 }
 
 static inline void disp_cea861_video_data(const struct cea861_video_data_block * const vdb)
 {
 	printf("CE video identifiers (VICs) - supported resolutions\n");
+	printf("===================================================\n\n");
 	for (uint8_t i = 0; i < vdb->header.length; i++)
 	{
 		switch(vdb->svd[i].video_identification_code)

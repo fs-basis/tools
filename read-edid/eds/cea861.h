@@ -173,7 +173,7 @@ static const struct cea861_timing {
     const uint16_t vactive;
     const enum {
         INTERLACED,
-        PROGRESSIVE,
+        PROGRESSIVE
     } mode;
     const uint16_t htotal;
     const uint16_t hblank;
