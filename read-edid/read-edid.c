@@ -163,7 +163,7 @@ static inline void disp_cea861_video_data(const struct cea861_video_data_block *
 				printf ("VIDEO_STD_720P50	(1280x 720, 16:9,  50 Hz)\n");
 				break;
 			case 20:
-				printf ("VIDEO_STD_1080I25	(1920x 540, 16:9,  50 Hz)\n");
+				printf ("VIDEO_STD_1080I50	(1920x 540, 16:9,  50 Hz)\n");
 				break;
 			case 21:
 				printf ("VIDEO_STD_PAL		(1440x 288,  4:3,  50 Hz)\n");
