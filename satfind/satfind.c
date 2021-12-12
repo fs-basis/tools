@@ -1,6 +1,6 @@
 /*
  * SatFind
- * Changed for SH4 by BPanther (https://forum.mbremer.de)
+ * Changed for SH4/VU+4K by BPanther (https://forum.mbremer.de)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,9 +106,10 @@ int main(int argc, char **argv)
 	char *fe_type = "DVB-S";
 	int tune = 0;
 	int nocolor = 0;
-	int usevfd = 0;
 #if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
 	int useoled = 0;
+#else
+	int usevfd = 0;
 #endif
 	int fe_fd, dmx_fd;
 	fd_set rfds;
@@ -129,14 +130,15 @@ int main(int argc, char **argv)
 		{
 			nocolor = 1;
 		}
-		else if ((!strcmp(argv[x], "--usevfd")))
-		{
-			usevfd = 1;
-		}
 #if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
 		else if ((!strcmp(argv[x], "--useoled")))
 		{
 			useoled = 1;
+		}
+#else
+		else if ((!strcmp(argv[x], "--usevfd")))
+		{
+			usevfd = 1;
 		}
 #endif
 		else if ((!strcmp(argv[x], "--demux")))
@@ -156,8 +158,11 @@ int main(int argc, char **argv)
 #if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
 			oled=" [--useoled]";
 			oled_help="--useoled		show BER/SNR/SIG at oled device\n";
+#else
+			oled=" [--usevfd]";
+			oled_help="--usevfd		show BER/SNR/SIG at vfd device\n";
 #endif
-			printf("Usage: satfind [--tune] [--nocolor] [--usevfd]%s [--demux <device>] [--frontend <device>]\n\n--tune			tune to 12051 V 27500 3/4 (only for DVB-S and if no GUI is running)\n--nocolor		output without color\n--usevfd		show BER/SNR/SIG at vfd device\n%s--demux <device>	use alternative demux device (default: /dev/dvb/adapter0/demux0)\n--frontend <device>	use alternative frontend device (default: /dev/dvb/adapter0/frontend0)\n\n", oled, oled_help);
+			printf("Usage: satfind [--tune] [--nocolor]%s [--demux <device>] [--frontend <device>]\n\n--tune			tune to 12051 V 27500 3/4 (only for DVB-S and if no GUI is running)\n--nocolor		output without color\n%s--demux <device>	use alternative demux device (default: /dev/dvb/adapter0/demux0)\n--frontend <device>	use alternative frontend device (default: /dev/dvb/adapter0/frontend0)\n\n", oled, oled_help);
 			return 0;
 		}
 	}
@@ -273,6 +278,15 @@ int main(int argc, char **argv)
 			printf("Network (%s): %s, BER: %u (%u%%), SNR: %u (%u%%), SIG: %u (%u%%) - [%c%c]\n", fe_type, network_name_fin, signal_quality.ber, (signal_quality.ber / 655), signal_quality.snr, (signal_quality.snr / 655), signal_quality.strength, (signal_quality.strength / 655), signal_quality.status & FE_HAS_SIGNAL ? 'S' : ' ', signal_quality.status & FE_HAS_LOCK ? 'L' : ' ');
 		else
 			printf("\033[01;33mNetwork (%s): %s\033[00m \033[01;31mBER: %u (%u%%)\033[00m \033[01;34mSNR: %u (%u%%)\033[00m \033[01;32mSIG: %u (%u%%)\033[00m - \033[01;36m[%c%c]\033[00m\n", fe_type, network_name_fin, signal_quality.ber, (signal_quality.ber / 655), signal_quality.snr, (signal_quality.snr / 655), signal_quality.strength, (signal_quality.strength / 655), signal_quality.status & FE_HAS_SIGNAL ? 'S' : ' ', signal_quality.status & FE_HAS_LOCK ? 'L' : ' ');
+#if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
+		if (useoled)
+		{
+			usleep(1000000);
+			char tmpstr[64];
+			snprintf(tmpstr, sizeof(tmpstr), "oled -tu 'BER: %u' -tc 'SNR: %u' -td 'SIG: %u'", (signal_quality.ber / 655), (signal_quality.snr / 655), (signal_quality.strength / 655));
+			system(tmpstr);
+		}
+#else
 		if (usevfd)
 		{
 			usleep(250);
@@ -291,14 +305,6 @@ int main(int argc, char **argv)
 				fprintf(out, "%u/%u/%u", (signal_quality.ber / 655), (signal_quality.snr / 655), (signal_quality.strength / 655));
 				fclose(out);
 			}
-		}
-#if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
-		if (useoled)
-		{
-			usleep(1000000);
-			char tmpstr[64];
-			snprintf(tmpstr, sizeof(tmpstr), "oled -tu 'BER: %u' -tc 'SNR: %u' -td 'SIG: %u'", (signal_quality.ber / 655), (signal_quality.snr / 655), (signal_quality.strength / 655));
-			system(tmpstr);
 		}
 #endif
 	}
