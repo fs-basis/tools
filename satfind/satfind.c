@@ -152,10 +152,12 @@ int main(int argc, char **argv)
 		else
 		{
 			char * oled="";
+			char * oled_help="";
 #if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
 			oled=" [--useoled]";
+			oled_help="--useoled		show BER/SNR/SIG at oled device\n";
 #endif
-			printf("Usage: satfind [--tune] [--nocolor] [--usevfd]%s [--demux <device>] [--frontend <device>]\n\n--tune : tune to 12051 V 27500 3/4 (only for DVB-S and if no GUI is running)\n--nocolor : output without color\n--usevfd : show BER/SNR/SIG at vfd device\n--demux <device> : use alternative demux device (default: /dev/dvb/adapter0/demux0)\n--frontend <device>: use alternative frontend device (default: /dev/dvb/adapter0/frontend0)\n\n", oled);
+			printf("Usage: satfind [--tune] [--nocolor] [--usevfd]%s [--demux <device>] [--frontend <device>]\n\n--tune			tune to 12051 V 27500 3/4 (only for DVB-S and if no GUI is running)\n--nocolor		output without color\n--usevfd		show BER/SNR/SIG at vfd device\n%s--demux <device>	use alternative demux device (default: /dev/dvb/adapter0/demux0)\n--frontend <device>	use alternative frontend device (default: /dev/dvb/adapter0/frontend0)\n\n", oled, oled_help);
 			return 0;
 		}
 	}
