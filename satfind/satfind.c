@@ -106,7 +106,7 @@ int main(int argc, char **argv)
 	char *fe_type = "DVB-S";
 	int tune = 0;
 	int nocolor = 0;
-#if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
+#if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUDUO4KSE || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
 	int useoled = 0;
 #else
 	int usevfd = 0;
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 		{
 			nocolor = 1;
 		}
-#if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
+#if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUDUO4KSE || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
 		else if ((!strcmp(argv[x], "--useoled")))
 		{
 			useoled = 1;
@@ -155,7 +155,7 @@ int main(int argc, char **argv)
 		{
 			char * oled="";
 			char * oled_help="";
-#if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
+#if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUDUO4KSE || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
 			oled=" [--useoled]";
 			oled_help="--useoled		show BER/SNR/SIG at oled device\n";
 #else
@@ -278,7 +278,7 @@ int main(int argc, char **argv)
 			printf("Network (%s): %s, BER: %u (%u%%), SNR: %u (%u%%), SIG: %u (%u%%) - [%c%c]\n", fe_type, network_name_fin, signal_quality.ber, (signal_quality.ber / 655), signal_quality.snr, (signal_quality.snr / 655), signal_quality.strength, (signal_quality.strength / 655), signal_quality.status & FE_HAS_SIGNAL ? 'S' : ' ', signal_quality.status & FE_HAS_LOCK ? 'L' : ' ');
 		else
 			printf("\033[01;33mNetwork (%s): %s\033[00m \033[01;31mBER: %u (%u%%)\033[00m \033[01;34mSNR: %u (%u%%)\033[00m \033[01;32mSIG: %u (%u%%)\033[00m - \033[01;36m[%c%c]\033[00m\n", fe_type, network_name_fin, signal_quality.ber, (signal_quality.ber / 655), signal_quality.snr, (signal_quality.snr / 655), signal_quality.strength, (signal_quality.strength / 655), signal_quality.status & FE_HAS_SIGNAL ? 'S' : ' ', signal_quality.status & FE_HAS_LOCK ? 'L' : ' ');
-#if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
+#if BOXMODEL_VUSOLO4K || BOXMODEL_VUDUO4K || BOXMODEL_VUDUO4KSE || BOXMODEL_VUULTIMO4K || BOXMODEL_VUUNO4KSE
 		if (useoled)
 		{
 			usleep(1000000);
