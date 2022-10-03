@@ -2,11 +2,7 @@
 #include <config.h>
 #endif
 
-#if HAVE_COOL_HARDWARE
-#define RC_DEVICE "/dev/input/nevis_ir"
-#define RC_DEVICE_FALLBACK "/dev/input/event0"
-
-#elif HAVE_SPARK_HARDWARE
+#if HAVE_SPARK_HARDWARE
 #define RC_DEVICE "/dev/input/nevis_ir"
 #define RC_DEVICE_FALLBACK "/dev/input/event1"
 
