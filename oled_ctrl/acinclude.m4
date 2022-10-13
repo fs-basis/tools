@@ -152,7 +152,7 @@ dnl end workaround
 
 AC_DEFUN([TUXBOX_BOXTYPE], [
 AC_ARG_WITH(boxtype,
-	AS_HELP_STRING([--with-boxtype], [valid values: armbox, duckbox, mipsbox spark, spark7162]),
+	AS_HELP_STRING([--with-boxtype], [valid values: armbox, duckbox, mipsbox, spark, spark7162]),
 	[case "${withval}" in
 		ufs*)
 			BOXTYPE="duckbox"
