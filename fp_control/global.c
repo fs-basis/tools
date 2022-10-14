@@ -29,9 +29,7 @@
 
 #include "global.h"
 
-/* #define E2TIMERSXML "/usr/local/share/enigma2/timers.xml" */
-#define E2TIMERSXML "/etc/enigma2/timers.xml"
-#define E2WAKEUPTIME "/proc/stb/fp/wakeup_time"
+#define WAKEUPTIME "/proc/stb/fp/wakeup_time"
 
 #define NEUTRINO_TIMERS "/var/tuxbox/config/timerd.conf"
 
@@ -41,27 +39,25 @@ char *sDisplayStd = "%a %d %H:%M:%S";
 #define WAKEUPFILE "/var/wakeup"
 #define WAS_TIMER_WAKEUP "/proc/stb/fp/was_timer_wakeup"
 
-#define E2_WAKEUP_TIME_PROC
+#define WAKEUP_TIME_PROC
 
 static Model_t *AvailableModels[] =
 {
 	&Ufs910_1W_model,
 	&Ufs910_14W_model,
-	&UFS922_model,
-	&Fortis_model,
 	&UFS912_model,
+	&UFS922_model,
 	&Spark_model,
-	&Cuberevo_model,
 	NULL
 };
 
-#ifdef E2_WAKEUP_TIME_PROC
+#ifdef WAKEUP_TIME_PROC
 static time_t read_e2_timers(time_t curTime)
 {
 	char line[12];
 	time_t recordTime = LONG_MAX;
-	FILE *fd = fopen(E2WAKEUPTIME, "r");
-	printf("Getting Enigma2 wakeup time");
+	FILE *fd = fopen(WAKEUPTIME, "r");
+	printf("Getting wakeup time");
 
 	if (fd > 0)
 	{
@@ -79,42 +75,8 @@ static time_t read_e2_timers(time_t curTime)
 		fclose(fd);
 	}
 	else
-		printf(" - Error reading %s\n", E2WAKEUPTIME);
+		printf(" - Error reading %s\n", WAKEUPTIME);
 
-	return recordTime;
-}
-#else
-static time_t read_e2_timers(time_t curTime)
-{
-	char recordString[11];
-	char line[1000];
-	time_t recordTime = LONG_MAX;
-	FILE *fd = fopen(E2TIMERSXML, "r");
-	printf("Getting enigma2 wakeup time");
-
-	if (fd > 0)
-	{
-		while (fgets(line, 999, fd) != NULL)
-		{
-			line[999] = '\0';
-
-			if (!strncmp("<timer begin=\"", line, 14))
-			{
-				unsigned long int tmp = 0;
-				strncpy(recordString, line + 14, 10);
-				recordString[11] = '\0';
-				tmp = atol(recordString);
-				recordTime = (tmp < recordTime && tmp > curTime ? tmp : recordTime);
-			}
-		}
-
-		printf(" - Done\n");
-		fclose(fd);
-	}
-	else
-	{
-		printf(" - Error reading %s\n", E2TIMERSXML);
-	}
 	return recordTime;
 }
 #endif
@@ -240,7 +202,7 @@ int syncWasTimerWakeup(eWakeupReason reason)
 	return 0;
 }
 
-// This function tries to read the wakeup time from enigma2 and neutrino
+// This function tries to read the wakeup time from  neutrino
 // The wakeup time will also be written to file for wakeupcause detection
 // If no wakeup time can be found LONG_MAX will be returned
 time_t read_timers_utc(time_t curTime)

@@ -37,7 +37,7 @@ struct vfd_ioctl_data
 
 typedef enum {NONE, POWERON, STANDBY, TIMER, POWERSWITCH, UNK1, UNK2, UNK3} eWakeupReason;
 
-typedef enum {Unknown, Ufs910_1W, Ufs910_14W, Ufs922, Tf7700, Fortis, Ufs912, Spark, Cuberevo} eBoxType;
+typedef enum {Unknown, Ufs910_1W, Ufs910_14W, Ufs912, Ufs922, Spark} eBoxType;
 
 typedef struct Context_s
 {
@@ -83,9 +83,7 @@ extern Model_t Ufs910_1W_model;
 extern Model_t Ufs910_14W_model;
 extern Model_t UFS912_model;
 extern Model_t UFS922_model;
-extern Model_t Fortis_model;
 extern Model_t Spark_model;
-extern Model_t Cuberevo_model;
 
 double modJulianDate(struct tm *theTime);
 time_t read_timers_utc(time_t curTime);

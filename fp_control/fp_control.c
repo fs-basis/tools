@@ -562,33 +562,16 @@ int getModel()
 					break;
 			}
 		}
-		else if (!strncasecmp(vName, "ufs922", 6))
-			vBoxType = Ufs922;
-		else if (!strncasecmp(vName, "tf7700hdpvr", 11))
-			vBoxType = Tf7700;
-		else if (!strncasecmp(vName, "hdbox", 5))
-			vBoxType = Fortis;
-		else if (!strncasecmp(vName, "octagon1008", 11))
-			vBoxType = Fortis;
-		else if (!strncasecmp(vName, "atevio7500", 10))
-			vBoxType = Fortis;
-		else if (!strncasecmp(vName, "octagon1008", 11))
-			vBoxType = Fortis;
 		else if (!strncasecmp(vName, "ufs912", 6))
 			vBoxType = Ufs912;
 		else if (!strncasecmp(vName, "ufs913", 6))
 			vBoxType = Ufs912;
+		else if (!strncasecmp(vName, "ufs922", 6))
+			vBoxType = Ufs922;
 		else if (!strncasecmp(vName, "spark", 5))
 			vBoxType = Spark;
 		else if (!strncasecmp(vName, "spark7162", 9))
 			vBoxType = Spark;
-		else if ((!strncasecmp(vName, "cuberevo", 8)) ||
-				(!strncasecmp(vName, "cuberevo-mini", 13)) ||
-				(!strncasecmp(vName, "cuberevo-mini2", 14)) ||
-				(!strncasecmp(vName, "cuberevo-250hd", 14)) ||
-				(!strncasecmp(vName, "cuberevo-2000hd", 15)) ||
-				(!strncasecmp(vName, "cuberevo-3000hd", 14)))
-			vBoxType = Cuberevo;
 		else
 			vBoxType = Unknown;
 	}

@@ -9,9 +9,7 @@ fp_control_SOURCES = \
 	Ufs910_14W.c \
 	Ufs912.c \
 	Ufs922.c \
-	Fortis.c \
 	Spark.c \
-	Cuberevo.c
 
 AM_CFLAGS  = -Wall
 AM_LDFLAGS = -lrt
