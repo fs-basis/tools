@@ -8,13 +8,9 @@ evremote2_SOURCES = \
 	remotes.c \
 	Ufs910_1W.c \
 	Ufs910_14W.c \
-	Tf7700.c \
 	Ufs912.c \
 	Spark.c \
 	Ufs922.c \
-	Fortis.c \
-	Cuberevo.c \
-	Ipbox.c \
 	LircdName.c
 
 AM_CFLAGS  = -Wall
