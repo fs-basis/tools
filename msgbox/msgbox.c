@@ -106,7 +106,7 @@ int instance=0;
 int rclocked=0;
 int stride;
 
-#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(HAVE_DUCKBOX_HARDWARE)
 int sync_blitter = 0;
 
 void blit(void) {
@@ -180,7 +180,7 @@ void put_instance(int pval)
 	}
 }
 
-#if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE
+#if HAVE_DUCKBOX_HARDWARE
 static void quit_signal(int sig __attribute__((unused)))
 #else
 static void quit_signal(int sig)
@@ -329,7 +329,7 @@ int GetSelection(char *sptr)
 	return rv;
 }
 
-#if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE
+#if HAVE_DUCKBOX_HARDWARE
 int psx;
 static int dy, psy, pxw, pyw, myo=0, buttsize=0, buttxstart=0, buttystart=0;
 #else
@@ -346,7 +346,7 @@ int show_txt(int buttonly)
 
 	if(hide)
 	{
-#if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE
+#if HAVE_DUCKBOX_HARDWARE
 		memcpy(lbb, hbb, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
 		blit();
 #else
@@ -475,7 +475,7 @@ int show_txt(int buttonly)
 							RenderString(butmsg[i], buttxstart+bx*(buttsize+buttdx/2), buttystart+by*(butty+buttdy/2)+butty, buttsize, CENTER, fsizebut, (i==(selection-1))?CMCST:CMCIT);
 						}
 					}
-#if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE
+#if HAVE_DUCKBOX_HARDWARE
 					blit();
 #else
 					memcpy(lfb, lbb, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
@@ -595,7 +595,7 @@ FILE *fh;
 
 		//init framebuffer before 1st scale2res
 		fb = open(FB_DEVICE, O_RDWR);
-#if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE
+#if HAVE_DUCKBOX_HARDWARE
 		if (fb < 0)
 			fb = open(FB_DEVICE_FALLBACK, O_RDWR);
 #endif
@@ -614,7 +614,7 @@ FILE *fh;
 			perror(__plugin__ " <FBIOGET_VSCREENINFO>\n");
 			return -1;
 		}
-#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(HAVE_DUCKBOX_HARDWARE)
 		var_screeninfo.xres = DEFAULT_XRES;
 		var_screeninfo.yres = DEFAULT_YRES;
 #endif
@@ -1007,7 +1007,7 @@ FILE *fh;
 	desc.flags = FT_LOAD_RENDER | FT_LOAD_FORCE_AUTOHINT;
 
 	//init backbuffer
-#if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE
+#if HAVE_DUCKBOX_HARDWARE
 	lbb = lfb + 1920 * 1080;
 	fix_screeninfo.line_length = DEFAULT_XRES * sizeof(uint32_t);
 	stride = DEFAULT_XRES;
@@ -1140,7 +1140,7 @@ FILE *fh;
 		{
 			hide^=1;
 			show_txt(0);
-#if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE
+#if HAVE_DUCKBOX_HARDWARE
 			ClearRC();
 #else
 
@@ -1213,7 +1213,7 @@ FILE *fh;
 
 
 	//cleanup
-#if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE
+#if HAVE_DUCKBOX_HARDWARE
 	memcpy(lbb, obb, var_screeninfo.xres*var_screeninfo.yres*sizeof(uint32_t));
 	blit();
 #else
@@ -1221,7 +1221,7 @@ FILE *fh;
 #endif
 	munmap(lfb, fix_screeninfo.smem_len);
 	close(fb);
-#if !defined(HAVE_SPARK_HARDWARE) && !defined(HAVE_DUCKBOX_HARDWARE)
+#if !defined(HAVE_DUCKBOX_HARDWARE)
 	free(lbb);
 #endif
 

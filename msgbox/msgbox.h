@@ -21,7 +21,7 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <stdint.h>
-#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(HAVE_DUCKBOX_HARDWARE)
 #include <linux/stmfb.h>
 #define DEFAULT_XRES 1280
 #define DEFAULT_YRES 720

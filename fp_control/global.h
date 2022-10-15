@@ -18,10 +18,8 @@
 #define VFDPWRLED            0xc0425a04
 #define VFDDISPLAYWRITEONOFF 0xc0425a05
 #define VFDDISPLAYCLR        0xc0425b00
-/* ufs912, 922, hdbox ->unset compat mode */
+/* ufs912, 922, */
 #define VFDSETMODE           0xc0425aff
-/*spark*/
-#define VFDGETSTARTUPSTATE   0xc0425af8
 
 /* ufs912 */
 #define VFDGETVERSION        0xc0425af7
@@ -37,7 +35,7 @@ struct vfd_ioctl_data
 
 typedef enum {NONE, POWERON, STANDBY, TIMER, POWERSWITCH, UNK1, UNK2, UNK3} eWakeupReason;
 
-typedef enum {Unknown, Ufs910_1W, Ufs910_14W, Ufs912, Ufs922, Spark} eBoxType;
+typedef enum {Unknown, Ufs910_1W, Ufs910_14W, Ufs912, Ufs922} eBoxType;
 
 typedef struct Context_s
 {
@@ -83,7 +81,6 @@ extern Model_t Ufs910_1W_model;
 extern Model_t Ufs910_14W_model;
 extern Model_t UFS912_model;
 extern Model_t UFS922_model;
-extern Model_t Spark_model;
 
 double modJulianDate(struct tm *theTime);
 time_t read_timers_utc(time_t curTime);

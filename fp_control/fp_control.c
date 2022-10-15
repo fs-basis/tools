@@ -193,13 +193,6 @@ void processCommand(Context_t *context, int argc, char *argv[])
 					if (((Model_t *)context->m)->GetTime(context, &theGMTTime) == 0)
 					{
 						struct tm *gmt = gmtime(&theGMTTime);
-#if 0
-						struct timeval tv;
-						time_t allsec;
-						allsec = mktime(gmt);
-						tv.tv_sec = allsec;
-						settimeofday(&tv, 0); // only works on spark, so we make a system-call later
-#endif
 						fprintf(stderr, "Setting RTC to current frontpanel time: %02d:%02d:%02d %02d-%02d-%04d\n",
 							gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon + 1, gmt->tm_year + 1900);
 						char cmd[50];
@@ -568,10 +561,6 @@ int getModel()
 			vBoxType = Ufs912;
 		else if (!strncasecmp(vName, "ufs922", 6))
 			vBoxType = Ufs922;
-		else if (!strncasecmp(vName, "spark", 5))
-			vBoxType = Spark;
-		else if (!strncasecmp(vName, "spark7162", 9))
-			vBoxType = Spark;
 		else
 			vBoxType = Unknown;
 	}

@@ -8,8 +8,7 @@ fp_control_SOURCES = \
 	Ufs910_1W.c \
 	Ufs910_14W.c \
 	Ufs912.c \
-	Ufs922.c \
-	Spark.c
+	Ufs922.c
 
 AM_CFLAGS  = -Wall
 AM_LDFLAGS = -lrt

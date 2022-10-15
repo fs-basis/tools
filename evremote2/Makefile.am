@@ -9,7 +9,6 @@ evremote2_SOURCES = \
 	Ufs910_1W.c \
 	Ufs910_14W.c \
 	Ufs912.c \
-	Spark.c \
 	Ufs922.c \
 	LircdName.c
 

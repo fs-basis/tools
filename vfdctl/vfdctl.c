@@ -59,72 +59,8 @@ int getIconIndex(char *icon);
 void printBitmap(char *filename, int animationSpeed);
 void playVfdx(char *filename);
 
-#ifdef HAVE_SPARK7162_HARDWARE
-#define VFD_LEN    8
-struct set_mode_s
-{
-	int compat; /* 0 = compatibility mode to vfd driver; 1 = nuvoton mode */
-};
-
-struct set_brightness_s
-{
-	int level;
-};
-
-struct set_icon_s
-{
-	int icon_nr;
-	int on;
-};
-
-struct set_led_s
-{
-	int led_nr;
-	int on;
-};
-
-/* time must be given as follows:
- * time[0] & time[1] = mjd ???
- * time[2] = hour
- * time[3] = min
- * time[4] = sec
- */
-struct set_standby_s
-{
-	char time[5];
-};
-
-struct set_time_s
-{
-	char time[5];
-};
-
-struct aotom_ioctl_data
-{
-	union
-	{
-		struct set_icon_s icon;
-		struct set_led_s led;
-		struct set_brightness_s brightness;
-		struct set_mode_s mode;
-		struct set_standby_s standby;
-		struct set_time_s time;
-	} u;
-};
-
-const char *icons[46] =
-{
-	"fr", "plr", "play", "plf", "ff", "pause", "rec", "mute", "cycle", "dd", "lock", "ci", "usb", "hd", "rec2", "hd8", "hd7", /* 17 */
-	"hd6", "hd5", "hd4", "hd3", "hdfull", "hd2", "hd1", "mp3", "ac3", "tvl", "music", "alert", "hdd", "clockpm", "clockam", /* 32 */
-	"clock", "mail", "bt", "stby", "ter", "disk3", "disk2", "disk1", "disk0", "sat", "ts", "dot1", "cab", "all"
-};           /* 46 */
-
-static struct aotom_ioctl_data aotom_data;
-static char textOff = 100;
-#else
 #define VFD_LEN   16
 const char *icons[16] = {"usb", "hd", "hdd", "lock", "bt", "mp3", "music", "dd", "mail", "mute", "play", "pause", "ff", "fr", "rec", "clock"};
-#endif
 
 const char *states[3] = {"off", "on", "not inited"};
 
@@ -173,7 +109,6 @@ int main(int argc, char **argv)
 		else if (strcmp(cmd, "-v") == 0)
 		{
 			verbose = true;
-#ifndef HAVE_SPARK7162_HARDWARE
 		}
 		else if (strcmp(cmd, "-s") == 0)
 		{
@@ -212,7 +147,6 @@ int main(int argc, char **argv)
 				fprintf(stderr, "vfdctl: please specify .vfdx file as 2nd argument\n");
 			}
 			break;
-#endif
 		}
 		else if (cmd[0] == '+')
 		{
@@ -221,18 +155,6 @@ int main(int argc, char **argv)
 		else if (cmd[0] == '-')
 		{
 			iconOnOff(cmd + 1, false);
-#ifdef HAVE_SPARK7162_HARDWARE
-		}
-		else if (strcmp(cmd, "texton") == 0)
-		{
-			textOff = 101;
-			ioctl(file_vfd, VFDDISPLAYWRITEONOFF, &textOff);
-		}
-		else if (strcmp(cmd, "textoff") == 0)
-		{
-			textOff = 100;
-			ioctl(file_vfd, VFDDISPLAYWRITEONOFF, &textOff);
-#else
 		}
 		else if (strcmp(cmd, "demomode") == 0)
 		{
@@ -264,7 +186,6 @@ int main(int argc, char **argv)
 				printState(-1);
 			}
 			break;
-#endif
 		}
 		else
 		{
@@ -299,15 +220,6 @@ int getIconIndex(char *icon)
 {
 	int i;
 
-#ifdef HAVE_SPARK7162_HARDWARE
-	for (i = 0; i < 46; i++)
-	{
-		if (strcmp(icon, icons[i]) == 0)
-		{
-			return i + 1;
-		}
-	}
-#else
 	for (i = 0; i < 16; i++)
 	{
 		if (strcmp(icon, icons[i]) == 0)
@@ -315,7 +227,7 @@ int getIconIndex(char *icon)
 			return i;
 		}
 	}
-#endif
+
 	printf("Icon %s does not exist!\n", icon);
 	exit(-1);
 }
@@ -353,17 +265,6 @@ void close_device_vfd()
 
 void show_help()
 {
-#ifdef HAVE_SPARK7162_HARDWARE
-	printf("vfdctl v0.7.1 Spark7162 - usage:\n\
-\tvfdctl [[-c] text] [+sym] [-sym] ...\n\
-\t-c\tcentered output\n\
-\tto set symbols use e.g. +usb or -usb\n\
-\tavailable symbols are fr,plr,play,plf,ff,pause,rec,mute,cycle,dd,lock,ci,usb,hd,rec2,hd8,hd7,hd6,hd5,hd4,hd3,hdfull,hd2,hd1\n\
-\t,mp3,ac3,tvl,music,alert,hdd,clockpm,clockam,clock,mail,bt,stby,ter,disk3,disk2,disk1,disk0,sat,ts,dot1,cab,all\n\
-\tspecial modes are: \n\
-\ttexton\tactivate text showing on VFD\n\
-\ttextoff\tdeactivate text showing on VFD\n");
-#else
 	printf("vfdctl v0.7.1 - usage:\n\
 \tvfdctl [[-c] text] [-s speed] [-b file] [+sym] [-sym] ...\n\
 \t-c\tcentered output\n\
@@ -376,7 +277,6 @@ void show_help()
 \tvfdctl demomode to start demo loop\n\
 \tvfdctl input [text] for remote control input mode\n\
 \tvfdctl iconstate [iconname] to get the current icon state\n");
-#endif
 }
 
 void centeredText(char *text)
@@ -424,11 +324,6 @@ void scrollText(char *text)
 int iconOnOff(char *sym, unsigned char onoff)
 {
 	char icon = getIconIndex(sym);
-#ifdef HAVE_SPARK7162_HARDWARE
-	aotom_data.u.icon.icon_nr = icon;
-	aotom_data.u.icon.on = onoff;
-	ioctl(file_vfd, VFDICONDISPLAYONOFF, &aotom_data);
-#else
 	struct
 	{
 		unsigned char start;
@@ -441,7 +336,6 @@ int iconOnOff(char *sym, unsigned char onoff)
 	data.data[4] = onoff;
 	data.length = 5;
 	ioctl(file_vfd, VFDICONDISPLAYONOFF, &data);
-#endif
 
 	if (verbose)
 		printf("set icon %s(%x) %d \n", sym, icon, onoff);

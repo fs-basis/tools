@@ -20,7 +20,7 @@
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 //#include <plugin.h>
-//#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+//#if defined(HAVE_DUCKBOX_HARDWARE)
 //#include <linux/stmfb.h>
 //#endif
 
@@ -142,10 +142,8 @@ char *infomsgclock[] = {
 };
 
 #if HAVE_DVB_API_VERSION == 3
-// longer breaking-line for dBox
 char *http_br = {"**************************************************%0A"};
 #else
-// shorter breaking-line for dreambox
 char *http_br = {"**********************************%0A"};
 #endif
 

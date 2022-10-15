@@ -454,10 +454,6 @@ int getModel()
 			vBoxType = Ufs912;
 		else if (!strncasecmp(vName, "ufs922", 6))
 			vBoxType = Ufs922;
-		else if (!strncasecmp(vName, "spark", 5))
-			vBoxType = Spark;
-		else if (!strncasecmp(vName, "spark7162", 9))
-			vBoxType = Spark;
 		else /* for other boxes we use LircdName driver as a default */
 			vBoxType = LircdName;
 	}

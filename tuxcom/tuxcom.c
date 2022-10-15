@@ -38,7 +38,7 @@
 # define DEFAULT_XRES 1280
 # define DEFAULT_YRES 720
 static int stride;
-#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(HAVE_DUCKBOX_HARDWARE)
 static int sync_blitter = 0;
 # endif
 #endif
@@ -46,7 +46,7 @@ static int sync_blitter = 0;
  * GetRCCode  (Code from Tuxmail)
  ******************************************************************************/
 
-#if defined HAVE_SPARK_HARDWARE || defined(HAVE_DUCKBOX_HARDWARE) || HAVE_ARM_HARDWARE || HAVE_MIPS_HARDWARE
+#if defined(HAVE_DUCKBOX_HARDWARE) || HAVE_ARM_HARDWARE || HAVE_MIPS_HARDWARE
 int GetRCCode()
 {
 	static int count = 0;
@@ -541,7 +541,7 @@ void RenderString(const char *string, int _sx, int _sy, int maxwidth, int layout
 
 		_ex = _sx + maxwidth;
 
-#if defined(MARTII) && defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(MARTII) && defined(HAVE_DUCKBOX_HARDWARE)
 		if(sync_blitter) {
 			sync_blitter = 0;
 			if (ioctl(fb, STMFBIO_SYNC_BLITTER) < 0)
@@ -569,24 +569,24 @@ void RenderString(const char *string, int _sx, int _sy, int maxwidth, int layout
 
 void RenderBox(int _sx, int _sy, int _ex, int _ey, int mode, int color)
 {
-#if !defined(MARTII) || !defined(HAVE_SPARK_HARDWARE) || !defined(HAVE_DUCKBOX_HARDWARE)
+#if !defined(MARTII) || !defined(HAVE_DUCKBOX_HARDWARE)
 	int loop;
 	int tx;
 #endif
 #ifdef MARTII
-#if !defined(HAVE_SPARK_HARDWARE) && !defined(HAVE_DUCKBOX_HARDWARE)
+#if !defined(HAVE_DUCKBOX_HARDWARE)
 	uint32_t *p1, *p2, *p3, *p4;
 # endif
 #else
 	unsigned char *p1, *p2, *p3, *p4;
 #endif
 
-#if defined(MARTII) && defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(MARTII) && defined(HAVE_DUCKBOX_HARDWARE)
 	sync_blitter = 1;
 #endif
 	if(mode == FILL)
 	{
-#if defined(MARTII) && defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(MARTII) && defined(HAVE_DUCKBOX_HARDWARE)
 		STMFBIO_BLT_DATA bltData;
 		memset(&bltData, 0, sizeof(STMFBIO_BLT_DATA));
 
@@ -636,7 +636,7 @@ void RenderBox(int _sx, int _sy, int _ex, int _ey, int mode, int color)
 	}
 	else
 	{
-#if defined(MARTII) && defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(MARTII) && defined(HAVE_DUCKBOX_HARDWARE)
 		RenderBox(_sx, _sy, _ex, _sy + 1, FILL, color);
 		RenderBox(_sx, _ey - 1, _ex, _ey, FILL, color);
 		RenderBox(_sx, _sy + 1, _sx + 1, _ey - 1, FILL, color);
@@ -741,7 +741,7 @@ void SetLanguage()
 #ifdef MARTII
 static int startX, startY, endX, endY, pitch;
 void blit(void) {
-#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(HAVE_DUCKBOX_HARDWARE)
 	STMFBIO_BLT_DATA  bltData;
 	memset(&bltData, 0, sizeof(STMFBIO_BLT_DATA));
 
@@ -825,9 +825,9 @@ int main()
 	}
 
 	/* open Remote Control */
-#if HAVE_SPARK_HARDWARE || HAVE_DUCKBOX_HARDWARE || HAVE_ARM_HARDWARE || HAVE_MIPS_HARDWARE
+#if HAVE_DUCKBOX_HARDWARE || HAVE_ARM_HARDWARE || HAVE_MIPS_HARDWARE
 	rc = open("/dev/input/nevis_ir", O_RDONLY);
-#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE) || defined(HAVE_ARM_HARDWARE)
+#if defined(HAVE_DUCKBOX_HARDWARE) || defined(HAVE_ARM_HARDWARE)
 	if (rc < 0)
 #if HAVE_DUCKBOX_HARDWARE || BOXMODEL_VUPLUS_ALL
 		rc = open("/dev/input/event0", O_RDONLY);
@@ -854,7 +854,7 @@ int main()
 		return 2;
 	}
 #ifdef MARTII
-#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(HAVE_DUCKBOX_HARDWARE)
 	fix_screeninfo.line_length = DEFAULT_XRES << 2;
 	stride = DEFAULT_XRES;
 	struct fb_var_screeninfo s;
@@ -875,7 +875,7 @@ int main()
 		printf("TuxCom <FBIOGET_VSCREENINFO failed>\n");
 		return 2;
 	}
-#if defined(MARTII) && defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(MARTII) && defined(HAVE_DUCKBOX_HARDWARE)
 	var_screeninfo.xres = DEFAULT_XRES;
 	var_screeninfo.yres = DEFAULT_YRES;
 #endif
@@ -900,7 +900,7 @@ int main()
 	BUTTONWIDTH = _BUTTONWIDTH * var_screeninfo.yres / 576;
 	BUTTONHEIGHT = _BUTTONHEIGHT * var_screeninfo.yres / 576;
 #ifndef MARTII
-#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(HAVE_DUCKBOX_HARDWARE)
 	/* hack: convert offsets to real screen resolution. neutrino always uses 1280x720 FB */
 	if (var_screeninfo.xres != 1280)
 	{
@@ -967,7 +967,7 @@ int main()
 
 	//init backbuffer
 
-#if defined(MARTII) && defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(MARTII) && defined(HAVE_DUCKBOX_HARDWARE)
 	lbb = lfb + 1920 * 1080;
 #else
 	if (!(lbb = malloc(fix_screeninfo.line_length * var_screeninfo.yres)))
@@ -1698,7 +1698,7 @@ int main()
 	FTC_Manager_Done(manager);
 	FT_Done_FreeType(library);
 
-#if !defined(MARTII) || !defined(HAVE_SPARK_HARDWARE) || !defined(HAVE_DUCKBOX_HARDWARE)
+#if !defined(MARTII) || !defined(HAVE_DUCKBOX_HARDWARE)
 	free(lbb);
 #endif
 	munmap(lfb, fix_screeninfo.smem_len);

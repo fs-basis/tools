@@ -19,7 +19,7 @@
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 //#include <plugin.h>
-//#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+//#if defined(HAVE_DUCKBOX_HARDWARE)
 //#include <linux/stmfb.h>
 //#endif
 

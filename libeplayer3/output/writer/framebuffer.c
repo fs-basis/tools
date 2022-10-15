@@ -132,7 +132,6 @@ static int writeData(void *_call)
 		static uint32_t last_color = 0, colortable[256];
 		if (last_color != call->color)
 		{
-			// call->color is rgba, our spark frame buffer is argb
 			uint32_t c = call->color >> 8, a = 255 - (call->color & 0xff);
 			int i;
 			for (i = 0; i < 256; i++)

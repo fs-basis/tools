@@ -6,7 +6,7 @@ int paintIcon(const char *const fname, int xstart, int ystart, int xsize, int ys
 void scale_pic(unsigned char **buffer, int x1, int y1, int xstart, int ystart, int xsize, int ysize,
 			   int *imx, int *imy, int *dxp, int *dyp, int *dxo, int *dyo, int alpha);
 
-#if defined(HAVE_SPARK_HARDWARE) || defined(HAVE_DUCKBOX_HARDWARE)
+#if defined(HAVE_DUCKBOX_HARDWARE)
 void FillRect(int sx, int sy, int ex, int ey, uint32_t color);
 #endif
 

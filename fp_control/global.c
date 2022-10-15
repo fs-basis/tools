@@ -47,7 +47,6 @@ static Model_t *AvailableModels[] =
 	&Ufs910_14W_model,
 	&UFS912_model,
 	&UFS922_model,
-	&Spark_model,
 	NULL
 };
 

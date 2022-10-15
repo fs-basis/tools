@@ -1911,8 +1911,6 @@ void NotifyUser()
 			month = tCheck_mon;
 			year = tCheck_year;
 
-			// start with a newline (because of dreambox-httpd)
-//			tmp_buffer[0]=0;
 			strcpy(tmp_buffer, http_ln);
 
 			// event now
