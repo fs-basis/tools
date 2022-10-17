@@ -38,13 +38,13 @@ tArgs vArgs[] =
 {
 	{ "-b", " --setBrightness		", "Args: brightness\n\tSet oled brightness" },
 	{ "-c", " --clear			", "Args: No argumens\n\tClear oled display" },
-        { "-d", " --deepStandby		", "Args: No argumens\n\tEnter deep standby" },
-	{ "-tu", " --setTextUp		", "Args: text\n\tSet text to oled in up" },
+        { "-d", " --deepStandby			", "Args: No argumens\n\tEnter deep standby" },
+	{ "-tu", " --setTextUp			", "Args: text\n\tSet text to oled in up" },
 	{ "-tc", " --setTextCenter		", "Args: text\n\tSet text to oled in center" },
 	{ "-td", " --setTextDown		", "Args: text\n\tSet text to oled in down" },
-	{ "-tud", " --setTextUpDifferent	", "Args: text\n\tSet text to oled in up" },
-	{ "-tcd", " --setTextCenterDifferent	", "Args: text\n\tSet text to oled in center" },
-	{ "-tdd", " --setTextDownDifferent	", "Args: text\n\tSet text to oled in down" },
+	{ "-tud", " --setTextUpDifferent	", "Args: text\n\tSet text to oled in up (bigger font)" },
+	{ "-tcd", " --setTextCenterDifferent	", "Args: text\n\tSet text to oled in center (bigger font)" },
+	{ "-tdd", " --setTextDownDifferent	", "Args: text\n\tSet text to oled in down (bigger font)" },
 	{ NULL, NULL, NULL }
 };
 
@@ -52,7 +52,7 @@ void usage(char *prg, char *cmd)
 {
 	int i;
 	/* or printout a default usage */
-	fprintf(stderr, "Oled control tool, version 1.00 (VU ARM)\n");
+	fprintf(stderr, "Oled control tool, version 1.10 (VU ARM)\n");
 	fprintf(stderr, "General usage:\n\n");
 	fprintf(stderr, "%s argument [optarg1] [optarg2]\n", prg);
 
@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
 				}
 				i += 1;
 			}
-			else if ((strcmp(argv[i], "-tcd") == 0) || (strcmp(argv[i], "--setTextUpDifferent") == 0))
+			else if ((strcmp(argv[i], "-tcd") == 0) || (strcmp(argv[i], "--setTextCenterDifferent") == 0))
 			{
 				if (i + 1 <= argc)
 				{
