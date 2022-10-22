@@ -93,6 +93,7 @@ int lcd_open(const char *dev, int mode, int x_res, int y_res)
 
 int lcd_setmode(int mode)
 {
+#if !BOXMODEL_E4HD
 	int tmp;
 	if (mode == 0)
 	{
@@ -112,6 +113,7 @@ int lcd_setmode(int mode)
 		printf("%s: failed to set lcd mode\n", __FUNCTION__);
 		return -1;
 	}
+#endif
 	return 0;
 }
 
@@ -191,12 +193,14 @@ void lcd_draw()
 
 int lcd_clear()
 {
+#if !BOXMODEL_E4HD
 	if (ioctl(fd,LCD_IOCTL_CLEAR) < 0)
 	{
 		printf("%s: cannot clear lcd device\n", __FUNCTION__);
 		return -1;
 	}
 	lcd_draw();
+#endif
 	return 0;
 }
 
