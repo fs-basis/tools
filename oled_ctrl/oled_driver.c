@@ -33,7 +33,7 @@ int lcd_read_value(const char *filename)
 	FILE *fd = fopen(filename, "r");
 	if (fd) {
 		int tmp;
-#if BOXMODEL_E4HDULTRA
+#if BOXMODEL_E4HD
 		if (fscanf(fd, "%d", &tmp) == 1)
 #else
 		if (fscanf(fd, "%x", &tmp) == 1)
