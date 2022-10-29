@@ -80,7 +80,7 @@
 #define LCD_DOWN_SIZE_DIFFERENT 0.13 // 13% of display width
 #define LCD_DOWN_COLOR_DIFFERENT 0xffffffff
 
-#if BOXMODEL_E4HD
+#if BOXMODEL_E4HDULTRA
 #define LCD_DEVICE "/dev/fb1"
 #else
 #define LCD_DEVICE "/dev/oled0"

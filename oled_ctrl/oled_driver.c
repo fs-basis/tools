@@ -33,7 +33,7 @@ int lcd_read_value(const char *filename)
 	FILE *fd = fopen(filename, "r");
 	if (fd) {
 		int tmp;
-#if BOXMODEL_E4HD
+#if BOXMODEL_E4HDULTRA
 		if (fscanf(fd, "%d", &tmp) == 1)
 #else
 		if (fscanf(fd, "%x", &tmp) == 1)
@@ -97,7 +97,7 @@ int lcd_open(const char *dev, int mode, int x_res, int y_res)
 
 int lcd_setmode(int mode)
 {
-#if !BOXMODEL_E4HD
+#if !BOXMODEL_E4HDULTRA
 	int tmp;
 	if (mode == 0)
 	{
@@ -197,7 +197,7 @@ void lcd_draw()
 
 int lcd_clear()
 {
-#if !BOXMODEL_E4HD
+#if !BOXMODEL_E4HDULTRA
 	if (ioctl(fd,LCD_IOCTL_CLEAR) < 0)
 	{
 		printf("%s: cannot clear lcd device\n", __FUNCTION__);

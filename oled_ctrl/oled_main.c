@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 	int i;
 	if (argc > 1)
 	{
-#if BOXMODEL_E4HD
+#if BOXMODEL_E4HDULTRA
 		bool write_to_lcd = false;
 #endif
 		i = 1;
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
 					text = argv[i + 1];
 					/* set display text */
 					lcd_print_text_up(text, LCD_UP_COLOR, 0, TEXT_ALIGN_CENTER);
-#if BOXMODEL_E4HD
+#if BOXMODEL_E4HDULTRA
 					write_to_lcd = true;
 #else
 					lcd_draw();
@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
 					text = argv[i + 1];
 					/* set display text */
 					lcd_print_text_center(text, LCD_CENTER_COLOR, 0, TEXT_ALIGN_CENTER);
-#if BOXMODEL_E4HD
+#if BOXMODEL_E4HDULTRA
 					write_to_lcd = true;
 #else
 					lcd_draw();
@@ -165,7 +165,7 @@ int main(int argc, char *argv[])
 					text = argv[i + 1];
 					/* set display text */
 					lcd_print_text_down(text, LCD_DOWN_COLOR, 0, TEXT_ALIGN_CENTER);
-#if BOXMODEL_E4HD
+#if BOXMODEL_E4HDULTRA
 					write_to_lcd = true;
 #else
 					lcd_draw();
@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
 					text = argv[i + 1];
 					/* set display text */
 					lcd_print_text_up_different(text, LCD_UP_COLOR_DIFFERENT, 0, TEXT_ALIGN_CENTER);
-#if BOXMODEL_E4HD
+#if BOXMODEL_E4HDULTRA
 					write_to_lcd = true;
 #else
 					lcd_draw();
@@ -207,7 +207,7 @@ int main(int argc, char *argv[])
 					text = argv[i + 1];
 					/* set display text */
 					lcd_print_text_center_different(text, LCD_CENTER_COLOR_DIFFERENT, 0, TEXT_ALIGN_CENTER);
-#if BOXMODEL_E4HD
+#if BOXMODEL_E4HDULTRA
 					write_to_lcd = true;
 #else
 					lcd_draw();
@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
 					text = argv[i + 1];
 					/* set display text */
 					lcd_print_text_down_different(text, LCD_DOWN_COLOR_DIFFERENT, 0, TEXT_ALIGN_CENTER);
-#if BOXMODEL_E4HD
+#if BOXMODEL_E4HDULTRA
 					write_to_lcd = true;
 #else
 					lcd_draw();
@@ -243,7 +243,7 @@ int main(int argc, char *argv[])
 			i++;
 		}
 
-#if BOXMODEL_E4HD
+#if BOXMODEL_E4HDULTRA
 		if (write_to_lcd)
 			lcd_draw();
 #endif
