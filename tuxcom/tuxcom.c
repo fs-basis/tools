@@ -829,7 +829,7 @@ int main()
 	rc = open("/dev/input/nevis_ir", O_RDONLY);
 #if defined(HAVE_DUCKBOX_HARDWARE) || defined(HAVE_ARM_HARDWARE)
 	if (rc < 0)
-#if HAVE_DUCKBOX_HARDWARE || BOXMODEL_VUPLUS_ALL
+#if HAVE_DUCKBOX_HARDWARE
 		rc = open("/dev/input/event0", O_RDONLY);
 #elif BOXMODEL_H7
 		rc = open("/dev/input/event2", O_RDONLY);
