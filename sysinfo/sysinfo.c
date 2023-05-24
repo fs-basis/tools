@@ -1457,11 +1457,7 @@ int get_mem(void)
 void get_boxname()
 {
 	FILE *fd;
-#if BOXMODEL_VUPLUS_ALL
-	fd = fopen("/proc/stb/info/vumodel", "r");
-#else
 	fd = fopen("/proc/stb/info/model", "r");
-#endif
 	if (fd)
 	{
 		fgets(boxname, 64, fd);
