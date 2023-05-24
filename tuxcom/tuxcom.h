@@ -250,19 +250,11 @@ static uint32_t bgra[] = {
 	0xffff0000, 0xffb0b0b0, 0xff00ff00, 0xff505050,
 	0xc0000080, 0xc0505050, 0xff0040ff };
 #else
-#if HAVE_TRIPLEDRAGON
-static unsigned char bgra[][4] = {
-"\x00\x00\x00\x00", "\xFF\xFF\xFF\xFF", "\xFF\x00\x00\x00", "\xFF\x00\x00\x80",
-"\xFF\x00\x80\xFF", "\xFF\xFF\xC0\x00", "\xFF\x00\xD0\x00", "\xFF\xE8\xE8\x00",
-"\xFF\xFF\x00\x00", "\xFF\xB0\xB0\xB0", "\xFF\x00\xFF\x00", "\xFF\x50\x50\x50",
-"\xC0\x00\x00\x80", "\xC0\x50\x50\x50", "\xFF\x00\x40\xFF" };
-#else
 static unsigned char bgra[][4] = {
 "\x00\x00\x00\x00", "\xFF\xFF\xFF\xFF", "\x00\x00\x00\xFF", "\x80\x00\x00\xFF",
 "\xFF\x80\x00\xFF", "\x00\xC0\xFF\xFF", "\x00\xD0\x00\xFF", "\x00\xE8\xE8\xFF",
 "\x00\x00\xFF\xFF", "\xB0\xB0\xB0\xFF", "\x00\xFF\x00\xFF", "\x50\x50\x50\xFF",
 "\x80\x00\x00\xC0", "\x50\x50\x50\xC0", "\xFF\x40\x00\xFf" };
-#endif
 #endif
 
 #define CONFIG_FILE "/var/tuxbox/config/tuxcom.conf"
@@ -274,7 +266,6 @@ unsigned short bl[] = {0xFF<<8, 0x00<<8, 0x80<<8, 0xFF<<8, 0x00<<8, 0x00<<8, 0x0
 unsigned short tr[] = {0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000 , 0x0000 , 0x0000 , 0x80ff , 0x80ff , 0x0000 };
 struct fb_cmap colormap = {1, 14, rd, gn, bl, tr};
 #endif
-
 
 int trans_map     [] = {BLUE1,BLUE_TRANSP,TRANSP};
 int trans_map_mark[] = {GRAY2,GRAY_TRANSP,GRAY_TRANSP};

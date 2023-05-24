@@ -104,6 +104,7 @@ char zeit[36] = "";
 char cores[12] = "";
 char processor[64] = "";
 char hardware[64] = "";
+char boxname[64] = "";
 char tuner[16] = "";
 char features[256] = "";
 char hard_rev[32] = "";
@@ -848,6 +849,16 @@ int get_info_cpu(void)
 			{
 				daten_auslesen(line_buffer, cores, sizeof(cores), ':', '\n');
 			}
+#if HAVE_SH4_HARDWARE
+			if ((ptr = strstr(line_buffer, "cpu type")) != NULL)
+			{
+				daten_auslesen(line_buffer, processor, sizeof(processor),':', '\n');
+			}
+			if ((ptr = strstr(line_buffer, "bogomips")) != NULL)
+			{
+				daten_auslesen(line_buffer, bogomips, sizeof(bogomips),':', '\n');
+			}
+#else
 			if ((ptr = strstr(line_buffer, "Processor")) != NULL)
 			{
 				daten_auslesen(line_buffer, processor, sizeof(processor),':', '\n');
@@ -856,11 +867,23 @@ int get_info_cpu(void)
 			{
 				daten_auslesen(line_buffer, bogomips, sizeof(bogomips),':', '\n');
 			}
+#endif
 
 			if ((ptr = strstr(line_buffer, "Features")) != NULL)
 			{
 				daten_auslesen(line_buffer, features, sizeof(features),':', '\n');
 			}
+
+#if HAVE_SH4_HARDWARE
+			if ((ptr = strstr(line_buffer, "machine")) != NULL)
+			{
+				daten_auslesen(line_buffer, hardware, sizeof(hardware),':', '\n');
+			}
+			if ((ptr = strstr(line_buffer, "cut")) != NULL)
+			{
+				daten_auslesen(line_buffer, hard_rev, sizeof(hard_rev),':', '\n');
+			}
+#else
 			if ((ptr = strstr(line_buffer, "Hardware")) != NULL)
 			{
 				daten_auslesen(line_buffer, hardware, sizeof(hardware),':', '\n');
@@ -869,8 +892,20 @@ int get_info_cpu(void)
 			{
 				daten_auslesen(line_buffer, hard_rev, sizeof(hard_rev),':', '\n');
 			}
+#endif
 		}
 		fclose(file);
+	}
+
+	if (atoi(bogomips) == 0)
+	{
+		file = fopen("/sys/kernel/debug/clk/fixed0/clk_rate", "r");
+		if (file)
+		{
+			fgets(line_buffer, sizeof(line_buffer), file);
+			snprintf(bogomips, sizeof(bogomips), "%.2f", atof(line_buffer) / 1000000);
+			fclose(file);
+		}
 	}
 
 	file = fopen("/proc/version", "r");
@@ -1040,6 +1075,7 @@ int show_FileS(void)
 				lauf = p_start;
 			break;
 		case KEY_OK:
+		case KEY_HOME:
 		case KEY_EXIT:
 			end_show = 1;
 			break;
@@ -1131,6 +1167,7 @@ int show_ps_status(int psnum)
 					bstart = bstart + max_lines;
 				}
 				break;
+			case KEY_HOME:
 			case KEY_EXIT:
 				end_show = 1;
 				break;
@@ -1261,6 +1298,7 @@ int show_ps_dmseg(char quote)
 				}
 				break;
 
+			case KEY_HOME:
 			case KEY_EXIT:
 				end_show = 1;
 				break;
@@ -1325,6 +1363,7 @@ int show_ps_dmseg(char quote)
 							}
 							break;
 
+						case KEY_HOME:
 						case KEY_EXIT:
 							ps_end = 1;
 							break;
@@ -1415,6 +1454,25 @@ int get_mem(void)
 	return 0;
 }
 
+void get_boxname()
+{
+	FILE *fd;
+#if BOXMODEL_VUPLUS_ALL
+	fd = fopen("/proc/stb/info/vumodel", "r");
+#else
+	fd = fopen("/proc/stb/info/model", "r");
+#endif
+	if (fd)
+	{
+		fgets(boxname, 64, fd);
+		fclose(fd);
+	}
+	correct_string(boxname);
+	char *p;
+	for (p = boxname; *p != '\0'; p++)
+		*p = (char) toupper(*p);
+}
+
 void get_homepage(const char* filename, char* out) {
 	FILE* fp = fopen(filename, "r");
 	if (fp == NULL) {
@@ -1454,25 +1512,60 @@ void get_homepage(const char* filename, char* out) {
 	strcpy(out, start);
 }
 
+void get_imagename(const char* filename, char* out) {
+	FILE* fp = fopen(filename, "r");
+	if (fp == NULL) {
+		*out = '\0';
+		perror("Fehler beim Oeffnen der Datei");
+		return;
+	}
+
+	char line[256];
+	char* start = NULL;
+	while (fgets(line, sizeof(line), fp) != NULL) {
+		if ((start = strstr(line, "imagename=")) != NULL) {
+			start += strlen("imagename=");
+			break;
+		}
+	}
+
+	fclose(fp);
+
+	if (start == NULL) {
+		*out = '\0';
+		return;
+	}
+
+	correct_string(start);
+	strcpy(out, start);
+}
+
 void hintergrund(void)
 {
-	char vstr[128];
+	get_boxname();
+	char vstr[256];
+	char imgname[128];
 
 	setBackground(CMCST);
 	RenderBox(sx, sy, ex, ey, FILL, CMCIT, 0);
 
-	RenderBox(sx + rahmen, sy + rahmen, ex - rahmen, linie_oben - rabs, FILL, CMCST, 0);			  // CMCST
-	RenderBox(sx + rahmen, linie_oben + rabs - 1, ex - rahmen, linie_unten - rabs + 1, FILL, CMH, 0); // CMH
-	RenderBox(sx + rahmen, linie_unten + rabs, ex - rahmen, ey - rahmen, FILL, CMCST, 0);			  // CMCST
+	RenderBox(sx + rahmen, sy + rahmen, ex - rahmen, linie_oben - rabs, FILL, CMCST, 0);			// CMCST
+	RenderBox(sx + rahmen, linie_oben + rabs - 1, ex - rahmen, linie_unten - rabs + 1, FILL, CMH, 0);	// CMH
+	RenderBox(sx + rahmen, linie_unten + rabs, ex - rahmen, ey - rahmen, FILL, CMCST, 0);			// CMCST
 
-	RenderBox(sx + rabs, sy + rabs, ex - rabs, linie_oben, GRID, CMCST, 0);			  // CMCST
-	RenderBox(sx + rabs, linie_oben - 1, ex - rabs, linie_unten + 1, GRID, CMCST, 0); // CMCST
-	RenderBox(sx + rabs, linie_unten, ex - rabs, ey - rabs, GRID, CMCST, 0);		  // CMCST
+	RenderBox(sx + rabs, sy + rabs, ex - rabs, linie_oben, GRID, CMCST, 0);					// CMCST
+	RenderBox(sx + rabs, linie_oben - 1, ex - rabs, linie_unten + 1, GRID, CMCST, 0);			// CMCST
+	RenderBox(sx + rabs, linie_unten, ex - rabs, ey - rabs, GRID, CMCST, 0);				// CMCST
 
 	snprintf(vstr, sizeof(vstr), "Sysinfo %.2f", SH_VERSION);
 	RenderString(vstr, sx + 2 * OFFSET_MED, sy + 4 * OFFSET_MED + 4 * OFFSET_MIN, scale2res(300), LEFT, scale2res(38), GREEN);
 
+#if 0	// homepage
 	get_homepage(VERSION_FILE, vstr);
+#else	// imagename and boxname
+	get_imagename(VERSION_FILE, imgname);
+	snprintf(vstr, sizeof(vstr), "%s - %s", imgname, boxname);
+#endif
 	RenderString(vstr, sx + scale2res(360), sy + 4 * OFFSET_MED + 2 * OFFSET_MIN, scale2res(450), LEFT, scale2res(30), BLUE0); // BLUE3
 }
 
@@ -1585,7 +1678,7 @@ void hauptseite(void)
 	}
 
 	RenderString("Features:", sx + h_abs, (linie_oben + v_abs), maxwidth, LEFT, FSIZE_MED, CMHT);
-    for (i = 0; i < partCount; i++) {
+	for (i = 0; i < partCount; i++) {
 		RenderString(parts[i], (abs_links + hoffs), (linie_oben + v_abs), maxwidth, LEFT, FSIZE_SMALL, CMCT);
 		if (i < partCount-1) {
 			v_abs += v_dist - OFFSET_MIN;
@@ -1662,10 +1755,18 @@ void hauptseite(void)
 				RenderString(temp_string, sx + h_abs + longest_length + 2*OFFSET_MED + scale2res(110), linie_oben + v_abs, maxwidth, LEFT, FSIZE_SMALL, CMCT);
 
 				snprintf(temp_string, sizeof(temp_string), "%d%%", (int) floor(mmcblk_info[i].usage_percent + 0.5));
+#if 1	//looks better :)
+				draw_progressbar(sx + h_abs + longest_length + 2*OFFSET_MED + scale2res(230), linie_oben + v_abs - 2*OFFSET_MED, sx + h_abs + longest_length + 2*OFFSET_MED + scale2res(310),
+#else
 				draw_progressbar(sx + h_abs + longest_length + 2*OFFSET_MED + scale2res(230), linie_oben + v_abs - 2*OFFSET_MED, sx + h_abs + longest_length + 2*OFFSET_MED + scale2res(340),
+#endif
 					(linie_oben + v_abs - 2*OFFSET_MED + scale2res(16)), PB_LEFT_GREEN70, (int) floor(mmcblk_info[i].usage_percent + 0.5));
 				// used
+#if 1	//looks better :)
+				RenderString(temp_string, sx + h_abs + longest_length + 2*OFFSET_MED + scale2res(320), (linie_oben + v_abs - OFFSET_MIN), maxwidth, LEFT, FSIZE_VSMALL, CMCT);
+#else
 				RenderString(temp_string, sx + h_abs + longest_length + 2*OFFSET_MED + scale2res(350), (linie_oben + v_abs - OFFSET_MIN), maxwidth, LEFT, FSIZE_VSMALL, CMCT);
+#endif
 			}
 		}
 		// Freigabe des mmcblk_info Speichers
@@ -1861,11 +1962,11 @@ void up_main_mem(void)
 		}
 	}
 
-	char chip_name[2][MAX_NAME_LEN];
+	char chip_name[2][MAX_NAME_LEN] = {};
 	if (read_nim_socket(chip_name, 2) < 0)
 		safe_strncpy(chip_name[0], "", MAX_NAME_LEN);
 
-	snprintf(temp_string, sizeof(temp_string),"Tuner: %s %s  Mode: %s", frontend_array[0].name, chip_name[0], type);
+	snprintf(temp_string, sizeof(temp_string),"Tuner A: %s %s  Mode: %s", frontend_array[0].name, chip_name[0], type);
 	RenderString(temp_string, ex - scale2res(530), LO + scale2res(225),scale2res(510), LEFT, FSIZE_SMALL, CMCT);
 
 	snprintf(temp_string, sizeof(temp_string),"SIG %d%c", sig, 37);
@@ -1928,6 +2029,7 @@ int get_network_info(const char *interface, int *speed, char *duplex_mode) {
 	if (ioctl(fd, SIOCETHTOOL, &ifr) == -1) {
 		perror("ioctl");
 		close(fd);
+		strlcpy(duplex_mode, "Unknown", 20);
 		return -1;
 	}
 
@@ -1952,8 +2054,8 @@ void up_net(void)
 	int LO = linie_oben + 2;
 	int condition = 2, i, unit;
 	double dtemp;
-	int speed;
-	char duplex_mode[20];
+	int speed = 0;
+	char duplex_mode[20] = "";
 	static int of_read = 0, of_write = 0;
 
 	if (get_network_info(IFNAME, &speed, duplex_mode) == -1) {
@@ -1962,8 +2064,8 @@ void up_net(void)
 	//printf("Network Card Speed: %d Mb/s\n", speed);
 	//printf("Network Card Duplex Mode: %s\n", duplex_mode);
 
-	RenderBox(ex - scale2res(535), LO + scale2res(3), ex - OFFSET_MED, LO + scale2res(30), FILL, CMH, 0);	 // CMH
-	RenderBox(ex - scale2res(535), LO + scale2res(140), ex - OFFSET_MED, LO + scale2res(240), FILL, CMH, 0); // CMH
+	RenderBox(ex - scale2res(535), LO + scale2res(3), ex - OFFSET_MED, LO + scale2res(30), FILL, CMH, 0);		// CMH
+	RenderBox(ex - scale2res(535), LO + scale2res(140), ex - OFFSET_MED, LO + scale2res(240), FILL, CMH, 0);	// CMH
 
 	int slen = GetStringLen("Netzauslastung:", FSIZE_MED);
 	if (slen > scale2res(145))
@@ -1977,8 +2079,8 @@ void up_net(void)
 
 	if (x_pos == ex - scale2res(527))
 	{
-		RenderBox(ex - scale2res(530), LO + scale2res(32), ex - scale2res(60), LO + scale2res(138), FILL, CMCST, 0); // CMCST
-		RenderBox(ex - scale2res(530), LO + scale2res(32), ex - scale2res(60), LO + scale2res(138), GRID, CMCIT, 0); // CMCIT
+		RenderBox(ex - scale2res(530), LO + scale2res(32), ex - scale2res(60), LO + scale2res(138), FILL, CMCST, 0);	// CMCST
+		RenderBox(ex - scale2res(530), LO + scale2res(32), ex - scale2res(60), LO + scale2res(138), GRID, CMCIT, 0);	// CMCIT
 	}
 	if (if_active == -1) {
 		RenderString("No active interface", ex - scale2res(380), LO + scale2res(80), maxwidth, LEFT, FSIZE_SMALL - 2, CMHT);
@@ -2254,6 +2356,7 @@ void mem_full(void)
 		switch (ev.code)
 		{
 		case KEY_OK:
+		case KEY_HOME:
 		case KEY_EXIT:
 			end_show = 1;
 			break;
@@ -2282,6 +2385,7 @@ void perf_full(void)
 		switch (ev.code)
 		{
 		case KEY_OK:
+		case KEY_HOME:
 		case KEY_EXIT:
 			end_show = 1;
 			break;
@@ -2683,6 +2787,7 @@ void show_network(void)
 			break;
 
 		case KEY_OK:
+		case KEY_HOME:
 		case KEY_EXIT:
 			mainloop = 0;
 			break;
@@ -2766,6 +2871,7 @@ int main(void)
 			show_network();
 			break;
 
+		case KEY_HOME:
 		case KEY_EXIT:
 			mainloop = 0;
 			break;

@@ -87,7 +87,7 @@ int GetRCCode()
 				case KEY_MENU:		rccode = RC_DBOX;		break;
 				case KEY_HOME:		rccode = RC_HOME;		break;
 				case KEY_EXIT:		rccode = RC_HOME;		break;
-				case KEY_POWER:		rccode = RC_STANDBY;	break;
+				case KEY_POWER:		rccode = RC_STANDBY;		break;
 				default:
 					if( ev.code > 0x7F )
 					{
