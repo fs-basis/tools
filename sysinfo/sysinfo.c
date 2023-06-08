@@ -389,9 +389,9 @@ int get_active_interface(char *interface_name)
 int init_fb(void)
 {
 	char *tstr = NULL;
-	static char menucoltxt[][25] = {"Content_Selected_Text", "Content_Selected",
-									"Content_Text", "Content", "Content_inactive_Text", "Content_inactive",
-									"Head_Text", "Head"};
+	static char menucoltxt[][25] = { "Content_Selected_Text", "Content_Selected",
+					 "Content_Text", "Content", "Content_inactive_Text",
+					 "Content_inactive", "Head_Text", "Head"};
 	int index = 0, cindex = 0, tv;
 
 	fb = open(FB_DEVICE, O_RDWR);
@@ -846,54 +846,63 @@ int get_info_cpu(void)
 	{
 		while (fgets(line_buffer, sizeof(line_buffer), file))
 		{
-			if ((ptr = strstr(line_buffer, "processor")) != NULL)
-			{
-				daten_auslesen(line_buffer, cores, sizeof(cores), ':', '\n');
-			}
 #if HAVE_SH4_HARDWARE
-			if ((ptr = strstr(line_buffer, "cpu type")) != NULL)
-			{
-				daten_auslesen(line_buffer, processor, sizeof(processor),':', '\n');
-			}
-			if ((ptr = strstr(line_buffer, "bogomips")) != NULL)
-			{
-				daten_auslesen(line_buffer, bogomips, sizeof(bogomips),':', '\n');
-			}
-#else
-			if ((ptr = strstr(line_buffer, "Processor")) != NULL)
-			{
-				daten_auslesen(line_buffer, processor, sizeof(processor),':', '\n');
-			}
-			if ((ptr = strstr(line_buffer, "BogoMIPS")) != NULL)
-			{
-				daten_auslesen(line_buffer, bogomips, sizeof(bogomips),':', '\n');
-			}
-#endif
-
-			if ((ptr = strstr(line_buffer, "Features")) != NULL)
-			{
-				daten_auslesen(line_buffer, features, sizeof(features),':', '\n');
-			}
-
-#if HAVE_SH4_HARDWARE
+			// Hardware
 			if ((ptr = strstr(line_buffer, "machine")) != NULL)
 			{
 				daten_auslesen(line_buffer, hardware, sizeof(hardware),':', '\n');
 			}
+			// Revision
 			if ((ptr = strstr(line_buffer, "cut")) != NULL)
 			{
 				daten_auslesen(line_buffer, hard_rev, sizeof(hard_rev),':', '\n');
 			}
 #else
+			// Hardware
 			if ((ptr = strstr(line_buffer, "Hardware")) != NULL)
 			{
 				daten_auslesen(line_buffer, hardware, sizeof(hardware),':', '\n');
 			}
+			// Revision
 			if ((ptr = strstr(line_buffer, "Revision")) != NULL)
 			{
 				daten_auslesen(line_buffer, hard_rev, sizeof(hard_rev),':', '\n');
 			}
 #endif
+			// Cores
+			if ((ptr = strstr(line_buffer, "processor")) != NULL)
+			{
+				daten_auslesen(line_buffer, cores, sizeof(cores), ':', '\n');
+			}
+#if HAVE_SH4_HARDWARE
+			// Processor
+			if ((ptr = strstr(line_buffer, "cpu type")) != NULL)
+			{
+				daten_auslesen(line_buffer, processor, sizeof(processor),':', '\n');
+			}
+			// BogoMIPS
+			if ((ptr = strstr(line_buffer, "bogomips")) != NULL)
+			{
+				daten_auslesen(line_buffer, bogomips, sizeof(bogomips),':', '\n');
+			}
+#else
+			// Processor
+			if ((ptr = strstr(line_buffer, "Processor")) != NULL)
+			{
+				daten_auslesen(line_buffer, processor, sizeof(processor),':', '\n');
+			}
+			// BogoMIPS
+			if ((ptr = strstr(line_buffer, "BogoMIPS")) != NULL)
+			{
+				daten_auslesen(line_buffer, bogomips, sizeof(bogomips),':', '\n');
+			}
+#endif
+			// Features
+			if ((ptr = strstr(line_buffer, "Features")) != NULL)
+			{
+				daten_auslesen(line_buffer, features, sizeof(features),':', '\n');
+			}
+
 		}
 		fclose(file);
 	}
@@ -1309,7 +1318,7 @@ int show_ps_dmseg(char quote)
 			case KEY_OK:
 				if (quote != 0)
 				{
-					//							printf("aussseeeen i= %d - ps_pointer = %d - endf= %d\n",i,ps_pointer,endf); fflush(stdout);
+					// printf("aussseeeen i= %d - ps_pointer = %d - endf= %d\n",i,ps_pointer,endf); fflush(stdout);
 					RenderBox(sx + 2 * ((ex - sx - 3 * OFFSET_MED) / 4), linie_unten + 2 * OFFSET_MIN, sx + 4 * OFFSET_MED + (((ex - sx - 3 * OFFSET_MED) / 4) * 3), ey - 4 * OFFSET_MIN, FILL, CMCST, 0); // CMCST
 					png_getsize(ICON_BUTTON_INFO, &icon_w, &icon_h);
 					paintIcon(ICON_BUTTON_INFO, sx + scale2res((icon_w / 2)) + ((int)((ex - sx - 3 * OFFSET_MED) / 4) * 2), linie_unten + 3 * OFFSET_SMALL + OFFSET_MIN - (icon_h / 2), 0, 0, &iw, &ih);
