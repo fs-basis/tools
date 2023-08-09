@@ -30,16 +30,16 @@
 int lcd_read_value(const char *filename)
 {
 	int value = 0;
-	FILE *fd = fopen(filename, "r");
-	if (fd) {
+	FILE *f = fopen(filename, "r");
+	if (f) {
 		int tmp;
 #if BOXMODEL_E4HDULTRA
-		if (fscanf(fd, "%d", &tmp) == 1)
+		if (fscanf(f, "%d", &tmp) == 1)
 #else
-		if (fscanf(fd, "%x", &tmp) == 1)
+		if (fscanf(f, "%x", &tmp) == 1)
 #endif
 			value = tmp;
-		fclose(fd);
+		fclose(f);
 	}
 	else
 	{
@@ -192,6 +192,9 @@ void lcd_setpixel(int x, int y, uint32_t data)
 
 void lcd_draw()
 {
+	if(fd < 0)
+		return;
+
 	write(fd, lcd_buffer, yres * stride);
 }
 
@@ -225,10 +228,10 @@ int lcd_close()
 		free(lcd_buffer);
 		lcd_buffer = 0;
 	}
-	if (-1 != fd)
+	if (fd != -1)
 	{
 		close(fd);
-		fd=-1;
+		fd = -1;
 	}
 	return 0;
 }
