@@ -36,15 +36,17 @@ typedef struct
 
 tArgs vArgs[] =
 {
-	{ "-b", " --setBrightness		", "Args: brightness\n\tSet oled brightness" },
-	{ "-c", " --clear			", "Args: No argumens\n\tClear oled display" },
-        { "-d", " --deepStandby			", "Args: No argumens\n\tEnter deep standby" },
-	{ "-tu", " --setTextUp			", "Args: text\n\tSet text to oled in up" },
-	{ "-tc", " --setTextCenter		", "Args: text\n\tSet text to oled in center" },
-	{ "-td", " --setTextDown		", "Args: text\n\tSet text to oled in down" },
-	{ "-tud", " --setTextUpDifferent	", "Args: text\n\tSet text to oled in up (bigger font)" },
-	{ "-tcd", " --setTextCenterDifferent	", "Args: text\n\tSet text to oled in center (bigger font)" },
-	{ "-tdd", " --setTextDownDifferent	", "Args: text\n\tSet text to oled in down (bigger font)" },
+	{ "-b  ",  " --setBrightness			", "Args: brightness\n\tSet oled brightness" },
+#if !BOXMODEL_E4HDULTRA
+	{ "-c  ",  " --clear				", "Args: No argumens\n\tClear oled display" },
+#endif
+	{ "-d  ",  " --deepStandby			", "Args: No argumens\n\tEnter deep standby" },
+	{ "-tu ",  " --setTextUp			", "Args: text\n\tSet text to oled in up" },
+	{ "-tc ",  " --setTextCenter			", "Args: text\n\tSet text to oled in center" },
+	{ "-td ",  " --setTextDown			", "Args: text\n\tSet text to oled in down" },
+	{ "-tud",  " --setTextUpDifferent		", "Args: text\n\tSet text to oled in up (bigger font)" },
+	{ "-tcd",  " --setTextCenterDifferent		", "Args: text\n\tSet text to oled in center (bigger font)" },
+	{ "-tdd",  " --setTextDownDifferent		", "Args: text\n\tSet text to oled in down (bigger font)" },
 	{ NULL, NULL, NULL }
 };
 

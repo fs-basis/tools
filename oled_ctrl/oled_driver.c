@@ -260,10 +260,10 @@ int driver_start(const char *dev, int mode, int user_brightness, int x_res, int 
 		printf("%s: lcd_buffer could not be allocated: malloc() failed\n", __FUNCTION__);
 		return -1;
 	}
-        int tmp;
-        tmp = lcd_read_value(LCD_BRIGHTNESS);
-        if (tmp < 0)
-                tmp = lcd_read_value(FP_BRIGHTNESS);
+	int tmp;
+	tmp = lcd_read_value(LCD_BRIGHTNESS);
+	if (tmp < 0)
+		tmp = lcd_read_value(FP_BRIGHTNESS);
 	if (tmp == 0)
 	{
 		if (lcd_brightness(user_brightness) < 0)
@@ -324,13 +324,13 @@ void lcd_write_text(const char* text)
 
 int lcd_ioctl(long unsigned int io_ctl)
 {
-        if (ioctl(fd, io_ctl) < 0)
-        {
-                printf("%s: command %s failed\n", __FUNCTION__, io_ctl);
-                return -1;
-        }
-        lcd_draw();
-        return 0;
+	if (ioctl(fd, io_ctl) < 0)
+	{
+		printf("%s: command %s failed\n", __FUNCTION__, io_ctl);
+		return -1;
+	}
+	lcd_draw();
+	return 0;
 }
 
 int lcd_deepstandby()
