@@ -717,8 +717,8 @@ int main(int argc, char **argv)
 				no_aspect=1;
 				break;
 			case 'x':
-			    pips=atoi(optarg);
-			    if (pips > 3)
+				pips=atoi(optarg);
+				if (pips > 3)
 				{
 					fprintf(stderr, "Error: -x (additional PIP count) is limited to 3 !\n");
 					return 1;
@@ -729,10 +729,21 @@ int main(int argc, char **argv)
 	if (optind < argc) // filename
 		filename = argv[optind];
 
-	int mallocsize=1920*1080;
+	int mallocsize = 1920*1080;
 
 	if (stb_type == VULCAN || stb_type == PALLAS)
 		mallocsize=720*576;
+
+	if (pips == 0)
+	{
+		for (int p = 1; p < 4; p++)
+		{
+			char pipbuf[25];
+			sprintf(pipbuf,"/proc/stb/vmpeg/%d/xres", p);
+			if ((int)proc_get_hex(pipbuf) > 0)
+				pips = p;
+		}
+	}
 
 	video = (unsigned char *)malloc(mallocsize*3);
 	if (pips > 0)
