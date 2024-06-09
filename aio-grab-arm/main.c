@@ -1129,29 +1129,34 @@ void getvideo(unsigned char *video, int *xres, int *yres)
 	{
 		// grab bcm pic from decoder memory
 		const unsigned char* data = (unsigned char*)mmap(0, 100, PROT_READ, MAP_SHARED, mem_fd, registeroffset);
-		if(!data)
+		if(data == MAP_FAILED)
 		{
-			fprintf(stderr, "Mainmemory: <Memmapping failed>\n");
+			fprintf(stderr, "Mainmemory: <Memmapping failed 1>\n");
 			return;
 		}
 
-		int adr, adr2, ofs, ofs2, offset, pageoffset;
+		off_t adr, adr2, ofs, ofs2, offset, pageoffset;
 		int xtmp,xsub,ytmp,t2,dat1;
+
+/* The unsigned int(0) is present in some lines here to ensure that the
+ * "item << 24" doesn't result in sign extension if item has the top-bit
+ * set and we are using the 64-bit file-system API.
+ */
 
 		if (stb_type == BRCM73565 || stb_type == BRCM73625 || stb_type == BRCM7439DAGS || stb_type == BRCM7439 || stb_type == BRCM75845 || stb_type == BRCM72604) {
 			chr_luma_register_offset = 0x3c;
 
 			ofs = data[chr_luma_register_offset + 24] << 4; /* luma lines */
 			ofs2 = data[chr_luma_register_offset + 28] << 4; /* chroma lines */
-			adr2 = data[chr_luma_register_offset + 3] << 24 | data[chr_luma_register_offset + 2] << 16 | data[chr_luma_register_offset + 1] << 8;
+			adr2 = (unsigned int)0 | data[chr_luma_register_offset + 3] << 24 | data[chr_luma_register_offset + 2] << 16 | data[chr_luma_register_offset + 1] << 8;
 			stride = data[0x19] << 8 | data[0x18];
-			adr = data[0x37] << 24 | data[0x36] << 16 | data[0x35] << 8; /* start of videomem */
+			adr = (unsigned int)0 | data[0x37] << 24 | data[0x36] << 16 | data[0x35] << 8; /* start of videomem */
 		} else {
 			ofs = data[chr_luma_register_offset + 8] << 4; /* luma lines */
 			ofs2 = data[chr_luma_register_offset + 12] << 4; /* chroma lines */
-			adr2 = data[chr_luma_register_offset + 3] << 24 | data[chr_luma_register_offset + 2] << 16 | data[chr_luma_register_offset + 1] << 8;
+			adr2 = (unsigned int)0 | data[chr_luma_register_offset + 3] << 24 | data[chr_luma_register_offset + 2] << 16 | data[chr_luma_register_offset + 1] << 8;
 			stride = data[0x15] << 8 | data[0x14];
-			adr = data[0x1f] << 24 | data[0x1e] << 16 | data[0x1d] << 8; /* start of videomem */
+			adr = (unsigned int)0 | data[0x1f] << 24 | data[0x1e] << 16 | data[0x1d] << 8; /* start of videomem */
 		}
 		offset = adr2 - adr;
 		pageoffset = adr & 0xfff;
@@ -1182,9 +1187,9 @@ void getvideo(unsigned char *video, int *xres, int *yres)
 		{
 			// we have direct access to the decoder memory
 			memory_tmp_size = offset + (stride + chr_luma_stride) * ofs2;
-			if(!(memory_tmp = (unsigned char*)mmap(0, memory_tmp_size, PROT_READ, MAP_SHARED, mem_fd, adr)))
+			if((memory_tmp = (unsigned char*)mmap(0, memory_tmp_size, PROT_READ, MAP_SHARED, mem_fd, adr)) == MAP_FAILED)
 			{
-				fprintf(stderr, "Mainmemory: <Memmapping failed>\n");
+				fprintf(stderr, "Mainmemory: <Memmapping failed 2>\n");
 				return;
 			}
 
@@ -1202,15 +1207,15 @@ void getvideo(unsigned char *video, int *xres, int *yres)
 				return;
 			}
 			memory_tmp_size = DMA_BLOCKSIZE + 0x1000;
-			if (!(memory_tmp = (unsigned char*)mmap(0, memory_tmp_size, PROT_READ|PROT_WRITE, MAP_SHARED, mem_fd, SPARE_RAM)))
+			if ((memory_tmp = (unsigned char*)mmap(0, memory_tmp_size, PROT_READ|PROT_WRITE, MAP_SHARED, mem_fd, SPARE_RAM)) == MAP_FAILED)
 			{
-				fprintf(stderr, "Mainmemory: <Memmapping failed>\n");
+				fprintf(stderr, "Mainmemory: <Memmapping failed 3>\n");
 				return;
 			}
 			volatile unsigned long *mem_dma;
-			if (!(mem_dma = (volatile unsigned long*)mmap(0, 0x1000, PROT_READ|PROT_WRITE, MAP_SHARED, mem_fd, mem2memdma_register)))
+			if ((mem_dma = (volatile unsigned long*)mmap(0, 0x1000, PROT_READ|PROT_WRITE, MAP_SHARED, mem_fd, mem2memdma_register)) == MAP_FAILED)
 			{
-				fprintf(stderr, "Mainmemory: <Memmapping failed>\n");
+				fprintf(stderr, "Mainmemory: <Memmapping failed 4>\n");
 				return;
 			}
 
@@ -1566,9 +1571,9 @@ void getvideo(unsigned char *video, int *xres, int *yres)
 
 		ioctl(fd, AMVIDEOCAP_IOW_SET_START_CAPTURE, 10000);
 		mbuf = mmap(NULL, stride * res * 3, PROT_READ, MAP_SHARED, fd, 0);
-		if(!mbuf) {
+		if(mbuf == MAP_FAILED) {
 			close(fd);
-			fprintf(stderr, "Mainmemory: <Memmapping failed>\n");
+			fprintf(stderr, "Mainmemory: <Memmapping failed 5>\n");
 			return;
 		}
 		memcpy(video, mbuf, stride * res * 3);
@@ -1940,9 +1945,9 @@ void getvideo(unsigned char *video, int *xres, int *yres)
 		stride = proc_get_hex("/proc/stb/vmpeg/0/xres");
 		res = proc_get_hex("/proc/stb/vmpeg/0/yres");
 
-		if(!(memory = (unsigned char*)mmap(0, 1920*1152*6, PROT_READ, MAP_SHARED, mem_fd, 0x6000000)))
+		if((memory = (unsigned char*)mmap(0, 1920*1152*6, PROT_READ, MAP_SHARED, mem_fd, 0x6000000)) == MAP_FAILED)
 		{
-			fprintf(stderr, "Mainmemory: <Memmapping failed>\n");
+			fprintf(stderr, "Mainmemory: <Memmapping failed 6>\n");
 			return;
 		}
 
@@ -2214,9 +2219,9 @@ void getosd(unsigned char *osd, int *xres, int *yres)
 		return;
 	}
 
-	if(!(lfb = (unsigned char*)mmap(0, fix_screeninfo.smem_len, PROT_READ | PROT_WRITE, MAP_SHARED, fb, 0)))
+	if((lfb = (unsigned char*)mmap(0, fix_screeninfo.smem_len, PROT_READ | PROT_WRITE, MAP_SHARED, fb, 0)) == MAP_FAILED)
 	{
-		fprintf(stderr, "Framebuffer: <Memmapping failed>\n");
+		fprintf(stderr, "Framebuffer: <Memmapping failed 7>\n");
 		return;
 	}
 
@@ -2283,9 +2288,9 @@ void getosd(unsigned char *osd, int *xres, int *yres)
 			return;
 		}
 
-		if(!(memory = (unsigned char*)mmap(0, fix_screeninfo.smem_len, PROT_READ | PROT_WRITE, MAP_SHARED, mem_fd, fix_screeninfo.smem_start-0x1000)))
+		if((memory = (unsigned char*)mmap(0, fix_screeninfo.smem_len, PROT_READ | PROT_WRITE, MAP_SHARED, mem_fd, fix_screeninfo.smem_start-0x1000)) == MAP_FAILED)
 		{
-			fprintf(stderr, "Mainmemory: <Memmapping failed>\n");
+			fprintf(stderr, "Mainmemory: <Memmapping failed 8>\n");
 			return;
 		}
 
