@@ -53,7 +53,7 @@ typedef struct
 
 static tLongKeyPressSupport cLongKeyPressSupport =
 {
-	10, 120,
+	10, 120
 };
 
 static tButton cButtonUFS922[] =
@@ -97,7 +97,7 @@ static tButton cButtonUFS922[] =
 	{"7BUTTON"        , "07", KEY_7},
 	{"8BUTTON"        , "08", KEY_8},
 	{"9BUTTON"        , "09", KEY_9},
-	{""               , ""  , KEY_NULL},
+	{""               , ""  , KEY_NULL}
 };
 
 /* ***************** our fp button assignment **************** */
@@ -112,7 +112,7 @@ static tButton cButtonUFS922Frontpanel[] =
 	{"FP_OK"		, "04", KEY_OK},
 	{"FP_WHEEL_LEFT"	, "0F", KEY_UP},
 	{"FP_WHEEL_RIGHT"	, "0E", KEY_DOWN},
-	{""	                , ""  , KEY_NULL}
+	{""			, ""  , KEY_NULL}
 	/* is there no power key on frontpanel? */
 };
 
@@ -176,8 +176,7 @@ static int pRead(Context_t *context)
 
 	while (1)
 	{
-		int i;
-		int n = read(context->fd, vData, cUFS922CommandLen);
+		read(context->fd, vData, cUFS922CommandLen);
 
 		if (vData[0] == 0xD2)
 			vKeyType = RemoteControl;
@@ -272,5 +271,5 @@ RemoteControl_t UFS922_RC =
 	cButtonUFS922Frontpanel,
 	NULL,
 	1,
-	&cLongKeyPressSupport,
+	&cLongKeyPressSupport
 };

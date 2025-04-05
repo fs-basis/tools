@@ -1,4 +1,3 @@
-
 #ifndef REMOTES_H_
 #define REMOTES_H_
 
@@ -26,10 +25,14 @@ typedef struct RemoteControl_s
 		tLongKeyPressSupport *LongKeyPressSupport;
 } RemoteControl_t;
 
+#if BOXMODEL_UFS910
 extern RemoteControl_t Ufs910_1W_RC;
 extern RemoteControl_t Ufs910_14W_RC;
-extern RemoteControl_t UFS912_RC;
+#elif BOXMODEL_UFS922
 extern RemoteControl_t UFS922_RC;
+#else
+extern RemoteControl_t UFS912_RC;
+#endif
 extern RemoteControl_t LircdName_RC;
 
 int selectRemote(Context_t  *context, eBoxType type);

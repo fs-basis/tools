@@ -119,7 +119,7 @@ static tButton cButtonsKathrein[] =
 	{"L8BUTTON"       , "88", KEY_8},
 	{"L9BUTTON"       , "89", KEY_9},
 
-	{""               , ""  , KEY_NULL},
+	{""               , ""  , KEY_NULL}
 };
 
 /* fixme: move this to a structure and
@@ -221,5 +221,5 @@ RemoteControl_t Ufs910_14W_RC =
 	NULL,
 	NULL,
 	0,
-	NULL,
+	NULL
 };

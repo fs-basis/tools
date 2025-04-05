@@ -43,7 +43,7 @@
 #ifdef UFS910_1W_LONGKEY
 static tLongKeyPressSupport cLongKeyPressSupport =
 {
-	20, 106,
+	20, 106
 };
 #endif
 
@@ -128,11 +128,11 @@ static tButton cButtonsKathrein[] =
 	{"L8BUTTON"       , "88", KEY_8},
 	{"L9BUTTON"       , "89", KEY_9},
 
-	{""               , ""  , KEY_NULL},
+	{""               , ""  , KEY_NULL}
 };
 
 
-static int          vFd;
+static int vFd;
 
 
 static int setTemFlagsKathrein(int fd)
@@ -260,9 +260,9 @@ RemoteControl_t Ufs910_1W_RC =
 	NULL,
 #ifndef UFS910_1W_LONGKEY
 	0,
-	NULL,
+	NULL
 #else
 	1,
-	&cLongKeyPressSupport,
+	&cLongKeyPressSupport
 #endif
 };

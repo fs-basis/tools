@@ -24,6 +24,7 @@ the great support.
 Feel free to use the code for your own projects. See LICENSE file for details.
 */
 
+#include <config.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>

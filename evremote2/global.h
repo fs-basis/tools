@@ -1,4 +1,3 @@
-
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
 
@@ -8,13 +7,21 @@
 #define false 0
 #endif
 
+#include <config.h>
 #include "map.h"
 
 #define INPUT_PRESS 1
 #define INPUT_RELEASE 0
 
-typedef enum {Unknown, Ufs910_1W, Ufs910_14W, Ufs912,
-	      Ufs922, LircdName
+typedef enum {		Unknown,
+#if BOXMODEL_UFS910
+			Ufs910_1W, Ufs910_14W,
+#elif BOXMODEL_UFS922
+			Ufs922,
+#else
+			Ufs912,
+#endif
+			LircdName
 	     } eBoxType;
 typedef enum {RemoteControl, FrontPanel} eKeyType;
 

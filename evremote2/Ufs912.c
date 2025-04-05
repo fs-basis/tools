@@ -251,6 +251,5 @@ RemoteControl_t UFS912_RC =
 	cButtonUFS912Frontpanel,
 	NULL,
 	1,
-	&cLongKeyPressSupport,
+	&cLongKeyPressSupport
 };
-

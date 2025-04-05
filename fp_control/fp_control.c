@@ -538,6 +538,7 @@ int getModel()
 		vName[vLen - 1] = '\0';
 		printf("Model: %s\n", vName);
 
+#if BOXMODEL_UFS910
 		if (!strncasecmp(vName, "ufs910", 6))
 		{
 			switch (getKathreinUfs910BoxType())
@@ -555,12 +556,15 @@ int getModel()
 					break;
 			}
 		}
-		else if (!strncasecmp(vName, "ufs912", 6))
+#elif BOXMODEL_UFS922
+		if (!strncasecmp(vName, "ufs922", 6))
+			vBoxType = Ufs922;
+#else
+		if (!strncasecmp(vName, "ufs912", 6))
 			vBoxType = Ufs912;
 		else if (!strncasecmp(vName, "ufs913", 6))
 			vBoxType = Ufs912;
-		else if (!strncasecmp(vName, "ufs922", 6))
-			vBoxType = Ufs922;
+#endif
 		else
 			vBoxType = Unknown;
 	}

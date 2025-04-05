@@ -47,7 +47,7 @@ char *events[EV_MAX + 1] =
 	[EV_MSC] = "Misc",			[EV_LED] = "LED",
 	[EV_SND] = "Sound",			[EV_REP] = "Repeat",
 	[EV_FF] = "ForceFeedback",		[EV_PWR] = "Power",
-	[EV_FF_STATUS] = "ForceFeedbackStatus",
+	[EV_FF_STATUS] = "ForceFeedbackStatus"
 };
 
 char *keys[KEY_MAX + 1] =
@@ -226,7 +226,7 @@ char *keys[KEY_MAX + 1] =
 	[KEY_DIGITS] = "Digits",		[KEY_TEEN] = "TEEN",
 	[KEY_TWEN] = "TWEN",			[KEY_DEL_EOL] = "Delete EOL",
 	[KEY_DEL_EOS] = "Delete EOS",		[KEY_INS_LINE] = "Insert line",
-	[KEY_DEL_LINE] = "Delete line",
+	[KEY_DEL_LINE] = "Delete line"
 };
 
 char *absval[5] = { "Value", "Min  ", "Max  ", "Fuzz ", "Flat " };
@@ -237,7 +237,7 @@ char *relatives[REL_MAX + 1] =
 	[REL_X] = "X",			[REL_Y] = "Y",
 	[REL_Z] = "Z",			[REL_HWHEEL] = "HWheel",
 	[REL_DIAL] = "Dial",		[REL_WHEEL] = "Wheel",
-	[REL_MISC] = "Misc",
+	[REL_MISC] = "Misc"
 };
 
 char *absolutes[ABS_MAX + 1] =
@@ -255,7 +255,7 @@ char *absolutes[ABS_MAX + 1] =
 	[ABS_HAT3Y] = "Hat 3Y",		[ABS_PRESSURE] = "Pressure",
 	[ABS_DISTANCE] = "Distance",	[ABS_TILT_X] = "XTilt",
 	[ABS_TILT_Y] = "YTilt",		[ABS_TOOL_WIDTH] = "Tool Width",
-	[ABS_VOLUME] = "Volume",	[ABS_MISC] = "Misc",
+	[ABS_VOLUME] = "Volume",	[ABS_MISC] = "Misc"
 };
 
 char *misc[MSC_MAX + 1] =
@@ -263,7 +263,7 @@ char *misc[MSC_MAX + 1] =
 	[ 0 ... MSC_MAX] = NULL,
 	[MSC_SERIAL] = "Serial",	[MSC_PULSELED] = "Pulseled",
 	[MSC_GESTURE] = "Gesture",	[MSC_RAW] = "RawData",
-	[MSC_SCAN] = "ScanCode",
+	[MSC_SCAN] = "ScanCode"
 };
 
 char *leds[LED_MAX + 1] =
@@ -273,7 +273,7 @@ char *leds[LED_MAX + 1] =
 	[LED_SCROLLL] = "ScrollLock",	[LED_COMPOSE] = "Compose",
 	[LED_KANA] = "Kana",		[LED_SLEEP] = "Sleep",
 	[LED_SUSPEND] = "Suspend",	[LED_MUTE] = "Mute",
-	[LED_MISC] = "Misc",
+	[LED_MISC] = "Misc"
 };
 
 char *repeats[REP_MAX + 1] =
@@ -295,7 +295,7 @@ char **names[EV_MAX + 1] =
 	[EV_SYN] = events,			[EV_KEY] = keys,
 	[EV_REL] = relatives,			[EV_ABS] = absolutes,
 	[EV_MSC] = misc,			[EV_LED] = leds,
-	[EV_SND] = sounds,			[EV_REP] = repeats,
+	[EV_SND] = sounds,			[EV_REP] = repeats
 };
 
 #define BITS_PER_LONG (sizeof(long) * 8)
@@ -373,7 +373,6 @@ int main(int argc, char **argv)
 				}
 		}
 
-
 	printf("Testing ... (interrupt to exit)\n");
 
 	while (1)
@@ -415,4 +414,3 @@ int main(int argc, char **argv)
 
 	}
 }
-

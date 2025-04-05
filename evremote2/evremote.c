@@ -431,6 +431,7 @@ int getModel()
 
 		printf("Model: '%s'\n", vName);
 
+#if BOXMODEL_UFS910
 		if (!strncasecmp(vName, "ufs910", 6))
 		{
 			switch (getKathreinUfs910BoxType())
@@ -448,12 +449,15 @@ int getModel()
 					break;
 			}
 		}
-		else if (!strncasecmp(vName, "ufs912", 5))
+#elif BOXMODEL_UFS922
+		if (!strncasecmp(vName, "ufs922", 6))
+			vBoxType = Ufs922;
+#else
+		if (!strncasecmp(vName, "ufs912", 5))
 			vBoxType = Ufs912;
 		else if (!strncasecmp(vName, "ufs913", 5))
 			vBoxType = Ufs912;
-		else if (!strncasecmp(vName, "ufs922", 6))
-			vBoxType = Ufs922;
+#endif
 		else /* for other boxes we use LircdName driver as a default */
 			vBoxType = LircdName;
 	}

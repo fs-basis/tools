@@ -224,11 +224,11 @@ static tButton cButtons_LircdName[] =
 	{"KEY_EXIT"         , "=>", KEY_EXIT},
 	{"KEY_SLEEP"        , "=>", KEY_SLEEP},
 	{"KEY_OPEN"         , "=>", KEY_OPEN},
-  {"KEY_POWERON"      , "=>", KEY_POWERON},
-  {"KEY_POWEROFF"     , "=>", KEY_POWEROFF},
-  {"KEY_STANDBYON"    , "=>", KEY_STANDBYON},
-  {"KEY_STANDBYOFF"   , "=>", KEY_STANDBYOFF},
-	{""                 , ""  , KEY_NULL},
+	{"KEY_POWERON"      , "=>", KEY_POWERON},
+	{"KEY_POWEROFF"     , "=>", KEY_POWEROFF},
+	{"KEY_STANDBYON"    , "=>", KEY_STANDBYON},
+	{"KEY_STANDBYOFF"   , "=>", KEY_STANDBYOFF},
+	{""                 , ""  , KEY_NULL}
 };
 /* fixme: move this to a structure and
  * use the private structure of RemoteControl_t
@@ -294,16 +294,12 @@ static int pShutdown(Context_t *context)
 static int pRead(Context_t *context)
 {
 	char vBuffer[128];
-	char vData[3];
 	const int cSize = 128;
 	int vCurrentCode = -1;
-	char *buffer;
-	char KeyName[30]; 	//For flexibility we use Lircd keys names
+	char KeyName[30];	//For flexibility we use Lircd keys names
 	int LastKeyNameChar;	//for long detection on RCU sending different codes for short/long
 	int count;
 	tButton *cButtons = cButtons_LircdName;
-
-	long long LastTime;
 
 	memset(vBuffer, 0, 128);
 
@@ -445,5 +441,5 @@ RemoteControl_t LircdName_RC =
 	NULL,
 	NULL,
 	1,
-	&cLongKeyPressSupport,
+	&cLongKeyPressSupport
 };
