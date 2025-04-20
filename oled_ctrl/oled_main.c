@@ -54,7 +54,7 @@ void usage(char *prg, char *cmd)
 {
 	int i;
 	/* or printout a default usage */
-	fprintf(stderr, "Oled control tool, version 1.10 (VU 4K ARM, E4HD 4K Ultra)\n");
+	fprintf(stderr, "Oled control tool, version 1.12 (E4HD 4K Ultra)\n");
 	fprintf(stderr, "General usage:\n\n");
 	fprintf(stderr, "%s argument [optarg1] [optarg2]\n", prg);
 
@@ -65,16 +65,17 @@ void usage(char *prg, char *cmd)
 		if ((cmd == NULL) || (strcmp(cmd, vArgs[i].arg) == 0) || (strstr(vArgs[i].arg_long, cmd) != NULL))
 			fprintf(stderr, "%s %s %s\n", vArgs[i].arg, vArgs[i].arg_long, vArgs[i].arg_description);
 	}
+	lcd_close();
 	exit(1);
 }
 
 int main(int argc, char *argv[])
 {
-	driver_start(LCD_DEVICE, LCD_BIN_MODE, LCD_MY_BRIGHTNESS, LCD_MY_XRES, LCD_MY_YRES);
-	init_freetype();
 	int i;
 	if (argc > 1)
 	{
+		driver_start(LCD_DEVICE, LCD_BIN_MODE, LCD_MY_BRIGHTNESS, LCD_MY_XRES, LCD_MY_YRES);
+		init_freetype();
 #if BOXMODEL_E4HDULTRA
 		bool write_to_lcd = false;
 #endif
@@ -95,7 +96,7 @@ int main(int argc, char *argv[])
 					if (brightness < 0 || brightness > 10)
 					{
 						fprintf(stderr, "Brightness value out of range\n");
-                                        	usage(argv[0], NULL);
+						usage(argv[0], NULL);
 					}
 					/* set display brightness */
 					lcd_brightness(brightness);
@@ -255,5 +256,6 @@ int main(int argc, char *argv[])
 	{
 		usage(argv[0], NULL);
 	}
+	lcd_close();
 	return 0;
 }
