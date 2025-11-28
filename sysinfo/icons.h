@@ -9,7 +9,6 @@
 #define ICON_BUTTON_GREEN  ICONSDIR "/btn_green.png"
 #define ICON_BUTTON_RED    ICONSDIR "/btn_red.png"
 #define ICON_BUTTON_YELLOW ICONSDIR "/btn_yellow.png"
-
 #define ICON_BUTTON_DOWN   ICONSDIR "/down.png"
 #define ICON_BUTTON_HOME   ICONSDIR "/home.png"
 #define ICON_BUTTON_INFO   ICONSDIR "/info_small.png"
